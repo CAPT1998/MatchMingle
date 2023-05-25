@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "41013520655",
+    "project_id": "marriage-81519",
+    "storage_bucket": "marriage-81519.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:41013520655:android:6e99637b47a1fa3ce9f67a",
+        "android_client_info": {
+          "package_name": "com.example.teen_jungle"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "41013520655-9psphcodroo7hvcaj884g5g0o470tann.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.teen_jungle",
+            "certificate_hash": "03e1b37dac1e2020a0247e018329e5e67e77187f"
+          }
+        },
+        {
+          "client_id": "41013520655-kouhc2o181bnb26ccqeeo5ntaatknrtm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.teen_jungle",
+            "certificate_hash": "6f100bfc9e7c75c79871d4305cde4e174978a6d2"
+          }
+        },
+        {
+          "client_id": "41013520655-tt7sv2796fs912kkagrifp94jajr1k49.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBfK5bXNUCjOC4NwNfuR8LUMgL_gIHQPYY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "41013520655-6vvplhd7mih57dnv7ms3uvi3le1nvk9l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
