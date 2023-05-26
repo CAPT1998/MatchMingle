@@ -65,13 +65,13 @@ class _SplashScreenState extends State<SplashScreen> {
             children: [
               const Opacity(opacity: 0, child: Text("data")),
               Image.asset("assets/img/fulllogo.png"),
-              TextWidget(
-                title: "Powered By\nagenziasingleprettywoman.it",
-                size: 20,
-                maxline: 2,
-                textAlign: TextAlign.center,
-                fontWeight: FontWeight.w400,
-              ),
+              // TextWidget(
+              //   title: "Powered By\nagenziasingleprettywoman.it",
+              //   size: 20,
+              //   maxline: 2,
+              //   textAlign: TextAlign.center,
+              //   fontWeight: FontWeight.w400,
+              // ),
             ],
           ),
         );
