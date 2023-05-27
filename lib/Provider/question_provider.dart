@@ -22,8 +22,7 @@ class QuestionProvider with ChangeNotifier {
         'user_id': userId.toString(),
       });
       print(questionData);
-      var url = Uri.parse(
-          '$baseUrl/auth/userQuestions');
+      var url = Uri.parse('${AppUrl.baseUrl}/auth/userQuestions');
       var response = await http.post(url,
           headers: {
             'Authorization': 'Bearer $token',
@@ -45,4 +44,3 @@ class QuestionProvider with ChangeNotifier {
     }
   }
 }
- 

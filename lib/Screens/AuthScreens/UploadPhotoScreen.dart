@@ -48,13 +48,13 @@ class _UploadPhotoScreenState extends State<UploadPhotoScreen> {
                   Stack(
                     children: [
                       authProvider.loginModel!.userData[0].profilePic !=
-                              "http://marriageapi.pakwexpo.com/public/images/profile_picture_folder"
+                              "http://19jungle.pakwexpo.com/public/images/profile_picture_folder"
                           ? CircleAvatar(
                               radius: 80,
                               backgroundImage: NetworkImage(authProvider
                                   .loginModel!.userData[0].profilePic),
                             )
-                          : const CircleAvatar(
+                          : CircleAvatar(
                               radius: 80,
                               backgroundImage:
                                   AssetImage("assets/img/img1.png"),
@@ -92,11 +92,12 @@ class _UploadPhotoScreenState extends State<UploadPhotoScreen> {
                     borderRadius: 10,
                     onPressed: () async {
                       if (authProvider.loginModel!.userData[0].profilePic !=
-                          "http://marriageapi.pakwexpo.com/public/images/profile_picture_folder") {
+                          "http://19jungle.pakwexpo.com/public/images/profile_picture_folder") {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const BottomNavigationScreen(),
+                            builder: (context) =>
+                                const BottomNavigationScreen(),
                           ),
                         );
                       }

@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -27,11 +26,14 @@ class AuthProvider with ChangeNotifier {
     LoginModel? loginModel;
     String? loginMessage;
     try {
-      var request = http.Request('POST',
-          Uri.parse('$baseUrl/auth/login?email=$email&password=$password'));
+      final request = http.Request(
+          'POST',
+          Uri.parse(
+              '${AppUrl.baseUrl}/auth/login?email=$email&password=$password'));
       http.StreamedResponse response = await request.send();
       String value = await response.stream.bytesToString();
       print('====>$value');
+      print("${response.statusCode} + see");
       if (response.statusCode == 200) {
         loginModel = loginModelFromJson(value);
         loginMessage = "success";
@@ -63,10 +65,11 @@ class AuthProvider with ChangeNotifier {
       var request = http.Request(
           'POST',
           Uri.parse(
-              '$baseUrl/auth/register?name=$name&email=$email&password=$password'));
+              '${AppUrl.baseUrl}/auth/register?name=$name&email=$email&password=$password'));
       http.StreamedResponse response = await request.send();
       String value = await response.stream.bytesToString();
       print('====>$value');
+      print(response.statusCode);
       if (response.statusCode == 200) {
         loginModel = loginModelFromJson(value);
         registerMessage = "success";
@@ -93,9 +96,7 @@ class AuthProvider with ChangeNotifier {
 
     try {
       var request = http.Request(
-          'POST',
-          Uri.parse(
-              '$baseUrl/users/detail?id=$id'));
+          'POST', Uri.parse('${AppUrl.baseUrl}/users/detail?id=$id'));
       http.StreamedResponse response = await request.send();
       if (response.statusCode == 200) {
         String value = await response.stream.bytesToString();
@@ -144,8 +145,7 @@ class AuthProvider with ChangeNotifier {
       // googleModel = GoogleModel.fromJson(userData);
       // this.googleModel = googleModel;
       // notifyListeners();
-      var url =
-          Uri.parse('$baseUrl/auth/social');
+      var url = Uri.parse('${AppUrl.baseUrl}/auth/social');
       var response = await http.post(url, body: {
         'id': user!.uid.toString(),
         "name": user.displayName.toString(),
@@ -205,8 +205,7 @@ class AuthProvider with ChangeNotifier {
           "email": _userData["email"],
           "picture": _userData["picture"]["data"]["url"]
         };
-        var url =
-            Uri.parse('$baseUrl/auth/social');
+        var url = Uri.parse('${AppUrl.baseUrl}/auth/social');
         var response = await http.post(url, body: {
           'id': _userData["id"].toString(),
           "name": _userData["name"].toString(),
@@ -264,15 +263,14 @@ class AuthProvider with ChangeNotifier {
       print("======>$data");
     } catch (e) {
       print("======>$e");
-      ErrorFlushbar(context, "Profile", e.toString());
+      ErrorFlushbar(context, "Profile data", e.toString());
       notifyListeners();
     }
   }
 
   hideAccount(context, token, id, hide) async {
     try {
-      var url = Uri.parse(
-          '$baseUrl/auth/hideProfile');
+      var url = Uri.parse('${AppUrl.baseUrl}l/auth/hideProfile');
       var response = await http.post(url, headers: {
         'Authorization': 'Bearer $token',
       }, body: {

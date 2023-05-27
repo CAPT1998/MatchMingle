@@ -9,8 +9,7 @@ class SocialAccountProvider with ChangeNotifier {
   var message = "";
   addSocialAccount(context, token, socialAccountData) async {
     try {
-      var url = Uri.parse(
-          '$baseUrl/users/add-social-accounts');
+      var url = Uri.parse('${AppUrl.baseUrl}/users/add-social-accounts');
       var response = await http.post(url,
           headers: {
             'Authorization': 'Bearer $token',

@@ -315,14 +315,14 @@ class _HomeScreenState extends State<HomeScreen> {
                 child) {
           return Stack(
             children: [
-              FutureBuilder<List<dynamic>>(
+              FutureBuilder(
                 future: userListProvider.getNerebyUsersList(
                     authProvider.loginModel!.token,
                     authProvider.loginModel!.userData[0].id),
                 builder: (context, snapshot) {
                   if (snapshot.hasError) {
                     return Text("${snapshot.error}");
-                  } else if (snapshot.data!.isEmpty) {
+                  } else if (!snapshot.hasData) {
                     return const Center(child: Text("No data found"));
                   } else if (snapshot.connectionState ==
                       ConnectionState.waiting) {
@@ -497,8 +497,9 @@ class _HomeCardState extends State<HomeCard> {
                         index: properties.index,
                         name: item["name"],
                         location: "Lahore,pakistan",
-                        assetPath: item["profile_pic_url"] ?? "http://marriageapi.pakwexpo.com/public/images/profile_picture_folder",
-                        onlineStatus: item["online"]?"Online":"Offline",
+                        assetPath: item["profile_pic_url"] ??
+                            "http://marriageapi.pakwexpo.com/public/images/profile_picture_folder",
+                        onlineStatus: item["online"] ? "Online" : "Offline",
                         seeMore: () {
                           profileProvider.userDetail(
                               id: widget.snapshot.data![properties.index]["id"]

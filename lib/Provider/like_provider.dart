@@ -8,8 +8,7 @@ import '../Widgets/api_urls.dart';
 class LikeProvider with ChangeNotifier {
   LikeUser(context, token, userId, profile_id) async {
     try {
-      var url = Uri.parse(
-          '$baseUrl/users/profileLikeAndDislike');
+      var url = Uri.parse('${AppUrl.baseUrl}/users/profileLikeAndDislike');
       var response = await http.post(url, headers: {
         'Authorization': 'Bearer $token',
       }, body: {
@@ -33,8 +32,7 @@ class LikeProvider with ChangeNotifier {
 
   disLikeUser(context, token, userId, profile_id) async {
     try {
-      var url = Uri.parse(
-          '$baseUrl/users/profileLikeAndDislike');
+      var url = Uri.parse('${AppUrl.baseUrl}/users/profileLikeAndDislike');
       var response = await http.post(url, headers: {
         'Authorization': 'Bearer $token',
       }, body: {

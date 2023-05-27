@@ -1,3 +1,5 @@
+class AppUrl {
+  static const String baseUrl = 'https://19jungle.pakwexpo.com/api';
 
-
-const String baseUrl = 'http://marriageapi.pakwexpo.com/public/api';
+  
+}

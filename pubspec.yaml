@@ -54,6 +54,7 @@ dependencies:
   flutter_emoji: ^2.4.0
   path_provider: ^2.0.15
   video_player: ^2.6.1
+  get: ^4.6.5
 
 dev_dependencies:
   flutter_test:

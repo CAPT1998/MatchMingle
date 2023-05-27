@@ -8,8 +8,7 @@ class BlockUser with ChangeNotifier {
   String? returnMessage;
   blockUser(context, token, userId, blockId) async {
     try {
-      var url = Uri.parse(
-          '$baseUrl/users/block/add');
+      var url = Uri.parse('${AppUrl.baseUrl}/users/block/add');
       var response = await http.post(url, headers: {
         'Authorization': 'Bearer $token',
       }, body: {
@@ -32,8 +31,7 @@ class BlockUser with ChangeNotifier {
 
   Future<List<dynamic>> getBlockData(token, userId) async {
     final response = await http.get(
-      Uri.parse(
-          '$baseUrl/users/block/get?id=$userId'),
+      Uri.parse('${AppUrl.baseUrl}/users/block/get?id=$userId'),
       headers: {'Authorization': 'Bearer $token'},
     );
     if (response.statusCode == 200) {
@@ -46,8 +44,7 @@ class BlockUser with ChangeNotifier {
 
   unblockUser(context, token, userId, blockId) async {
     try {
-      var url = Uri.parse(
-          '$baseUrl/users/block/remove');
+      var url = Uri.parse('${AppUrl.baseUrl}/users/block/remove');
       var response = await http.post(url, headers: {
         'Authorization': 'Bearer $token'
       }, body: {

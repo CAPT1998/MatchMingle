@@ -18,9 +18,7 @@ class ProfileProvider with ChangeNotifier {
     try {
       if (pickedImage != null) {
         var request = http.MultipartRequest(
-            'POST',
-            Uri.parse(
-                '$baseUrl/auth/updateProfileImage'));
+            'POST', Uri.parse('${AppUrl.baseUrl}/auth/updateProfileImage'));
         request.headers.addAll({
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $token'
@@ -52,13 +50,15 @@ class ProfileProvider with ChangeNotifier {
   }
 
   userDetail(
-      {required String id, required String token,required distance, required context}) async {
+      {required String id,
+      required String token,
+      required distance,
+      required context}) async {
     String? registerMessage;
     LoginModel? loginModel;
 
     try {
-      var url = Uri.parse(
-          '$baseUrl/users/detail?id=$id');
+      var url = Uri.parse('${AppUrl.baseUrl}/users/detail?id=$id');
       var response = await http.get(
         url,
         headers: {
@@ -68,7 +68,8 @@ class ProfileProvider with ChangeNotifier {
       final Map<String, dynamic> data = await json.decode(response.body);
       userData = data;
       if (response.statusCode == 200) {
-        profileDialog(context, userData["data"][0], double.parse(distance).round().toString());
+        profileDialog(context, userData["data"][0],
+            double.parse(distance).round().toString());
         notifyListeners();
       } else {
         // ErrorFlushbar(context, "Block User", data["message"]);

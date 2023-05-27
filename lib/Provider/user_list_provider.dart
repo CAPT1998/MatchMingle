@@ -7,8 +7,7 @@ import '../Widgets/api_urls.dart';
 class UserListProvider with ChangeNotifier {
   Future<List<dynamic>> getNerebyUsersList(token, userId) async {
     final response = await http.get(
-      Uri.parse(
-          '$baseUrl/users/nerebyUsersList?user_id=$userId'),
+      Uri.parse('${AppUrl.baseUrl}/users/nerebyUsersList?user_id=$userId'),
       headers: {'Authorization': 'Bearer $token'},
     );
     if (response.statusCode == 200) {
@@ -21,7 +20,7 @@ class UserListProvider with ChangeNotifier {
 
   Future<List<dynamic>> getAllUsersList(token) async {
     final response = await http.get(
-      Uri.parse('$baseUrl/users/all'),
+      Uri.parse('${AppUrl.baseUrl}/users/all'),
       headers: {'Authorization': 'Bearer $token'},
     );
     if (response.statusCode == 200) {
@@ -34,8 +33,7 @@ class UserListProvider with ChangeNotifier {
 
   Future<List<dynamic>> getLikedUsersList(token, userId) async {
     final response = await http.get(
-      Uri.parse(
-          '$baseUrl/users/allLikedUsers?user_id=$userId'),
+      Uri.parse('${AppUrl.baseUrl}/users/allLikedUsers?user_id=$userId'),
       headers: {'Authorization': 'Bearer $token'},
     );
     if (response.statusCode == 200) {
@@ -47,10 +45,10 @@ class UserListProvider with ChangeNotifier {
   }
 
   Future<List<dynamic>> getFilterUsersList(
-      token, userId, distance, gender,  age) async {
+      token, userId, distance, gender, age) async {
     final response = await http.get(
       Uri.parse(
-          '$baseUrl/users/filterUserList?id=$userId&distance=$distance&gender=$gender&age=$age'),
+          '${AppUrl.baseUrl}/users/filterUserList?id=$userId&distance=$distance&gender=$gender&age=$age'),
       headers: {'Authorization': 'Bearer $token'},
     );
     if (response.statusCode == 200) {

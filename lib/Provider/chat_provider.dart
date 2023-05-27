@@ -12,8 +12,7 @@ class ChatProvider with ChangeNotifier {
   sentSMS(context, token, userId, reciverId, text) async {
     print('====>$userId====>$reciverId====>$text====>$token');
     try {
-      var url = Uri.parse(
-          '$baseUrl/chat/create/text');
+      var url = Uri.parse('${AppUrl.baseUrl}/chat/create/text');
       var response = await http.post(url, headers: {
         'Authorization': 'Bearer $token',
       }, body: {
@@ -47,7 +46,7 @@ class ChatProvider with ChangeNotifier {
         var request = http.MultipartRequest(
             'POST',
             Uri.parse(
-                '$baseUrl/chat/create/${type == "Video" ? "video" : "image"}'));
+                '${AppUrl.baseUrl}/chat/create/${type == "Video" ? "video" : "image"}'));
         request.headers.addAll({
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $token'
@@ -86,7 +85,7 @@ class ChatProvider with ChangeNotifier {
     token,
     userId,
   ) async {
-    var url = Uri.parse('$baseUrl/chat/get');
+    var url = Uri.parse('${AppUrl.baseUrl}/chat/get');
     var response = await http.post(url, headers: {
       'Authorization': 'Bearer $token',
     }, body: {
@@ -102,8 +101,7 @@ class ChatProvider with ChangeNotifier {
   }
 
   Future<List<dynamic>> getMessageData(token, userId, theardID) async {
-    var url = Uri.parse(
-        '$baseUrl/chat/get/$theardID');
+    var url = Uri.parse('${AppUrl.baseUrl}/chat/get/$theardID');
     var response = await http.get(
       url,
       headers: {
