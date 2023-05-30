@@ -9,33 +9,36 @@ import '../Widgets/FlushbarWidget.dart';
 import '../Widgets/api_urls.dart';
 
 class ProfileProvider with ChangeNotifier {
-  var profile;
+  String? profile;
   LoginModel? loginModel;
   var userData = {};
   Future<void> profileUpdate(context, token, userId) async {
     final picker = ImagePicker();
     final pickedImage = await picker.pickImage(source: ImageSource.gallery);
+
     try {
       if (pickedImage != null) {
-        var request = http.MultipartRequest(
-            'POST', Uri.parse('${AppUrl.baseUrl}/auth/updateProfileImage'));
+        final request = http.MultipartRequest(
+            'POST', Uri.parse('${AppUrl.baseUrl}/auth/updateProfile'));
         request.headers.addAll({
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $token'
         });
 
-        var imageFile = File(pickedImage.path);
+        // var pickedImaage = File(pickedImage.path);
         request.fields['id'] = userId.toString();
 
         request.files.add(
-            await http.MultipartFile.fromPath('profile_pic', imageFile.path));
+            await http.MultipartFile.fromPath('profile_pic', pickedImage.path));
 
         var response = await request.send();
         var responseBody = await response.stream.bytesToString();
         final Map<String, dynamic> data = json.decode(responseBody);
-        print(data.toString());
+        print("Data $data");
+        print("Profilr : ${response.statusCode}");
         if (response.statusCode == 200) {
-          profile = data["user_data"]['profile_pic'];
+          print("Profile $profile");
+          profile = data["data"]['profile_pic'];
           SuccessFlushbar(context, "Profile Update", data["message"]);
 
           notifyListeners();
@@ -67,6 +70,7 @@ class ProfileProvider with ChangeNotifier {
       );
       final Map<String, dynamic> data = await json.decode(response.body);
       userData = data;
+      print(response.statusCode);
       if (response.statusCode == 200) {
         profileDialog(context, userData["data"][0],
             double.parse(distance).round().toString());

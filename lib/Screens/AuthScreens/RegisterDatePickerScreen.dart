@@ -9,6 +9,7 @@ import 'package:teen_jungle/Widgets/TextWidget.dart';
 
 import '../../Provider/auth_provider.dart';
 import '../../Provider/profile_provider.dart';
+import 'PrivacyScreen.dart';
 
 class RegisterDatePickerScreen extends StatefulWidget {
   const RegisterDatePickerScreen({super.key});
@@ -117,7 +118,7 @@ class _RegisterDatePickerScreenState extends State<RegisterDatePickerScreen> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => LocationAccessScreen()));
+                              builder: (context) => PrivacyScreen()));
                       buttonController.reset();
                     },
                     child: TextWidget(

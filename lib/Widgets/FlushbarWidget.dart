@@ -1,7 +1,7 @@
 import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 
-Widget ErrorFlushbar(BuildContext context, String title, String message) {
+Widget ErrorFlushbar(context, String title, String message) {
   return Flushbar(
     title: title,
     message: message,
@@ -14,11 +14,10 @@ Widget ErrorFlushbar(BuildContext context, String title, String message) {
     backgroundColor: Colors.black,
     flushbarStyle: FlushbarStyle.FLOATING,
     flushbarPosition: FlushbarPosition.TOP,
-    textDirection: Directionality.of(context),
     borderRadius: BorderRadius.circular(15),
     duration: Duration(milliseconds: 1900),
     leftBarIndicatorColor: Colors.red,
-  )..show(context);
+  );
 }
 
 Widget SuccessFlushbar(BuildContext context, String title, String message) {
@@ -38,5 +37,5 @@ Widget SuccessFlushbar(BuildContext context, String title, String message) {
     borderRadius: BorderRadius.circular(15),
     duration: Duration(milliseconds: 1900),
     leftBarIndicatorColor: Color(0xFF217D41),
-  )..show(context);
+  );
 }

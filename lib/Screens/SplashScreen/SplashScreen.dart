@@ -18,7 +18,7 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  var email = "";
+  String email = "";
   var password = "";
   @override
   void initState() {
@@ -32,17 +32,16 @@ class _SplashScreenState extends State<SplashScreen> {
   mupdate(value) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    String? email = await prefs.getString("email");
-    String? password = await prefs.getString("password");
+    // email = prefs.getString("email") ?? '';
+    // password = prefs.getString("password") ?? '';
     await value.mLoginAuth(
         email: email.toString(), password: password.toString());
 
+    // ignore: unnecessary_null_comparison
     if (email != null) {
       Timer(const Duration(seconds: 2), () {
-        Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-                builder: (context) => const BottomNavigationScreen()));
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => const LoginScreen()));
       });
     } else {
       Timer(const Duration(seconds: 2), () {

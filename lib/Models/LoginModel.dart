@@ -81,7 +81,7 @@ class UserDatum {
   // DateTime createdAt;
   // DateTime updatedAt;
 
-  factory UserDatum.fromJson(Map<String, dynamic> json) => UserDatum(
+  factory UserDatum.fromJson(Map<dynamic, dynamic> json) => UserDatum(
         id: json["id"],
         name: json["name"],
         email: json["email"],

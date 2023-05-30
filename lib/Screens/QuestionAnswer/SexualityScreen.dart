@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:teen_jungle/Constant.dart';
+import 'package:teen_jungle/Screens/Location/LocationAccessScreen.dart';
 import 'package:teen_jungle/Widgets/TextFormWidget.dart';
 import 'package:teen_jungle/Widgets/TextWidget.dart';
 
@@ -212,6 +213,11 @@ class _SexualityScreenState extends State<SexualityScreen> {
                                 authProvider.loginModel!.token,
                                 authProvider.loginModel!.userData[0].id
                                     .toString());
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        LocationAccessScreen()));
                           },
                           icon: const Icon(Icons.check),
                         ),

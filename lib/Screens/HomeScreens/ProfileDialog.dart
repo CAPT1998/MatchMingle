@@ -32,7 +32,8 @@ profileDialog(context, userData, distance) {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
                     image: userData["profile_pic"] ==
-                            "http://marriageapi.pakwexpo.com/public/images/profile_picture_folder"
+                            "http://jungle19.pakwexpo.com/public/images/updateProfile"
+                        // "http://marriageapi.pakwexpo.com/public/images/profile_picture_folder"
                         ? const DecorationImage(
                             image:
                                 AssetImage("assets/img/profilerectangle.png"),

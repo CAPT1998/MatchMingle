@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 import 'package:teen_jungle/Constant.dart';
@@ -7,8 +6,6 @@ import 'package:teen_jungle/Widgets/TextWidget.dart';
 import '../../Provider/auth_provider.dart';
 import '../../Provider/get_location_provider.dart';
 import '../AuthScreens/UploadPhotoScreen.dart';
-import '../BottomNavigationBar/PersistanceNavigationBar.dart';
-import 'package:get/get.dart';
 
 class LocationAccessScreen extends StatefulWidget {
   const LocationAccessScreen({super.key});
@@ -63,7 +60,7 @@ class _LocationAccessScreenState extends State<LocationAccessScreen> {
                     height: 20,
                   ),
                   TextWidget(
-                    title: "Enale your live location",
+                    title: "Enable your live location",
                     size: 15,
                     fontWeight: FontWeight.w400,
                   ),
@@ -74,32 +71,16 @@ class _LocationAccessScreenState extends State<LocationAccessScreen> {
                     controller: buttonController,
                     borderRadius: 10,
                     onPressed: () async {
-                      // bool serviceEnabled;
-                      // LocationPermission permission;
-                      // serviceEnabled =
-                      //     await Geolocator.isLocationServiceEnabled();
-                      // if (!serviceEnabled) {
-                      //   // Location services are not enabled, show an error message
-                      //   return buttonController.error();
-                      // }
-                      // permission = await Geolocator.checkPermission();
-
-                      // if (permission == LocationPermission.denied) {
-                      //   permission = await Geolocator.requestPermission();
-                      //   if (permission == LocationPermission.denied) {
-                      //     // Permissions are denied, show an error message
-                      //     buttonController.error();
-                      //   }
-                      // }
-
                       await geoLocation.determinePosition(
                           authProvider.loginModel!.token,
                           authProvider.loginModel!.userData[0].id,
+                          authProvider.loginModel!.userData[0].latitude,
+                          authProvider.loginModel!.userData[0].longitude,
                           context);
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const UploadPhotoScreen()));
+                              builder: (context) => UploadPhotoScreen()));
                       buttonController.reset();
                     },
                     child: TextWidget(

@@ -28,7 +28,7 @@ class _BasicInfoScreenState extends State<BasicInfoScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Consumer<AuthProvider>(builder: (context, authProvider, child) {
-        var profiledata = authProvider.loginModel!.userData[0];
+        var profiledata = authProvider.loginModel!.userData[0].gender;
         nameCtrl.text = profiledata.name;
         return Scaffold(
           appBar: AppBar(
@@ -57,7 +57,8 @@ class _BasicInfoScreenState extends State<BasicInfoScreen> {
                       profiledata.dob,
                       profiledata.location,
                       authProvider.loginModel!.token,
-                      context,false);
+                      context,
+                      false);
                 },
                 icon: const Icon(
                   Icons.check,

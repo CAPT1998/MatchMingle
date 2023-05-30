@@ -18,7 +18,7 @@ class UserListProvider with ChangeNotifier {
     }
   }
 
-  Future<List<dynamic>> getAllUsersList(token) async {
+  Future<List> getAllUsersList(token) async {
     final response = await http.get(
       Uri.parse('${AppUrl.baseUrl}/users/all'),
       headers: {'Authorization': 'Bearer $token'},

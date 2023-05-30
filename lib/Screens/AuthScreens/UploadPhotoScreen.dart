@@ -2,15 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 import 'package:teen_jungle/Constant.dart';
-import 'package:teen_jungle/Screens/AuthScreens/Register1Screen.dart';
+
 import 'package:teen_jungle/Screens/BottomNavigationBar/PersistanceNavigationBar.dart';
-import 'package:teen_jungle/Screens/ComingSoon/ComingSoonScreen.dart';
-import 'package:teen_jungle/Widgets/TextFormWidget.dart';
+
 import 'package:teen_jungle/Widgets/TextWidget.dart';
 
 import '../../Provider/auth_provider.dart';
 import '../../Provider/profile_provider.dart';
-import '../Location/LocationAccessScreen.dart';
 
 class UploadPhotoScreen extends StatefulWidget {
   const UploadPhotoScreen({super.key});
@@ -48,11 +46,32 @@ class _UploadPhotoScreenState extends State<UploadPhotoScreen> {
                   Stack(
                     children: [
                       authProvider.loginModel!.userData[0].profilePic !=
-                              "http://19jungle.pakwexpo.com/public/images/profile_picture_folder"
+                              // "https://19jungle.pakwexpo.com/api/auth/showProfileImage"
+                              "https://19jungle.pakwexpo.com/images/updateProfile"
+                          // ? Container(
+                          //     padding: EdgeInsets.all(30),
+                          //     decoration: BoxDecoration(
+                          //         shape: BoxShape.circle,
+                          //         image: DecorationImage(
+                          //           image: NetworkImage(authProvider
+                          //               .loginModel!.userData[0].profilePic
+                          //               .toString()),
+                          //         )),
+                          //   )
+                          // : Container(
+                          //     padding: EdgeInsets.all(60),
+                          //     decoration: BoxDecoration(
+                          //         shape: BoxShape.circle,
+                          //         image: DecorationImage(
+                          //           image: AssetImage("assets/img/img1.png"),
+                          //         )),
+                          //   ),
+
                           ? CircleAvatar(
                               radius: 80,
                               backgroundImage: NetworkImage(authProvider
-                                  .loginModel!.userData[0].profilePic),
+                                  .loginModel!.userData[0].profilePic
+                                  .toString()),
                             )
                           : CircleAvatar(
                               radius: 80,
@@ -92,7 +111,7 @@ class _UploadPhotoScreenState extends State<UploadPhotoScreen> {
                     borderRadius: 10,
                     onPressed: () async {
                       if (authProvider.loginModel!.userData[0].profilePic !=
-                          "http://19jungle.pakwexpo.com/public/images/profile_picture_folder") {
+                          "https://19jungle.pakwexpo.com/images/updateProfile") {
                         Navigator.push(
                           context,
                           MaterialPageRoute(

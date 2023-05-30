@@ -39,6 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
         show = false;
       });
     });
+    super.initState();
   }
 
   @override
@@ -317,9 +318,9 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               FutureBuilder(
                 future: userListProvider.getNerebyUsersList(
-                    authProvider.loginModel!.token,
-                    authProvider.loginModel!.userData[0].id),
-                builder: (context, snapshot) {
+                    authProvider.loginModel?.token,
+                    authProvider.loginModel?.userData[0].id),
+                builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
                   if (snapshot.hasError) {
                     return Text("${snapshot.error}");
                   } else if (!snapshot.hasData) {
@@ -498,7 +499,7 @@ class _HomeCardState extends State<HomeCard> {
                         name: item["name"],
                         location: "Lahore,pakistan",
                         assetPath: item["profile_pic_url"] ??
-                            "http://marriageapi.pakwexpo.com/public/images/profile_picture_folder",
+                            "https://19jungle.pakwexpo.com/api/auth/updateProfile",
                         onlineStatus: item["online"] ? "Online" : "Offline",
                         seeMore: () {
                           profileProvider.userDetail(
@@ -532,6 +533,5 @@ class _HomeCardState extends State<HomeCard> {
         ],
       );
     });
-    ;
   }
 }

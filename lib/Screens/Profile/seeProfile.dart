@@ -14,7 +14,6 @@ seeProfile(context, _userData) {
     builder: (ctx) => AlertDialog(
       insetPadding: EdgeInsets.zero,
       contentPadding: EdgeInsets.zero,
-   
       content: StatefulBuilder(
           // You need this, notice the parameters below:
           builder: (BuildContext context, StateSetter setState) {
@@ -28,36 +27,37 @@ seeProfile(context, _userData) {
                     ? Column(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                             Container(
-                    height: 150,
-                    width: 280,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      image: _userData.profilePic ==
-                              "http://marriageapi.pakwexpo.com/public/images/profile_picture_folder"
-                          ? const DecorationImage(
-                              image:
-                                  AssetImage("assets/img/profilerectangle.png"),
-                              fit: BoxFit.cover)
-                          : DecorationImage(
-                              image: NetworkImage(_userData.profilePic),
-                              fit: BoxFit.cover),
-                    ),
-                  ),
-                  SizedBox(height: 5),
+                          Container(
+                            height: 150,
+                            width: 280,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              image: _userData.profilePic ==
+                                      // "http://marriageapi.pakwexpo.com/public/images/profile_picture_folder"
+                                      "https://19jungle.pakwexpo.com/api/auth/showProfileImage"
+                                  ? const DecorationImage(
+                                      image: AssetImage(
+                                          "assets/img/profilerectangle.png"),
+                                      fit: BoxFit.cover)
+                                  : DecorationImage(
+                                      image: NetworkImage(_userData.profilePic),
+                                      fit: BoxFit.cover),
+                            ),
+                          ),
+                          SizedBox(height: 5),
                           TextWidget(
                             title: "About Me",
                             size: 20,
                             fontWeight: FontWeight.w800,
-                          ),                  SizedBox(height: 5),
-
+                          ),
+                          SizedBox(height: 5),
                           TextWidget(
                             title: "${questionData[0]["question_1"]}",
                             overflow: TextOverflow.ellipsis,
                             size: 16,
                             fontWeight: FontWeight.w200,
-                          ),                  SizedBox(height: 5),
-
+                          ),
+                          SizedBox(height: 5),
                           questionData.length != 0
                               ? Row(
                                   children: [
@@ -86,7 +86,6 @@ seeProfile(context, _userData) {
                                   ],
                                 )
                               : Container(),
-                   
                           Stack(
                             children: [
                               SizedBox(
@@ -126,46 +125,45 @@ seeProfile(context, _userData) {
                         ],
                       )
                     : Container(),
-                        const Divider(
-                    color: Colors.black,
-                  ),
-                  Center(
-                    child: InkWell(
-                      onTap: () async {
-                        final uri = Uri.parse(_userData.profilePic);
-                        final response = await http.get(uri);
-                        final bytes = response.bodyBytes;
-                        final temp = await getTemporaryDirectory();
-                        final path = '${temp.path}/image.jpg';
-                        File(path).writeAsBytesSync(bytes);
-                        Share.shareFiles(['${path}'],
-                            text:
-                                'Hi! i am ${_userData.name} install the 19jungle and visit my profile');
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Color(0xFFE00088),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: const [
-                            Padding(
-                              padding: EdgeInsets.only(
-                                left: 58.0,
-                                right: 58.0,
-                                top: 12.0,
-                                bottom: 12.0,
-                              ),
-                              child: Text("Share this profile"),
+                const Divider(
+                  color: Colors.black,
+                ),
+                Center(
+                  child: InkWell(
+                    onTap: () async {
+                      final uri = Uri.parse(_userData.profilePic);
+                      final response = await http.get(uri);
+                      final bytes = response.bodyBytes;
+                      final temp = await getTemporaryDirectory();
+                      final path = '${temp.path}/image.jpg';
+                      File(path).writeAsBytesSync(bytes);
+                      Share.shareFiles(['${path}'],
+                          text:
+                              'Hi! i am ${_userData.name} install the 19jungle and visit my profile');
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Color(0xFFE00088),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const [
+                          Padding(
+                            padding: EdgeInsets.only(
+                              left: 58.0,
+                              right: 58.0,
+                              top: 12.0,
+                              bottom: 12.0,
                             ),
-                          ],
-                        ),
+                            child: Text("Share this profile"),
+                          ),
+                        ],
                       ),
                     ),
                   ),
-              
+                ),
               ],
             ),
           ),

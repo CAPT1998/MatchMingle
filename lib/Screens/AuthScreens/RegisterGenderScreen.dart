@@ -44,7 +44,7 @@ class _RegisterGenderScreenState extends State<RegisterGenderScreen> {
                   fontWeight: FontWeight.w400,
                 ),
                 SizedBox(
-                  height: 50,
+                  height: 100,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -57,6 +57,7 @@ class _RegisterGenderScreenState extends State<RegisterGenderScreen> {
                       color: appColor,
                       onPressed: () {
                         authProvider.loginModel!.userData[0].gender = '1';
+                        authProvider.update();
                         Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -93,14 +94,14 @@ class _RegisterGenderScreenState extends State<RegisterGenderScreen> {
                     )
                   ],
                 ),
-                Spacer(),
-                TextWidget(
-                  title: "Powered By\nagenziasingleprettywoman.it",
-                  size: 20,
-                  maxline: 2,
-                  textAlign: TextAlign.center,
-                  fontWeight: FontWeight.w400,
-                ),
+                // Spacer(),
+                // TextWidget(
+                //   title: "Powered By\nagenziasingleprettywoman.it",
+                //   size: 20,
+                //   maxline: 2,
+                //   textAlign: TextAlign.center,
+                //   fontWeight: FontWeight.w400,
+                // ),
                 SizedBox(
                   height: 30,
                 ),

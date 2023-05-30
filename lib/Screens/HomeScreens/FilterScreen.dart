@@ -178,7 +178,8 @@ class CardWidget extends StatelessWidget {
         child: Column(
           children: [
             item["profile_pic_url"] !=
-                    "http://marriageapi.pakwexpo.com/public/images/profile_picture_folder"
+                    "http://jungle19.pakwexpo.com/public/images/updateProfile"
+                // "http://marriageapi.pakwexpo.com/public/images/profile_picture_folder"
                 ? CircleAvatar(
                     radius: 40,
                     backgroundImage: NetworkImage(item["profile_pic_url"]),

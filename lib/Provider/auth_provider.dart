@@ -9,6 +9,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:teen_jungle/Screens/AuthScreens/PrivacyScreen.dart';
 import 'package:teen_jungle/Widgets/api_urls.dart';
 
 import '../Models/GoogleModel.dart';
@@ -237,8 +238,8 @@ class AuthProvider with ChangeNotifier {
     LoginModel? loginModel;
     String? loginMessage;
     try {
-      var url = Uri.parse(
-          'https://marriageapi.pakwexpo.com/public/api/auth/updateProfile');
+      var url =
+          Uri.parse('https://19jungle.pakwexpo.com/api/auth/updateProfile');
       var response = await http.post(url, headers: {
         'Authorization': 'Bearer $token',
       }, body: {
@@ -247,12 +248,14 @@ class AuthProvider with ChangeNotifier {
         'gender': gender,
         'dob': dob,
         'location': 'null',
+        'token': token
       });
       final Map<String, dynamic> data = json.decode(response.body);
+      print(response.statusCode);
       if (response.statusCode == 200) {
         if (locationPage) {
           Navigator.push(context,
-              MaterialPageRoute(builder: (context) => LocationAccessScreen()));
+              MaterialPageRoute(builder: (context) => PrivacyScreen()));
         }
         SuccessFlushbar(context, "Profile", data["message"]);
         notifyListeners();
@@ -263,7 +266,7 @@ class AuthProvider with ChangeNotifier {
       print("======>$data");
     } catch (e) {
       print("======>$e");
-      ErrorFlushbar(context, "Profile data", e.toString());
+      ErrorFlushbar(context, "Profile", e.toString());
       notifyListeners();
     }
   }

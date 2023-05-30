@@ -37,7 +37,7 @@ class _CardsScreenState extends State<CardsScreen> {
         body: Consumer3<AuthProvider, UserListProvider, ProfileProvider>(
             builder: (context, authProvider, userListProvider, profileProvider,
                 child) {
-          var userData = authProvider.loginModel!.userData[0];
+          var userData = authProvider.loginModel?.userData[0];
           return SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -88,26 +88,26 @@ class _CardsScreenState extends State<CardsScreen> {
                           }
                           if (snapshot.data != null) {
                             return SingleChildScrollView(
-                              child: 
-                              // Text(snapshot.data.toString())
-                               GridView.builder(
-                                  shrinkWrap: true,
-                                  gridDelegate:
-                                      const SliverGridDelegateWithMaxCrossAxisExtent(
-                                          maxCrossAxisExtent: 100,
-                                          childAspectRatio: 2 / 3,
-                                          crossAxisSpacing: 20,
-                                          mainAxisSpacing: 20),
-                                  itemCount: snapshot.data!.length,
-                                  itemBuilder: (BuildContext ctx, index) {
-                                    var item = snapshot.data![index];
-                                    return CardWidget(
-                                      authProvider: authProvider,
-                                      index: index,
-                                      item: item,
-                                      profileProvider: profileProvider,
-                                    );
-                                  }),
+                              child:
+                                  // Text(snapshot.data.toString())
+                                  GridView.builder(
+                                      shrinkWrap: true,
+                                      gridDelegate:
+                                          const SliverGridDelegateWithMaxCrossAxisExtent(
+                                              maxCrossAxisExtent: 100,
+                                              childAspectRatio: 2 / 3,
+                                              crossAxisSpacing: 20,
+                                              mainAxisSpacing: 20),
+                                      itemCount: snapshot.data!.length,
+                                      itemBuilder: (BuildContext ctx, index) {
+                                        var item = snapshot.data![index];
+                                        return CardWidget(
+                                          authProvider: authProvider,
+                                          index: index,
+                                          item: item,
+                                          profileProvider: profileProvider,
+                                        );
+                                      }),
                             );
                           }
                           return const Center(

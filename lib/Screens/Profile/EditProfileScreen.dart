@@ -59,7 +59,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 ),
                 Center(
                   child: userData.profilePic ==
-                          "http://marriageapi.pakwexpo.com/public/images/profile_picture_folder/"
+                          // "http://marriageapi.pakwexpo.com/public/images/profile_picture_folder/"
+                          "https://19jungle.pakwexpo.com/api/auth/showProfileImage/"
                       ? Image.asset(
                           "assets/img/img8.png",
                           height: height * 0.2,

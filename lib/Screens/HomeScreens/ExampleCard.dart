@@ -56,8 +56,10 @@ class _ExampleCardState extends State<ExampleCard> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(14),
                   image: widget.assetPath ==
-                              "http://marriageapi.pakwexpo.com/public/images/profile_picture_folder" 
-                              // &&   widget.assetPath == null
+                          "http://jungle19.pakwexpo.com/public/images/updateProfile"
+
+                      // "http://marriageapi.pakwexpo.com/public/images/profile_picture_folder"
+                      // &&   widget.assetPath == null
                       ? const DecorationImage(
                           image: AssetImage("assets/img/profilerectangle.png"),
                           fit: BoxFit.cover)

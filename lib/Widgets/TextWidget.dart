@@ -11,9 +11,9 @@ Widget TextWidget({
 }) {
   return Text(
     "$title",
-    maxLines: maxline ?? 1,
+    // maxLines: maxline ?? 1,
     textAlign: textAlign ?? TextAlign.start,
-    overflow: overflow,
+    // overflow: overflow,
     style: TextStyle(
       fontSize: size,
       fontWeight: fontWeight ?? FontWeight.w700,
