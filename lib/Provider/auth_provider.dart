@@ -204,6 +204,7 @@ class AuthProvider with ChangeNotifier {
           "UID": _userData["id"],
           "username": _userData["name"],
           "email": _userData["email"],
+          // check
           "picture": _userData["picture"]["data"]["url"]
         };
         var url = Uri.parse('${AppUrl.baseUrl}/auth/social');

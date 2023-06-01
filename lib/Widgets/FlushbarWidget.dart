@@ -17,7 +17,7 @@ Widget ErrorFlushbar(context, String title, String message) {
     borderRadius: BorderRadius.circular(15),
     duration: Duration(milliseconds: 1900),
     leftBarIndicatorColor: Colors.red,
-  );
+  )..show(context);
 }
 
 Widget SuccessFlushbar(BuildContext context, String title, String message) {
@@ -37,5 +37,5 @@ Widget SuccessFlushbar(BuildContext context, String title, String message) {
     borderRadius: BorderRadius.circular(15),
     duration: Duration(milliseconds: 1900),
     leftBarIndicatorColor: Color(0xFF217D41),
-  );
+  )..show(context);
 }

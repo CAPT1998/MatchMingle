@@ -58,7 +58,7 @@ class _LikesScreenState extends State<LikesScreen> {
                       if (snapshot.hasError) {
                         return Text("${snapshot.error}");
                       }
-                      if (snapshot.data!.isEmpty) {
+                      if (snapshot.data!.isNotEmpty) {
                         return const Text("No User Liked");
                       }
                       if (snapshot.connectionState == ConnectionState.waiting) {
@@ -82,7 +82,8 @@ class _LikesScreenState extends State<LikesScreen> {
                               onTap: () {
                                 profileProvider.userDetail(
                                     id: item["id"].toString(),
-                                    token: authProvider.loginModel!.token,distance:"0.0",
+                                    token: authProvider.loginModel!.token,
+                                    distance: "0.0",
                                     context: context);
                               },
                               child: Container(

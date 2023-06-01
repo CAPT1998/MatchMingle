@@ -6,19 +6,19 @@ import '../Widgets/api_urls.dart';
 
 class UserListProvider with ChangeNotifier {
   Future<List<dynamic>> getNerebyUsersList(token, userId) async {
-    final response = await http.get(
+    dynamic response = await http.get(
       Uri.parse('${AppUrl.baseUrl}/users/nerebyUsersList?user_id=$userId'),
       headers: {'Authorization': 'Bearer $token'},
     );
     if (response.statusCode == 200) {
       final parsed = jsonDecode(response.body);
-      return parsed['data'];
+      return parsed['data']; // parsed['data']
     } else {
       throw Exception('Failed to load data');
     }
   }
 
-  Future<List> getAllUsersList(token) async {
+  Future<List<dynamic>> getAllUsersList(token) async {
     final response = await http.get(
       Uri.parse('${AppUrl.baseUrl}/users/all'),
       headers: {'Authorization': 'Bearer $token'},

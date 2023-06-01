@@ -131,11 +131,11 @@ class _Register1ScreenState extends State<Register1Screen> {
                             buttonController.reset();
                           });
                         }
-                        // Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //         builder: (context) => RegisterGenderScreen()));
-                        // buttonController.reset();
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => RegisterGenderScreen()));
+                        buttonController.reset();
                       },
                       child: TextWidget(
                         title: "Contiuneu",
