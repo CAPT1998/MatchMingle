@@ -41,12 +41,15 @@ class _RegisterDatePickerScreenState extends State<RegisterDatePickerScreen> {
                   SizedBox(
                     height: 50,
                   ),
-                  TextWidget(
-                    title: "Hey! Jackson Mason!, What's your\nbirthday",
+
+                  /*   TextWidget(
+                    title:
+                        "Hey! ${authProvider.loginModel!.userData[0].name}!, What's your\nbirthday",
                     size: 20,
                     maxline: 2,
                     fontWeight: FontWeight.w400,
                   ),
+                  */
                   SizedBox(
                     height: 80,
                   ),
@@ -122,7 +125,7 @@ class _RegisterDatePickerScreenState extends State<RegisterDatePickerScreen> {
                       buttonController.reset();
                     },
                     child: TextWidget(
-                      title: "Contiuneu",
+                      title: "Continue",
                       size: 14,
                       color: Colors.white,
                     ),

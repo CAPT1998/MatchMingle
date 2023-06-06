@@ -6,6 +6,7 @@ import 'package:teen_jungle/Widgets/TextFormWidget.dart';
 import 'package:teen_jungle/Widgets/TextWidget.dart';
 
 import '../../Provider/question_provider.dart';
+
 class YouAre extends StatefulWidget {
   const YouAre({super.key});
 
@@ -96,7 +97,7 @@ class _YouAreState extends State<YouAre> {
                             setState(() {
                               youare = value!;
                             });
-                            questionProvider.questionData[0]["question_2"] =
+                            questionProvider.questionData["question_2"] =
                                 'No answer';
                           },
                         ),
@@ -117,7 +118,7 @@ class _YouAreState extends State<YouAre> {
                             setState(() {
                               youare = value!;
                             });
-                            questionProvider.questionData[0]["question_2"] =
+                            questionProvider.questionData["question_2"] =
                                 'I am in a complicated relationship';
                           },
                         ),
@@ -138,7 +139,7 @@ class _YouAreState extends State<YouAre> {
                             setState(() {
                               youare = value!;
                             });
-                            questionProvider.questionData[0]["question_2"] =
+                            questionProvider.questionData["question_2"] =
                                 'Single';
                           },
                         ),
@@ -159,7 +160,7 @@ class _YouAreState extends State<YouAre> {
                             setState(() {
                               youare = value!;
                             });
-                            questionProvider.questionData[0]["question_2"] =
+                            questionProvider.questionData["question_2"] =
                                 'Taken';
                           },
                         ),

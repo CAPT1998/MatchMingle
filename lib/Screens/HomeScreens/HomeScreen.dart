@@ -10,6 +10,7 @@ import '../../Provider/block_user_provider.dart';
 import '../../Provider/chat_provider.dart';
 import '../../Provider/like_provider.dart';
 import '../../Provider/profile_provider.dart';
+import '../../Provider/question_provider.dart';
 import '../../Provider/user_list_provider.dart';
 import '../../Widgets/TextWidget.dart';
 import 'BottomButtonRow.dart';
@@ -66,7 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     children: [
                       IconButton(
                           onPressed: () {
-                            // Navigator.pop(context);
+                            //  Navigator.pop(context);
                           },
                           icon: const Icon(
                             Icons.close,
@@ -89,6 +90,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                             withNavBar: false,
                           );
+                          /*
                           Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -98,6 +100,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         gender: gander.toString(),
                                         location: locationCTRL.text,
                                       )));
+                                      */
                         },
                         icon: const Icon(
                           Icons.check,
@@ -153,7 +156,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     fontWeight: FontWeight.w600,
                                   ),
                                   TextWidget(
-                                    title: "1000",
+                                    title: distence.toString(),
                                     size: 16,
                                     fontWeight: FontWeight.w200,
                                   ),
@@ -277,7 +280,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                                 ),
                                 TextWidget(
-                                  title: "18-50",
+                                  title:
+                                      '${ageValue.start.toInt()} - ${ageValue.end.toInt()}',
                                   size: 16,
                                   fontWeight: FontWeight.w200,
                                 ),
@@ -362,7 +366,7 @@ class HomeCard extends StatefulWidget {
 class _HomeCardState extends State<HomeCard> {
   SwipableStackController? _controller;
   TextEditingController smsCTRL = TextEditingController();
-
+  int currentCardIndex = 0;
   void _listenController() => setState(() {});
   @override
   void initState() {
@@ -380,147 +384,157 @@ class _HomeCardState extends State<HomeCard> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer5<AuthProvider, LikeProvider, ProfileProvider, BlockUser,
-            ChatProvider>(
-        builder: (context, authProvider, likeProvider, profileProvider,
-            blockUser, chatProvider, child) {
+    
+    return Consumer6<AuthProvider, LikeProvider, QuestionProvider,
+            ProfileProvider, BlockUser, ChatProvider>(
+        builder: (context, authProvider, likeProvider, QuestionProvider,
+            profileProvider, blockUser, chatProvider, child) {
       return Stack(
         children: [
           // const Center(child: CircularProgressIndicator()),
           Positioned.fill(
             child: Padding(
               padding: const EdgeInsets.all(8),
-              child: SwipableStack(
-                detectableSwipeDirections: const {
-                  SwipeDirection.right,
-                  SwipeDirection.left,
-                  SwipeDirection.up,
-                },
-                itemCount: widget.snapshot.data!.length,
-                controller: _controller,
-                stackClipBehaviour: Clip.none,
-                onSwipeCompleted: (index, direction) {
-                  print('===========$index, $direction');
-                  if (direction == SwipeDirection.right) {
-                    // provider.addfriend(index, true, false);
-                    // provider.limituseraccess();
-                    likeProvider.LikeUser(
-                        context,
-                        authProvider.loginModel!.token,
-                        authProvider.loginModel!.userData[0].id,
-                        widget.snapshot.data![index]["id"]);
-                  }
-                  if (direction == SwipeDirection.left) {
-                    // print(index);
-                    // provider.dislikefriend(
-                    //   index,
-                    // );
-                    // provider.limituseraccess();
-                    // blockUser.blockUser(
-                    //     context,
-                    //     authProvider.loginModel!.token,
-                    //     authProvider.loginModel!.userData[0].id,
-                    //     widget.snapshot.data![index]["id"]);
-                  }
-                  if (direction == SwipeDirection.up) {
-                    print("===>up");
-                    // print(index);
-                    // provider.limituseraccess();
-                  }
-                  if (direction == SwipeDirection.down) {
-                    print("===>down");
-                    showDialog(
-                      context: context,
-                      builder: (ctx) => AlertDialog(
-                        insetPadding: EdgeInsets.zero,
-                        contentPadding: EdgeInsets.zero,
-                        // clipBehavior: Clip.antiAliasWithSaveLayer,
-                        title: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            TextWidget(
-                              title: "Sent Message",
-                              size: 26,
-                              fontWeight: FontWeight.w800,
-                            ),
-                          ],
-                        ),
-
-                        content: StatefulBuilder(builder:
-                            (BuildContext context, StateSetter setState) {
-                          return Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(color: Colors.grey),
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                              child: TextField(
-                                controller: smsCTRL,
-                                decoration: const InputDecoration(
-                                  border: InputBorder.none,
-                                  hintText: 'Type some...',
-                                  contentPadding: EdgeInsets.symmetric(
-                                      horizontal: 16.0, vertical: 12.0),
+              child: SingleChildScrollView(
+                  child: Column(children: [
+                SizedBox(
+                  height: 700,
+                  child: SwipableStack(
+                    detectableSwipeDirections: const {
+                      SwipeDirection.right,
+                      SwipeDirection.left,
+                      SwipeDirection.up,
+                    },
+                    itemCount: widget.snapshot.data!.length,
+                    controller: _controller,
+                    stackClipBehaviour: Clip.none,
+                    onSwipeCompleted: (index, direction) {
+                      print('===========$index, $direction');
+                      if (direction == SwipeDirection.right) {
+                        // provider.addfriend(index, true, false);
+                        // provider.limituseraccess();
+                        likeProvider.LikeUser(
+                            context,
+                            authProvider.loginModel!.token,
+                            authProvider.loginModel!.userData[0].id,
+                            widget.snapshot.data![index]["id"]);
+                      }
+                      if (direction == SwipeDirection.left) {
+                        // print(index);
+                        // provider.dislikefriend(
+                        //   index,
+                        // );
+                        // provider.limituseraccess();
+                        // blockUser.blockUser(
+                        //     context,
+                        //     authProvider.loginModel!.token,
+                        //     authProvider.loginModel!.userData[0].id,
+                        //     widget.snapshot.data![index]["id"]);
+                      }
+                      if (direction == SwipeDirection.up) {
+                        print("===>up");
+                        // print(index);
+                        // provider.limituseraccess();
+                      }
+                      if (direction == SwipeDirection.down) {
+                        print("===>down");
+                        showDialog(
+                          context: context,
+                          builder: (ctx) => AlertDialog(
+                            insetPadding: EdgeInsets.zero,
+                            contentPadding: EdgeInsets.zero,
+                            // clipBehavior: Clip.antiAliasWithSaveLayer,
+                            title: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                TextWidget(
+                                  title: "Sent Message",
+                                  size: 26,
+                                  fontWeight: FontWeight.w800,
                                 ),
-                              ),
+                              ],
                             ),
-                          );
-                        }),
-                        actions: [
-                          TextButton(
-                              onPressed: () {
-                                chatProvider.sentSMS(
-                                    context,
-                                    authProvider.loginModel!.token,
-                                    authProvider.loginModel!.userData[0].id,
-                                    widget.snapshot.data![index]["id"],
-                                    smsCTRL.text);
-                              },
-                              child: Text("Sent"))
+
+                            content: StatefulBuilder(builder:
+                                (BuildContext context, StateSetter setState) {
+                              return Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    border: Border.all(color: Colors.grey),
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                  child: TextField(
+                                    controller: smsCTRL,
+                                    decoration: const InputDecoration(
+                                      border: InputBorder.none,
+                                      hintText: 'Type some...',
+                                      contentPadding: EdgeInsets.symmetric(
+                                          horizontal: 16.0, vertical: 12.0),
+                                    ),
+                                  ),
+                                ),
+                              );
+                            }),
+                            actions: [
+                              TextButton(
+                                  onPressed: () {
+                                    chatProvider.sentSMS(
+                                        context,
+                                        authProvider.loginModel!.token,
+                                        authProvider.loginModel!.userData[0].id,
+                                        widget.snapshot.data![index]["id"],
+                                        smsCTRL.text);
+                                  },
+                                  child: Text("Sent"))
+                            ],
+                          ),
+                        );
+
+                        // print(index);
+                        // provider.limituseraccess();
+                      }
+                    },
+                    horizontalSwipeThreshold: 0.8,
+                    verticalSwipeThreshold: 0.8,
+                    builder: (context, properties) {
+                      // print(properties.index);
+                      var item = widget.snapshot.data![properties.index];
+
+                      return Stack(
+                        children: [
+                          ExampleCard(
+                            id: item['id'].toString(),
+                            token: authProvider.loginModel!.token,
+                            index: properties.index,
+                            name: item['name'],
+                            location: "asda",
+                            assetPath: item["profile_pic_url"] ??
+                                "https://19jungle.pakwexpo.com/api/auth/updateProfile",
+                            onlineStatus: item["online"] ? "Online" : "Offline",
+                            seeMore: () {
+                              profileProvider.userDetail(
+                                  id: widget
+                                      .snapshot.data![properties.index]["id"]
+                                      .toString(),
+                                  token: authProvider.loginModel!.token,
+                                  distance: widget.snapshot
+                                      .data![properties.index]["distance"],
+                                  context: context);
+                            },
+                          ),
+                          if (properties.stackIndex == 0 &&
+                              properties.direction != null)
+                            CardOverlay(
+                              swipeProgress: properties.swipeProgress,
+                              direction: properties.direction!,
+                            )
                         ],
-                      ),
-                    );
-
-                    // print(index);
-                    // provider.limituseraccess();
-                  }
-                },
-                horizontalSwipeThreshold: 0.8,
-                verticalSwipeThreshold: 0.8,
-                builder: (context, properties) {
-                  // print(properties.index);
-                  var item = widget.snapshot.data![properties.index];
-
-                  return Stack(
-                    children: [
-                      ExampleCard(
-                        index: properties.index,
-                        name: item["name"],
-                        location: "Lahore,pakistan",
-                        assetPath: item["profile_pic_url"] ??
-                            "https://19jungle.pakwexpo.com/api/auth/updateProfile",
-                        onlineStatus: item["online"] ? "Online" : "Offline",
-                        seeMore: () {
-                          profileProvider.userDetail(
-                              id: widget.snapshot.data![properties.index]["id"]
-                                  .toString(),
-                              token: authProvider.loginModel!.token,
-                              distance: widget.snapshot.data![properties.index]
-                                  ["distance"],
-                              context: context);
-                        },
-                      ),
-                      if (properties.stackIndex == 0 &&
-                          properties.direction != null)
-                        CardOverlay(
-                          swipeProgress: properties.swipeProgress,
-                          direction: properties.direction!,
-                        )
-                    ],
-                  );
-                },
-              ),
+                      );
+                    },
+                  ),
+                ),
+              ])),
             ),
           ),
           BottomButtonsRow(

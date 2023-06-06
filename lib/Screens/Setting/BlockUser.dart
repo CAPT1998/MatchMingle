@@ -8,7 +8,6 @@ import 'package:teen_jungle/Widgets/TextWidget.dart';
 import '../../Provider/auth_provider.dart';
 import '../../Provider/block_user_provider.dart';
 
-
 class BlockUserScreen extends StatefulWidget {
   const BlockUserScreen({super.key});
 
@@ -52,7 +51,7 @@ class _BlockUserScreenState extends State<BlockUserScreen> {
                   if (snapshot.hasError) {
                     return Text("${snapshot.error}");
                   } else if (snapshot.data!.isEmpty) {
-                    return const Text("No Block User");
+                    return const Center(child: Text("No Blocked User"));
                   } else if (snapshot.connectionState ==
                       ConnectionState.waiting) {
                     return const Center(

@@ -81,6 +81,7 @@ class _LocationAccessScreenState extends State<LocationAccessScreen> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => UploadPhotoScreen()));
+
                       buttonController.reset();
                     },
                     child: TextWidget(

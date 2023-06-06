@@ -21,6 +21,18 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  late Key avatarKey;
+
+  void initState() {
+    // TODO: implement initState
+    avatarKey = UniqueKey(); // Generate a new unique key initially
+
+    super.initState();
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      setState(() {});
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -118,7 +130,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
                 InkWell(
                   onTap: () {
-                    seeProfile(context,authProvider.loginModel!.userData[0]);
+                    seeProfile(context, authProvider.loginModel!.userData[0]);
                   },
                   child: TextWidget(
                     title: "Tap to see your Profile",
@@ -239,7 +251,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ),
                           ),
                           title: TextWidget(
-                            title: "Badoo Premium",
+                            title: "19 Jungle Premium",
                             size: 16,
                             fontWeight: FontWeight.w400,
                             color: greyColor,

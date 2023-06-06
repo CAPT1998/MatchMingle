@@ -57,7 +57,7 @@ Widget textfieldProduct({
               TextStyle(color: Colors.grey),
             ),
         labelStyle: Theme.of(context).textTheme.bodyText1!.merge(
-              TextStyle(color: Colors.black,fontSize: 18),
+              TextStyle(color: Colors.black, fontSize: 18),
             ),
         filled: true,
         enabledBorder: UnderlineInputBorder(

@@ -82,7 +82,8 @@ class _LikesScreenState extends State<LikesScreen> {
                               onTap: () {
                                 profileProvider.userDetail(
                                     id: item["id"].toString(),
-                                    token: authProvider.loginModel!.token,distance:"0.0",
+                                    token: authProvider.loginModel!.token,
+                                    distance: "0.0",
                                     context: context);
                               },
                               child: Container(
@@ -102,8 +103,8 @@ class _LikesScreenState extends State<LikesScreen> {
                                               "assets/img/profilerectangle.png"),
                                           fit: BoxFit.cover)
                                       : DecorationImage(
-                                          image:
-                                              NetworkImage(item["profile_pic"]),
+                                          image: NetworkImage(
+                                              item["profile_pic".toString()]),
                                           fit: BoxFit.cover),
                                 ),
                                 child: Column(

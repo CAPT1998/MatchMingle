@@ -45,39 +45,39 @@ class _UploadPhotoScreenState extends State<UploadPhotoScreen> {
                   ),
                   Stack(
                     children: [
-                      authProvider.loginModel!.userData[0].profilePic !=
-                              // "https://19jungle.pakwexpo.com/api/auth/showProfileImage"
-                              "https://19jungle.pakwexpo.com/images/updateProfile"
-                          // ? Container(
-                          //     padding: EdgeInsets.all(30),
-                          //     decoration: BoxDecoration(
-                          //         shape: BoxShape.circle,
-                          //         image: DecorationImage(
-                          //           image: NetworkImage(authProvider
-                          //               .loginModel!.userData[0].profilePic
-                          //               .toString()),
-                          //         )),
-                          //   )
-                          // : Container(
-                          //     padding: EdgeInsets.all(60),
-                          //     decoration: BoxDecoration(
-                          //         shape: BoxShape.circle,
-                          //         image: DecorationImage(
-                          //           image: AssetImage("assets/img/img1.png"),
-                          //         )),
-                          //   ),
+                      //    authProvider.loginModel!.userData[0].profilePic !=
+                      // "https://19jungle.pakwexpo.com/api/auth/showProfileImage"
+                      //        "https://19jungle.pakwexpo.com/images/updateProfile"
+                      // ? Container(
+                      //     padding: EdgeInsets.all(30),
+                      //     decoration: BoxDecoration(
+                      //         shape: BoxShape.circle,
+                      //         image: DecorationImage(
+                      //           image: NetworkImage(authProvider
+                      //               .loginModel!.userData[0].profilePic
+                      //               .toString()),
+                      //         )),
+                      //   )
+                      // : Container(
+                      //     padding: EdgeInsets.all(60),
+                      //     decoration: BoxDecoration(
+                      //         shape: BoxShape.circle,
+                      //         image: DecorationImage(
+                      //           image: AssetImage("assets/img/img1.png"),
+                      //         )),
+                      //   ),
 
-                          ? CircleAvatar(
-                              radius: 80,
-                              backgroundImage: NetworkImage(authProvider
-                                  .loginModel!.userData[0].profilePic
-                                  .toString()),
-                            )
-                          : CircleAvatar(
-                              radius: 80,
-                              backgroundImage:
-                                  AssetImage("assets/img/img1.png"),
-                            ),
+                      //  ? CircleAvatar(
+                      //       radius: 80,
+                      //       backgroundImage: NetworkImage(authProvider
+                      //            .loginModel!.userData[0].profilePic
+                      //            .toString()),
+                      //      )
+                      //    :
+                      CircleAvatar(
+                        radius: 80,
+                        backgroundImage: AssetImage("assets/img/img1.png"),
+                      ),
                       Positioned(
                         bottom: 0,
                         right: 0,
@@ -110,16 +110,13 @@ class _UploadPhotoScreenState extends State<UploadPhotoScreen> {
                     controller: buttonController,
                     borderRadius: 10,
                     onPressed: () async {
-                      if (authProvider.loginModel!.userData[0].profilePic !=
-                          "https://19jungle.pakwexpo.com/images/updateProfile") {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                const BottomNavigationScreen(),
-                          ),
-                        );
-                      }
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const BottomNavigationScreen(),
+                        ),
+                      );
+
                       buttonController.reset();
                     },
                     child: TextWidget(

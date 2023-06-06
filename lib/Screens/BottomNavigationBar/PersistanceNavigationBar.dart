@@ -73,7 +73,7 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
         ),
         title: ("Chat"),
         textStyle: TextStyle(fontSize: 11, fontWeight: FontWeight.w900),
-        activeColorPrimary: appColor,
+        activeColorPrimary: Color(0xFF24ABE3),
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),
       PersistentBottomNavBarItem(

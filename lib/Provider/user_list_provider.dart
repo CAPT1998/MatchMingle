@@ -12,6 +12,7 @@ class UserListProvider with ChangeNotifier {
     );
     if (response.statusCode == 200) {
       final parsed = jsonDecode(response.body);
+      print(response.body);
       return parsed['data'];
     } else {
       throw Exception('Failed to load data');
@@ -46,11 +47,16 @@ class UserListProvider with ChangeNotifier {
 
   Future<List<dynamic>> getFilterUsersList(
       token, userId, distance, gender, age) async {
-    final response = await http.get(
+    print({userId});
+
+    final response = await http.post(
       Uri.parse(
-          '${AppUrl.baseUrl}/users/filterUserList?id=$userId&distance=$distance&gender=$gender&age=$age'),
+          '${AppUrl.baseUrl}/users/filterUserList?id=$userId&distance=$distance&gender=$gender'),
+      //&age=$age'),
       headers: {'Authorization': 'Bearer $token'},
     );
+    print(response.statusCode);
+
     if (response.statusCode == 200) {
       final parsed = jsonDecode(response.body);
       return parsed['data'];

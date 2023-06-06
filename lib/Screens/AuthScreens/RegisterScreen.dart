@@ -46,7 +46,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     context: context,
                     controller: name,
                     name: "Jackson Manson",
-                    labelText: "Jackson Manson",
+                    labelText:
+                        name.text.isEmpty ? "Jackson Manson" : "Your Name",
                   ),
                   SizedBox(
                     height: height * 0.3,
@@ -71,7 +72,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       }
                     },
                     child: TextWidget(
-                      title: "Contiuneu",
+                      title: "Continue",
                       size: 14,
                       color: Colors.white,
                     ),

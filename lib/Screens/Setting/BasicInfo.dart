@@ -28,7 +28,7 @@ class _BasicInfoScreenState extends State<BasicInfoScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Consumer<AuthProvider>(builder: (context, authProvider, child) {
-        var profiledata = authProvider.loginModel!.userData[0].gender;
+        var profiledata = authProvider.loginModel!.userData[0];
         nameCtrl.text = profiledata.name;
         return Scaffold(
           appBar: AppBar(

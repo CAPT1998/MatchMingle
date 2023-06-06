@@ -303,12 +303,14 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ),
                         ),
-                        CircleAvatar(
-                          radius: 23,
-                          backgroundColor: appColor,
-                          child: const Icon(
-                            Icons.install_desktop_outlined,
-                            color: Colors.white,
+                        GestureDetector(
+                          child: CircleAvatar(
+                            radius: 23,
+                            backgroundColor: appColor,
+                            child: const Icon(
+                              Icons.install_desktop_outlined,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                       ],

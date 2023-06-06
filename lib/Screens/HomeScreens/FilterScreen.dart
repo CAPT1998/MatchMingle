@@ -1,13 +1,16 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:provider/provider.dart';
 import 'package:teen_jungle/Constant.dart';
+import 'package:teen_jungle/Screens/HomeScreens/HomeScreen.dart';
 import 'package:teen_jungle/Widgets/TextWidget.dart';
 
 import '../../Provider/auth_provider.dart';
 import '../../Provider/profile_provider.dart';
 import '../../Provider/user_list_provider.dart';
+import '../BottomNavigationBar/PersistanceNavigationBar.dart';
 
 class FilterScreen extends StatefulWidget {
   final String location;
@@ -86,21 +89,21 @@ class _FilterScreenState extends State<FilterScreen> {
                             widget.gender,
                             widget.age),
                         builder: (context, snapshot) {
+                          print('snapshot data is' + snapshot.data.toString());
                           if (snapshot.hasError) {
                             // return Text("${snapshot.error}");
                             return const Center(
                               child: CircularProgressIndicator(),
                             );
                           }
-                          if (snapshot.data!.isEmpty) {
-                            return Center(child: const Text("No User"));
-                          }
+
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
                             return const Center(
                               child: CircularProgressIndicator(),
                             );
                           }
+
                           if (snapshot.data != null) {
                             return SingleChildScrollView(
                               child: GridView.builder(
@@ -124,7 +127,7 @@ class _FilterScreenState extends State<FilterScreen> {
                             );
                           }
                           return const Center(
-                            child: CircularProgressIndicator(),
+                            child: Text('No user Found'),
                           );
                         },
                       ),
@@ -172,7 +175,7 @@ class CardWidget extends StatelessWidget {
           profileProvider.userDetail(
               id: item["id"].toString(),
               token: authProvider.loginModel!.token,
-              distance: "",
+              distance: item['distance'],
               context: context);
         },
         child: Column(
