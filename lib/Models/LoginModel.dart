@@ -26,7 +26,7 @@ class LoginModel {
         status: json["status"],
         message: json["message"],
         userData: List<UserDatum>.from(
-            json["data"].map((x) => UserDatum.fromJson(x))),
+            json["data"].map((x) => UserDatum?.fromJson(x))),
         token: json["token"],
       );
 
@@ -81,7 +81,7 @@ class UserDatum {
   // DateTime createdAt;
   // DateTime updatedAt;
 
-  factory UserDatum.fromJson(Map<dynamic, dynamic> json) => UserDatum(
+  factory UserDatum.fromJson(Map<String, dynamic> json) => UserDatum(
         id: json["id"],
         name: json["name"],
         email: json["email"],

@@ -66,7 +66,7 @@ class _ChatScreenState extends State<ChatScreen> {
                       if (snapshot.hasError) {
                         return Text("${snapshot.error}");
                       }
-                      if (snapshot.data!.isEmpty) {
+                      if (snapshot.data?.isEmpty) {
                         return const Text("No chat");
                       }
                       if (snapshot.connectionState == ConnectionState.waiting) {

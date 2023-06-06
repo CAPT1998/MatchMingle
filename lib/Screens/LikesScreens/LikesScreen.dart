@@ -58,7 +58,7 @@ class _LikesScreenState extends State<LikesScreen> {
                       if (snapshot.hasError) {
                         return Text("${snapshot.error}");
                       }
-                      if (snapshot.data!.isEmpty) {
+                      if (snapshot.data!.isNotEmpty) {
                         return const Text("No User Liked");
                       }
                       if (snapshot.connectionState == ConnectionState.waiting) {

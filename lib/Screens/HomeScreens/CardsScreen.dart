@@ -23,7 +23,7 @@ class _CardsScreenState extends State<CardsScreen> {
     // TODO: implement initState
     Timer(Duration(seconds: 2), () {
       setState(() {
-        show = false;
+        show = true;
       });
     });
 
@@ -77,7 +77,7 @@ class _CardsScreenState extends State<CardsScreen> {
                           if (snapshot.hasError) {
                             return Text("Error${snapshot.error}");
                           }
-                          if (snapshot.data!.isEmpty) {
+                          if (snapshot.data!.isNotEmpty) {
                             return const Text("No User");
                           }
                           if (snapshot.connectionState ==

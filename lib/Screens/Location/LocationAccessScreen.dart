@@ -71,12 +71,23 @@ class _LocationAccessScreenState extends State<LocationAccessScreen> {
                     controller: buttonController,
                     borderRadius: 10,
                     onPressed: () async {
+                      geoLocation.requestLocationPermission();
+                      geoLocation.getCurrentLocation();
+
                       await geoLocation.determinePosition(
                           authProvider.loginModel!.token,
                           authProvider.loginModel!.userData[0].id,
+                          // authProvider.loginModel!.userData[0].location,
                           authProvider.loginModel!.userData[0].latitude,
                           authProvider.loginModel!.userData[0].longitude,
                           context);
+
+                      print(
+                        "Lat ${authProvider.loginModel!.userData[0].latitude}",
+                      );
+                      print(
+                        authProvider.loginModel!.userData[0].location,
+                      );
                       Navigator.push(
                           context,
                           MaterialPageRoute(

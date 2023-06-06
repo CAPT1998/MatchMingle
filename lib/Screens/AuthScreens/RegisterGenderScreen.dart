@@ -62,7 +62,7 @@ class _RegisterGenderScreenState extends State<RegisterGenderScreen> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) =>
-                                    RegisterDatePickerScreen()));
+                                    const RegisterDatePickerScreen()));
                       },
                       child: TextWidget(
                         title: "Male",
