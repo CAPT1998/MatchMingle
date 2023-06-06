@@ -71,8 +71,8 @@ class _LocationAccessScreenState extends State<LocationAccessScreen> {
                     controller: buttonController,
                     borderRadius: 10,
                     onPressed: () async {
-                      geoLocation.requestLocationPermission();
-                      geoLocation.getCurrentLocation();
+                      // geoLocation.requestLocationPermission();
+                      //geoLocation.getCurrentLocation();
 
                       await geoLocation.determinePosition(
                           authProvider.loginModel!.token,
