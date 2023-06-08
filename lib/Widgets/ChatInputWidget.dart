@@ -2,17 +2,22 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../Constant.dart';
+import 'Recordingbutton.dart';
 
 class ChatInputField extends StatelessWidget {
   final dynamic message;
   final void Function() press;
+    final void Function(String) voicemessagecallback;
+
   dynamic filePress;
-  ChatInputField({
-    Key? key,
-    required this.message,
-    required this.press,
-    required this.filePress
-  }) : super(key: key);
+  ChatInputField(
+      {Key? key,
+      required this.message,
+            required this.voicemessagecallback,
+
+      required this.press,
+      required this.filePress})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -94,8 +99,10 @@ class ChatInputField extends StatelessWidget {
                       ),
                       // ),
                       // SizedBox(width: 10),
-                      IconButton(
-                        onPressed: () {},
+                      /*   IconButton(
+                        onPressed: () {
+                          
+                        },
                         icon: Icon(Icons.mic),
                         color: Theme.of(context)
                             .textTheme
@@ -103,6 +110,12 @@ class ChatInputField extends StatelessWidget {
                             .color!
                             .withOpacity(0.64),
                       ),
+                      */
+                      RecordButton(recordingFinishedCallback: (String x) { 
+                          voicemessagecallback(x);
+                       },
+                      ),
+                      SizedBox(width: 15),
                     ],
                   ),
                 ),

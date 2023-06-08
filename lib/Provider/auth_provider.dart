@@ -136,16 +136,16 @@ class AuthProvider with ChangeNotifier {
         idToken: googleAuth.idToken,
       );
       final User? user = (await _auth.signInWithCredential(credential)).user;
-      // userData = {
-      //   "UID": user!.uid.toString(),
-      //   "username": user.displayName.toString(),
-      //   "email": user.email.toString(),
-      //   "phoneNumber": user.phoneNumber.toString(),
-      //   "picture": user.photoURL.toString()
-      // };
-      // googleModel = GoogleModel.fromJson(userData);
-      // this.googleModel = googleModel;
-      // notifyListeners();
+      userData = {
+        "UID": user!.uid.toString(),
+        "username": user.displayName.toString(),
+        "email": user.email.toString(),
+        // "phoneNumber": user.phoneNumber.toString(),
+        //  "picture": user.photoURL.toString()
+      };
+      googleModel = GoogleModel.fromJson(userData);
+      this.googleModel = googleModel;
+      notifyListeners();
       var url = Uri.parse('${AppUrl.baseUrl}/auth/social');
       var response = await http.post(url, body: {
         'id': user!.uid.toString(),

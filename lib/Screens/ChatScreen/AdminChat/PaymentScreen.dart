@@ -169,7 +169,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
           press: () {},
           filePress: () {
             _fileButton(context);
-          },
+          }, voicemessagecallback: (String x) {  },
         ),
       ),
     );

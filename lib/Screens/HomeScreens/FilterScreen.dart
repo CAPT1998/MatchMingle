@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:provider/provider.dart';
 import 'package:teen_jungle/Constant.dart';
@@ -93,15 +94,19 @@ class _FilterScreenState extends State<FilterScreen> {
                           if (snapshot.hasError) {
                             // return Text("${snapshot.error}");
                             return const Center(
-                              child: CircularProgressIndicator(),
-                            );
+                                child: SpinKitPumpingHeart(
+                              color: Color(0XFFE90691),
+                              size: 70.0,
+                            ));
                           }
 
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
                             return const Center(
-                              child: CircularProgressIndicator(),
-                            );
+                                child: SpinKitPumpingHeart(
+                              color: Color(0XFFE90691),
+                              size: 70.0,
+                            ));
                           }
 
                           if (snapshot.data != null) {

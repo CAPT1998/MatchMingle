@@ -287,392 +287,396 @@ class _ExampleCardState extends State<ExampleCard> {
             ),
             SliverList(
               delegate: SliverChildListDelegate([
-                Container(
-                  color: Colors.white,
-                  //margin: EdgeInsets.all(16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(height: 20),
-                      Visibility(
-                        visible: q1.isNotEmpty &&
-                            q1[0]['question_1'] != null &&
-                            q1[0]['question_1'].isNotEmpty,
-                        child: Text(
-                          'About me',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.grey,
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 8),
-                      Visibility(
-                        visible: q1.isNotEmpty &&
-                            q1[0]['question_1'] != null &&
-                            q1[0]['question_1'].isNotEmpty,
-                        child: Center(
-                          child: Card(
-                            child: Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: Row(
-                                children: [
-                                  SizedBox(width: 8),
-                                  Text(
-                                    q1.isNotEmpty
-                                        ? q1[0]['question_1']
-                                        : "No info Available",
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      fontFamily: 'Urbanist',
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 20),
-                      Visibility(
-                        visible: q1.isNotEmpty &&
-                            q1[0]['question_2'] != null &&
-                            q1[0]['question_2'].isNotEmpty,
-                        child: Text(
-                          'Relationship Status',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.grey,
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 8),
-                      Visibility(
-                        visible: q1.isNotEmpty &&
-                            q1[0]['question_2'] != null &&
-                            q1[0]['question_2'].isNotEmpty,
-                        child: Center(
-                          child: Card(
-                            child: Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: Row(
-                                children: [
-                                  SizedBox(width: 8),
-                                  Text(
-                                    q1.isNotEmpty
-                                        ? q1[0]['question_2']
-                                        : "No info Available",
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      fontFamily: 'Urbanist',
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 24),
-                      Container(
-                        height: 400,
-                        decoration: BoxDecoration(
-                          color: Colors.grey[300],
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Center(
-                          child: Image.network(
-                            widget.assetPath,
-                            fit: BoxFit.cover,
-                            loadingBuilder: (BuildContext context, Widget child,
-                                ImageChunkEvent? loadingProgress) {
-                              if (loadingProgress == null) return child;
-                              return CircularProgressIndicator(
-                                value: loadingProgress.expectedTotalBytes !=
-                                        null
-                                    ? loadingProgress.cumulativeBytesLoaded /
-                                        loadingProgress.expectedTotalBytes!
-                                    : null,
-                              );
-                            },
-                            errorBuilder: (BuildContext context,
-                                Object exception, StackTrace? stackTrace) {
-                              return Text('No other images found');
-                            },
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 20),
-                      Visibility(
-                        visible: q1.isNotEmpty &&
-                            q1[0]['question_3'] != null &&
-                            q1[0]['question_3'].isNotEmpty,
-                        child: Text(
-                          'Living Arrangements',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.grey,
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 8),
-                      Visibility(
-                        visible: q1.isNotEmpty &&
-                            q1[0]['question_3'] != null &&
-                            q1[0]['question_3'].isNotEmpty,
-                        child: Center(
-                          child: Card(
-                            child: Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: Row(
-                                children: [
-                                  SizedBox(width: 8),
-                                  Text(
-                                    q1.isNotEmpty
-                                        ? q1[0]['question_3']
-                                        : "No info Available",
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      fontFamily: 'Urbanist',
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 20),
-                      Visibility(
-                        visible: q1.isNotEmpty &&
-                            q1[0]['question_4'] != null &&
-                            q1[0]['question_4'].isNotEmpty,
-                        child: Text(
-                          'Views on Parenthood',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.grey,
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 8),
-                      Visibility(
-                        visible: q1.isNotEmpty &&
-                            q1[0]['question_4'] != null &&
-                            q1[0]['question_4'].isNotEmpty,
-                        child: Center(
-                          child: Card(
-                            child: Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: Row(
-                                children: [
-                                  SizedBox(width: 8),
-                                  Text(
-                                    q1.isNotEmpty
-                                        ? q1[0]['question_4']
-                                        : "No info Available",
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      fontFamily: 'Urbanist',
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 20),
-                      Visibility(
-                        visible: q1.isNotEmpty &&
-                            q1[0]['question_5'] != null &&
-                            q1[0]['question_5'].isNotEmpty,
-                        child: Text(
-                          'Opinions on Smoking and Drink',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.grey,
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 8),
-                      Visibility(
-                        visible: q1.isNotEmpty &&
-                            q1[0]['question_5'] != null &&
-                            q1[0]['question_5'].isNotEmpty,
-                        child: Center(
-                          child: Card(
-                            child: Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: Row(
-                                children: [
-                                  SizedBox(width: 8),
-                                  Text(
-                                    q1.isNotEmpty
-                                        ? q1[0]['question_5']
-                                        : "No info Available",
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      fontFamily: 'Urbanist',
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      /*
-                SizedBox(height: 24),
-                
-                Center(
-                  child: Row(
-                    children: [
-                      Text(
-                        '${widget.name}\'s info',
-                         style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.grey,
-                  ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 20),
-               Center (child: Row(
-                  children: [
-                    Icon(Icons.language, color: Colors.blue),
-                    SizedBox(width: 6),
-                    Text(
-                      'English',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.normal,
-                        color: Colors.black,
-                      ),
-                    ),
-                    SizedBox(width: 8),
-                    Icon(Icons.music_note, color: Colors.black),
-                    SizedBox(width: 6),
-                    Text(
-                      'Music',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.normal,
-                        color: Colors.blue,
-                      ),
-                    ),
-                    SizedBox(width: 8),
-                    Icon(Icons.people_alt_rounded, color: Colors.black),
-                    SizedBox(width: 6),
-                    Text(
-                      'Single',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.normal,
-                        color: Colors.blue,
-                      ),
-                    ),
-                    // Add more keyword icons and texts if needed
-                  ],
-                ),
-               ),
-                */
-                      SizedBox(height: 24),
-                      Row(
-                        children: [
-                          Icon(Icons.location_on, color: Colors.grey[600]),
-                          SizedBox(width: 8),
-                          Text(
-                            'Location',
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 100),
+                  child: Container(
+                    color: Colors.white,
+                    //margin: EdgeInsets.all(16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(height: 20),
+                        Visibility(
+                          visible: q1.isNotEmpty &&
+                              q1[0]['question_1'] != null &&
+                              q1[0]['question_1'].isNotEmpty,
+                          child: Text(
+                            'About me',
                             style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
                               color: Colors.grey,
                             ),
                           ),
-                        ],
-                      ),
-                      Center(
-                        child: Card(
-                          child: Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: Row(
-                              children: [
-                                Icon(
-                                  color: Colors.blue,
-                                  Icons
-                                      .map_sharp, // Replace with your logo icon
-                                  size: 24,
+                        ),
+                        SizedBox(height: 8),
+                        Visibility(
+                          visible: q1.isNotEmpty &&
+                              q1[0]['question_1'] != null &&
+                              q1[0]['question_1'].isNotEmpty,
+                          child: Center(
+                            child: Card(
+                              child: Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: Row(
+                                  children: [
+                                    SizedBox(width: 8),
+                                    Text(
+                                      q1.isNotEmpty
+                                          ? q1[0]['question_1']
+                                          : "No info Available",
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                        fontFamily: 'Urbanist',
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                                SizedBox(width: 8),
-                                Text(
-                                  location ?? "Not available",
-                                  style: TextStyle(
-                                    fontSize: 25,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                              ],
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      SizedBox(height: 20),
-                      Row(
-                        children: [
-                          Icon(Icons.verified, color: Colors.green),
-                          SizedBox(width: 8),
-                          Text(
-                            'Verification Status: Verified',
+                        SizedBox(height: 20),
+                        Visibility(
+                          visible: q1.isNotEmpty &&
+                              q1[0]['question_2'] != null &&
+                              q1[0]['question_2'].isNotEmpty,
+                          child: Text(
+                            'Relationship Status',
                             style: TextStyle(
-                              fontSize: 16,
+                              fontSize: 20,
                               fontWeight: FontWeight.bold,
-                              color: Colors.green,
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 90),
-                      Align(
-                        alignment: Alignment.bottomCenter,
-                        child: Container(
-                          height: 50,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            borderRadius: const BorderRadius.vertical(
-                              bottom: Radius.circular(14),
-                            ),
-                            gradient: LinearGradient(
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter,
-                              colors: <Color>[
-                                Colors.black12.withOpacity(0),
-                                Colors.black12.withOpacity(.4),
-                                Colors.black12.withOpacity(.42),
-                              ],
+                              color: Colors.grey,
                             ),
                           ),
                         ),
+                        SizedBox(height: 8),
+                        Visibility(
+                          visible: q1.isNotEmpty &&
+                              q1[0]['question_2'] != null &&
+                              q1[0]['question_2'].isNotEmpty,
+                          child: Center(
+                            child: Card(
+                              child: Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: Row(
+                                  children: [
+                                    SizedBox(width: 8),
+                                    Text(
+                                      q1.isNotEmpty
+                                          ? q1[0]['question_2']
+                                          : "No info Available",
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                        fontFamily: 'Urbanist',
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 24),
+                        Container(
+                          height: 400,
+                          decoration: BoxDecoration(
+                            color: Colors.grey[300],
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Center(
+                            child: Image.network(
+                              widget.assetPath,
+                              fit: BoxFit.cover,
+                              loadingBuilder: (BuildContext context,
+                                  Widget child,
+                                  ImageChunkEvent? loadingProgress) {
+                                if (loadingProgress == null) return child;
+                                return CircularProgressIndicator(
+                                  value: loadingProgress.expectedTotalBytes !=
+                                          null
+                                      ? loadingProgress.cumulativeBytesLoaded /
+                                          loadingProgress.expectedTotalBytes!
+                                      : null,
+                                );
+                              },
+                              errorBuilder: (BuildContext context,
+                                  Object exception, StackTrace? stackTrace) {
+                                return Text('No other images found');
+                              },
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 20),
+                        Visibility(
+                          visible: q1.isNotEmpty &&
+                              q1[0]['question_3'] != null &&
+                              q1[0]['question_3'].isNotEmpty,
+                          child: Text(
+                            'Living Arrangements',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 8),
+                        Visibility(
+                          visible: q1.isNotEmpty &&
+                              q1[0]['question_3'] != null &&
+                              q1[0]['question_3'].isNotEmpty,
+                          child: Center(
+                            child: Card(
+                              child: Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: Row(
+                                  children: [
+                                    SizedBox(width: 8),
+                                    Text(
+                                      q1.isNotEmpty
+                                          ? q1[0]['question_3']
+                                          : "No info Available",
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                        fontFamily: 'Urbanist',
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 20),
+                        Visibility(
+                          visible: q1.isNotEmpty &&
+                              q1[0]['question_4'] != null &&
+                              q1[0]['question_4'].isNotEmpty,
+                          child: Text(
+                            'Views on Parenthood',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 8),
+                        Visibility(
+                          visible: q1.isNotEmpty &&
+                              q1[0]['question_4'] != null &&
+                              q1[0]['question_4'].isNotEmpty,
+                          child: Center(
+                            child: Card(
+                              child: Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: Row(
+                                  children: [
+                                    SizedBox(width: 8),
+                                    Text(
+                                      q1.isNotEmpty
+                                          ? q1[0]['question_4']
+                                          : "No info Available",
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                        fontFamily: 'Urbanist',
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 20),
+                        Visibility(
+                          visible: q1.isNotEmpty &&
+                              q1[0]['question_5'] != null &&
+                              q1[0]['question_5'].isNotEmpty,
+                          child: Text(
+                            'Opinions on Smoking and Drink',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 8),
+                        Visibility(
+                          visible: q1.isNotEmpty &&
+                              q1[0]['question_5'] != null &&
+                              q1[0]['question_5'].isNotEmpty,
+                          child: Center(
+                            child: Card(
+                              child: Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: Row(
+                                  children: [
+                                    SizedBox(width: 8),
+                                    Text(
+                                      q1.isNotEmpty
+                                          ? q1[0]['question_5']
+                                          : "No info Available",
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                        fontFamily: 'Urbanist',
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        /*
+                  SizedBox(height: 24),
+                  
+                  Center(
+                    child: Row(
+                      children: [
+                        Text(
+                          '${widget.name}\'s info',
+                           style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey,
+                    ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                               Center (child: Row(
+                    children: [
+                      Icon(Icons.language, color: Colors.blue),
+                      SizedBox(width: 6),
+                      Text(
+                        'English',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.normal,
+                          color: Colors.black,
+                        ),
                       ),
+                      SizedBox(width: 8),
+                      Icon(Icons.music_note, color: Colors.black),
+                      SizedBox(width: 6),
+                      Text(
+                        'Music',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.normal,
+                          color: Colors.blue,
+                        ),
+                      ),
+                      SizedBox(width: 8),
+                      Icon(Icons.people_alt_rounded, color: Colors.black),
+                      SizedBox(width: 6),
+                      Text(
+                        'Single',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.normal,
+                          color: Colors.blue,
+                        ),
+                      ),
+                      // Add more keyword icons and texts if needed
                     ],
+                  ),
+                               ),
+                  */
+                        SizedBox(height: 24),
+                        Row(
+                          children: [
+                            Icon(Icons.location_on, color: Colors.grey[600]),
+                            SizedBox(width: 8),
+                            Text(
+                              'Location',
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.grey,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Center(
+                          child: Card(
+                            child: Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    color: Colors.blue,
+                                    Icons
+                                        .map_sharp, // Replace with your logo icon
+                                    size: 24,
+                                  ),
+                                  SizedBox(width: 8),
+                                  Text(
+                                    location ?? "Not available",
+                                    style: TextStyle(
+                                      fontSize: 25,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 20),
+                        Row(
+                          children: [
+                            Icon(Icons.verified, color: Colors.green),
+                            SizedBox(width: 8),
+                            Text(
+                              'Verification Status: Verified',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.green,
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 90),
+                        Align(
+                          alignment: Alignment.bottomCenter,
+                          child: Container(
+                            height: 50,
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              borderRadius: const BorderRadius.vertical(
+                                bottom: Radius.circular(14),
+                              ),
+                              gradient: LinearGradient(
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                                colors: <Color>[
+                                  Colors.black12.withOpacity(0),
+                                  Colors.black12.withOpacity(.4),
+                                  Colors.black12.withOpacity(.42),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ]),

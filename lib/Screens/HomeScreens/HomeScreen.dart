@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:provider/provider.dart';
 import 'package:swipable_stack/swipable_stack.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import '../../Provider/auth_provider.dart';
 import '../../Provider/block_user_provider.dart';
@@ -12,7 +13,9 @@ import '../../Provider/like_provider.dart';
 import '../../Provider/profile_provider.dart';
 import '../../Provider/question_provider.dart';
 import '../../Provider/user_list_provider.dart';
+import '../../Widgets/FlushbarWidget.dart';
 import '../../Widgets/TextWidget.dart';
+import '../ChatScreen/ChatScreens.dart';
 import 'BottomButtonRow.dart';
 import 'ExampleCard.dart';
 import 'FilterScreen.dart';
@@ -28,6 +31,8 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   AuthProvider auth = AuthProvider();
   RangeValues ageValue = RangeValues(28, 34);
+  GlobalKey<State<StatefulWidget>> alertDialogKey = GlobalKey();
+
   int distence = 10;
   TextEditingController locationCTRL = TextEditingController();
   var gander = "Male";
@@ -67,7 +72,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     children: [
                       IconButton(
                           onPressed: () {
-                            //  Navigator.pop(context);
+                            Navigator.of(ctx).pop();
                           },
                           icon: const Icon(
                             Icons.close,
@@ -80,6 +85,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       IconButton(
                         onPressed: () {
+                          Navigator.of(ctx).pop();
+
                           PersistentNavBarNavigator.pushNewScreen(
                             context,
                             screen: FilterScreen(
@@ -328,12 +335,18 @@ class _HomeScreenState extends State<HomeScreen> {
                   if (snapshot.hasError) {
                     return Text("${snapshot.error}");
                   } else if (!snapshot.hasData) {
-                    return const Center(child: Text("No data found"));
+                    return Center(
+                        child: SpinKitPumpingHeart(
+                      color: Color(0XFFE90691),
+                      size: 70.0,
+                    ));
                   } else if (snapshot.connectionState ==
                       ConnectionState.waiting) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
+                    return Center(
+                        child: SpinKitPumpingHeart(
+                      color: Color(0XFFE90691),
+                      size: 70.0,
+                    ));
                   }
                   return HomeCard(
                     snapshot: snapshot,
@@ -384,7 +397,6 @@ class _HomeCardState extends State<HomeCard> {
 
   @override
   Widget build(BuildContext context) {
-    
     return Consumer6<AuthProvider, LikeProvider, QuestionProvider,
             ProfileProvider, BlockUser, ChatProvider>(
         builder: (context, authProvider, likeProvider, QuestionProvider,
@@ -440,6 +452,8 @@ class _HomeCardState extends State<HomeCard> {
                         print("===>down");
                         showDialog(
                           context: context,
+                          //  key: alertDialogKey,
+
                           builder: (ctx) => AlertDialog(
                             insetPadding: EdgeInsets.zero,
                             contentPadding: EdgeInsets.zero,
@@ -478,6 +492,13 @@ class _HomeCardState extends State<HomeCard> {
                             }),
                             actions: [
                               TextButton(
+                                onPressed: () {
+                                  Navigator.of(ctx).pop();
+                                },
+                                child: Text("Cancel"),
+                              ),
+                              Spacer(),
+                              TextButton(
                                   onPressed: () {
                                     chatProvider.sentSMS(
                                         context,
@@ -485,6 +506,12 @@ class _HomeCardState extends State<HomeCard> {
                                         authProvider.loginModel!.userData[0].id,
                                         widget.snapshot.data![index]["id"],
                                         smsCTRL.text);
+                                    PersistentNavBarNavigator.pushNewScreen(
+                                        context,
+                                        screen: ChatScreen());
+                                    Navigator.of(ctx).pop();
+                                    SuccessFlushbar(context, "",
+                                        "Message Sent"); // Close the AlertDialog
                                   },
                                   child: Text("Sent"))
                             ],

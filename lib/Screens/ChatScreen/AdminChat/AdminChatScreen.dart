@@ -93,7 +93,9 @@ class _AdminChatScreenState extends State<AdminChatScreen> {
           press: () {},
           filePress: () {
             _fileButton(context);
-          },
+          }, voicemessagecallback: (String x) { 
+
+           },
         ),
       ),
     );

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 import 'package:teen_jungle/Constant.dart';
 import 'package:teen_jungle/Widgets/TextWidget.dart';
@@ -21,9 +22,18 @@ class MessageChatScreen extends StatefulWidget {
 
 class _MessageChatScreenState extends State<MessageChatScreen> {
   TextEditingController message = TextEditingController();
+  var otheruserid = ""; // Create a variable outside the ListView.builder scope
+  late GlobalKey<RefreshIndicatorState> _refreshKey =
+      GlobalKey<RefreshIndicatorState>();
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
+      key: _refreshKey,
       child: Consumer2<AuthProvider, ChatProvider>(
           builder: (context, authProvider, chatProvider, child) {
         return Scaffold(
@@ -76,17 +86,20 @@ class _MessageChatScreenState extends State<MessageChatScreen> {
                 if (snapshot.hasError) {
                   return Text("${snapshot.error}");
                 }
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(
+                      child: SpinKitPumpingHeart(
+                    color: Color(0XFF24ABE3),
+                    size: 70.0,
+                  ));
+                }
                 if (snapshot.data == null) {
                   return const Padding(
                     padding: EdgeInsets.only(top: 48.0),
                     child: Center(child: Text("No chat")),
                   );
                 }
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
+
                 if (snapshot.data != null) {
                   return SingleChildScrollView(
                     child: Padding(
@@ -97,40 +110,78 @@ class _MessageChatScreenState extends State<MessageChatScreen> {
                           physics: const NeverScrollableScrollPhysics(),
                           itemBuilder: (BuildContext ctx, index) {
                             var item = snapshot.data![index];
+                            var item2 = snapshot
+                                .data![0]; // Select the first item in the list
+
+                            otheruserid = item2["id"].toString();
+                            print(snapshot.data.toString());
+                            print("Current user id is " +
+                                authProvider.loginModel!.userData[0].id
+                                    .toString() +
+                                "other use id is " +
+                                otheruserid);
                             return
                                 // Text(
                                 //     "${authProvider.loginModel!.userData[0].name}===>${ item["user_id"]}");
                                 authProvider.loginModel!.userData[0].id
                                             .toString() ==
-                                        item["user_id"].toString()
-                                    ? _leftChat(item["text"], item["time"],
-                                        item["image"], item["video"])
-                                    : _RightChat(context,item["text"], item["time"],
-                                        item["image"], item["video"]);
+                                        item["id"].toString()
+                                    ? _leftChat(
+                                        context,
+                                        item["text"],
+                                        Colors.black,
+                                        item["time"],
+                                        item["image"],
+                                        item["video"])
+                                    : _RightChat(
+                                        context,
+                                        Colors.white,
+                                        item["text"],
+                                        item["time"],
+                                        item["image"],
+                                        item["video"]);
                           }),
                     ),
                   );
                 }
                 return const Center(
-                  child: CircularProgressIndicator(),
-                );
+                    child: SpinKitPumpingHeart(
+                  color: Color(0XFF24ABE3),
+                  size: 70.0,
+                ));
               },
             ),
           ),
           bottomSheet: ChatInputField(
             message: message,
-            press: () {
-              chatProvider.sentSMS(
-                  context,
-                  authProvider.loginModel!.token,
-                  authProvider.loginModel!.userData[0].id,
-                  widget.otherUserData["user_id"],
-                  message.text);
+            press: () async {
+              await chatProvider
+                  .sentSMS(
+                      context,
+                      authProvider.loginModel!.token,
+                      authProvider.loginModel!.userData[0].id,
+                      widget.otherUserData["user_id"],
+                      message.text)
+                  .then((_) {
+                _refreshKey.currentState?.setState(() {});
+              });
+              ;
+              setState(() {
+                _refreshKey = GlobalKey<RefreshIndicatorState>();
+              });
               message.clear();
             },
             filePress: () {
               _fileButton(
                   context, authProvider, chatProvider, widget.otherUserData);
+            },
+            voicemessagecallback: (String x) {
+              chatProvider.sendVoiceMessage(
+                  context,
+                  authProvider.loginModel!.token,
+                  authProvider.loginModel!.userData[0].id,
+                  otheruserid,
+                  x);
             },
           ),
         );
@@ -139,7 +190,33 @@ class _MessageChatScreenState extends State<MessageChatScreen> {
   }
 }
 
-Widget _RightChat(context ,sms, time, image, video) {
+Widget _buildChatContent(BuildContext context, color, sms, image, video) {
+  if (sms != null) {
+    return TextWidget(
+      title: sms,
+      size: 12,
+      maxline: 3,
+      fontWeight: FontWeight.w400,
+      color: color,
+    );
+  } else if (image != null) {
+    return Image.network(image);
+  } else if (video != null) {
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => VideoApp(url: video)),
+        );
+      },
+      child: Text(video),
+    );
+  } else {
+    return Container();
+  }
+}
+
+Widget _RightChat(context, sms, color, time, image, video) {
   return Padding(
     padding: const EdgeInsets.all(8.0),
     child: Align(
@@ -157,29 +234,13 @@ Widget _RightChat(context ,sms, time, image, video) {
                   topRight: Radius.circular(10),
                   bottomLeft: Radius.circular(10),
                 )),
-            child: sms != null
-                ? TextWidget(
-                    title: sms,
-                    size: 12,
-                    maxline: 3,
-                    fontWeight: FontWeight.w400,
-                    color: Colors.white,
-                  )
-                : image != null
-                    ? Image.network(image)
-                    : InkWell(
-                        onTap: () {  Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (_) =>  VideoApp(url: video,)));},
-                        child: Text(video),
-                      ),
+            child: _buildChatContent(context, sms, color, image, video),
           ),
           const SizedBox(
             height: 10,
           ),
           TextWidget(
-              title: "Sent at $time",
+              title: "Received $time",
               size: 10,
               fontWeight: FontWeight.w400,
               color: greyColor)
@@ -189,7 +250,7 @@ Widget _RightChat(context ,sms, time, image, video) {
   );
 }
 
-Widget _leftChat(sms, time, image, video) {
+Widget _leftChat(context, sms, color, time, image, video) {
   return Padding(
     padding: const EdgeInsets.all(8.0),
     child: Align(
@@ -207,21 +268,19 @@ Widget _leftChat(sms, time, image, video) {
                   topRight: Radius.circular(10),
                   bottomRight: Radius.circular(10),
                 )),
-            child: TextWidget(
-              title: sms,
-              size: 12,
-              maxline: 3,
-              fontWeight: FontWeight.w400,
-            ),
+            child: _buildChatContent(context, color, sms, image, video),
           ),
           SizedBox(
             height: 10,
           ),
           TextWidget(
-              title: "Sent at $time",
+              title: "Sent $time",
               size: 10,
               fontWeight: FontWeight.w400,
-              color: greyColor)
+              color: Colors.black),
+          SizedBox(
+            height: 10,
+          )
         ],
       ),
     ),
@@ -240,22 +299,31 @@ _actionButton(BuildContext context) {
             title: "Select Option",
             size: 30,
           ),
-          SizedBox(
+          const Divider(
+            color: Colors.black,
+          ),
+          const SizedBox(
             height: 20,
           ),
           TextWidget(
             title: "Un Match User",
-            size: 30,
+            size: 25,
             fontWeight: FontWeight.w400,
+          ),
+          const Divider(
+            color: Colors.black,
           ),
           TextWidget(
             title: "No Message",
-            size: 30,
+            size: 25,
             fontWeight: FontWeight.w400,
           ),
+          const Divider(
+            color: Colors.black,
+          ),
           TextWidget(
-            title: "Cancle",
-            size: 30,
+            title: "Cancel",
+            size: 25,
             fontWeight: FontWeight.w400,
           )
         ],
@@ -297,6 +365,9 @@ _fileButton(BuildContext context, authProvider, chatProvider, otherUserData) {
           const SizedBox(
             height: 10,
           ),
+          const Divider(
+            color: Colors.black,
+          ),
           InkWell(
             onTap: () {
               // print(
@@ -317,6 +388,9 @@ _fileButton(BuildContext context, authProvider, chatProvider, otherUserData) {
           const SizedBox(
             height: 10,
           ),
+          const Divider(
+            color: Colors.black,
+          ),
           InkWell(
             onTap: () {
               chatProvider.sentImage(
@@ -327,7 +401,7 @@ _fileButton(BuildContext context, authProvider, chatProvider, otherUserData) {
                   "Video");
             },
             child: TextWidget(
-              title: "Select Vedio",
+              title: "Select a Video",
               size: 20,
               fontWeight: FontWeight.w400,
             ),
@@ -335,8 +409,11 @@ _fileButton(BuildContext context, authProvider, chatProvider, otherUserData) {
           const SizedBox(
             height: 10,
           ),
+          const Divider(
+            color: Colors.black,
+          ),
           TextWidget(
-            title: "Cancle",
+            title: "Cancel",
             size: 20,
             fontWeight: FontWeight.w400,
           )

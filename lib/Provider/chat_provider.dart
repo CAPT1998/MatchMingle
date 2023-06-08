@@ -81,6 +81,35 @@ class ChatProvider with ChangeNotifier {
     }
   }
 
+  sendVoiceMessage(context, token, userId, reciverId, path) async {
+    print('====>$userId====>$reciverId====>$path====>$token');
+
+    final uri = Uri.parse(path);
+    print(
+      userId.toString(),
+    );
+    print(
+      reciverId.toString(),
+    );
+    print(uri.path);
+    File file = File(uri.path);
+    try {
+      var url = Uri.parse('${AppUrl.baseUrl}/chat/create/audio');
+      var response = await http.post(url, headers: {
+        'Authorization': 'Bearer $token',
+      }, body: {
+        'user_id': userId.toString(),
+        'other_user_id': reciverId.toString(),
+        'audio': uri.path
+      });
+      final Map<String, dynamic> data = json.decode(response.body);
+      print('data====>${data['message']}');
+    } catch (e) {
+      print("error=====>$e");
+      ErrorFlushbar(context, "Block User", e.toString());
+    }
+  }
+
   Future getChatData(
     token,
     userId,
@@ -101,6 +130,7 @@ class ChatProvider with ChangeNotifier {
   }
 
   Future<List<dynamic>> getMessageData(token, userId, theardID) async {
+    print(userId.toString() + " " + theardID.toString());
     var url = Uri.parse('${AppUrl.baseUrl}/chat/get/$theardID');
     var response = await http.get(
       url,
