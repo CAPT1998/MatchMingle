@@ -26,6 +26,8 @@ class _SplashScreenState extends State<SplashScreen> {
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
     // authProvider.
     super.initState();
+   //  checkLoginStatus();  
+
     mupdate(authProvider);
   }
 
@@ -34,7 +36,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
     // email = prefs.getString("email") ?? '';
     // password = prefs.getString("password") ?? '';
-    await value.mLoginAuth(
+    await value.mLoginAuth(context,
         email: email.toString(), password: password.toString());
 
     // ignore: unnecessary_null_comparison
@@ -50,6 +52,20 @@ class _SplashScreenState extends State<SplashScreen> {
       });
     }
   }
+
+ checkLoginStatus() async {
+  final SharedPreferences loginPrefs = await SharedPreferences.getInstance();
+  var isLoggedIn = loginPrefs.getString("isloggedin");
+  if (isLoggedIn == "true") {
+    Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (_) =>
+                                        const BottomNavigationScreen()));
+  } else {
+    return;
+  }
+}
 
   @override
   Widget build(BuildContext context) {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 import 'package:teen_jungle/Constant.dart';
 import 'package:teen_jungle/Screens/Setting/AccountScreen.dart';
@@ -29,7 +30,7 @@ class _BlockUserScreenState extends State<BlockUserScreen> {
             backgroundColor: Colors.grey[50],
             elevation: 0,
             title: TextWidget(
-              title: "Block Users",
+              title: "Blocked Users",
               size: 24,
               fontWeight: FontWeight.w400,
             ),
@@ -48,15 +49,17 @@ class _BlockUserScreenState extends State<BlockUserScreen> {
                 future: blockUser.getBlockData(authProvider.loginModel!.token,
                     authProvider.loginModel!.userData[0].id),
                 builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(
+                        child: SpinKitPumpingHeart(
+                      color: Color.fromARGB(255, 243, 158, 211),
+                      size: 70.0,
+                    ));
+                  }
                   if (snapshot.hasError) {
                     return Text("${snapshot.error}");
                   } else if (snapshot.data!.isEmpty) {
                     return const Center(child: Text("No Blocked User"));
-                  } else if (snapshot.connectionState ==
-                      ConnectionState.waiting) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
                   }
                   return ListView.builder(
                     shrinkWrap: true,
@@ -119,8 +122,17 @@ class _BlockUserScreenState extends State<BlockUserScreen> {
                           },
                           leading: CircleAvatar(
                             radius: 30,
-                            backgroundImage:
-                                NetworkImage(item["profile_pic"].toString()),
+                            backgroundColor: Colors.transparent,
+                            child: Image.network(
+                              item["profile_pic"].toString(),
+                              fit: BoxFit.cover,
+                              errorBuilder: (context, error, stackTrace) {
+                                return Image.network(
+                                  'https://icon-library.com/images/block-user-icon/block-user-icon-16.jpg',
+                                  fit: BoxFit.cover,
+                                );
+                              },
+                            ),
                           ),
                           title: TextWidget(
                             title: item["name"].toString(),

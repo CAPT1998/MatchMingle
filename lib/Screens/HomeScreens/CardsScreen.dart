@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 import 'package:teen_jungle/Constant.dart';
 import 'package:teen_jungle/Widgets/TextWidget.dart';
@@ -49,19 +50,22 @@ class _CardsScreenState extends State<CardsScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Opacity(
-                          opacity: 0,
-                          child: Image.asset(
-                            "assets/img/logo.png",
-                            height: 60,
-                          )),
+                      //  Opacity(
+                      //       opacity: 0,
+                      //       child: Image.asset(
+                      //         "assets/img/logo.png",
+                      //          height: 60,
+                      //        )),
+                      const Spacer(),
                       Image.asset(
                         "assets/img/logo.png",
                         height: 60,
                       ),
-                      IconButton(
-                          onPressed: () {},
-                          icon: const Icon(Icons.compare_arrows_rounded))
+                      const Spacer(),
+
+                      //     IconButton(
+                      //       onPressed: () {},
+                      //       icon: const Icon(Icons.compare_arrows_rounded))
                     ],
                   ),
                   const SizedBox(
@@ -74,18 +78,23 @@ class _CardsScreenState extends State<CardsScreen> {
                             authProvider.loginModel!.token,
                             authProvider.loginModel!.userData[0].id),
                         builder: (context, snapshot) {
-                          if (snapshot.hasError) {
-                            return Text("Error${snapshot.error}");
-                          }
-                          if (snapshot.data!.isNotEmpty) {
-                            return const Text("No User");
-                          }
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
                             return const Center(
-                              child: CircularProgressIndicator(),
-                            );
+                                child: SpinKitPumpingHeart(
+                              color: Color(0XFFE90691),
+                              size: 70.0,
+                            ));
                           }
+
+                          if (snapshot.hasError) {
+                            return Text("Error${snapshot.error}");
+                          }
+
+                          if (snapshot.data!.isEmpty) {
+                            return const Text("No User");
+                          }
+
                           if (snapshot.data != null) {
                             return SingleChildScrollView(
                               child:
@@ -111,17 +120,19 @@ class _CardsScreenState extends State<CardsScreen> {
                             );
                           }
                           return const Center(
-                            child: CircularProgressIndicator(),
-                          );
+                              child: SpinKitPumpingHeart(
+                            color: Color(0XFFE90691),
+                            size: 70.0,
+                          ));
                         },
                       ),
-                      show
-                          ? Container(
-                              color: Colors.white,
-                              height: 600,
-                              width: 400,
-                            )
-                          : Center()
+                      //   show
+                      //       ? Container(
+                      //           color: Colors.white,
+                      //           height: 600,
+                      //           width: 400,
+                      //         )
+                      //       : Center()
                     ],
                   ),
                 ],

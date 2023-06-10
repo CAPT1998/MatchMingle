@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 import 'package:teen_jungle/Widgets/TextWidget.dart';
 
@@ -16,6 +17,10 @@ class LikesScreen extends StatefulWidget {
 }
 
 class _LikesScreenState extends State<LikesScreen> {
+
+
+    bool _isLoading = false;
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -55,17 +60,21 @@ class _LikesScreenState extends State<LikesScreen> {
                         authProvider.loginModel!.token,
                         authProvider.loginModel!.userData[0].id),
                     builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(
+                            child: SpinKitPumpingHeart(
+                          color: Color.fromARGB(255, 243, 158, 211),
+                          size: 70.0,
+                        ));
+                      }
                       if (snapshot.hasError) {
                         return Text("${snapshot.error}");
                       }
-                      if (snapshot.data!.isNotEmpty) {
+
+                      if (snapshot.data!.isEmpty) {
                         return const Text("No User Liked");
                       }
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      }
+
                       return GridView.builder(
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),

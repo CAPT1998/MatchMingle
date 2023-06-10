@@ -62,19 +62,22 @@ class _FilterScreenState extends State<FilterScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Opacity(
-                          opacity: 0,
-                          child: Image.asset(
-                            "assets/img/logo.png",
-                            height: 60,
-                          )),
+                      ////      Opacity(
+                      //          opacity: 0,
+                      //        child: Image.asset(
+                      //         "assets/img/logo.png",
+                      //          height: 60,
+                      //        )),
+                      Spacer(),
+
                       Image.asset(
                         "assets/img/logo.png",
                         height: 60,
                       ),
-                      IconButton(
-                          onPressed: () {},
-                          icon: const Icon(Icons.compare_arrows_rounded))
+                      Spacer(),
+                      // IconButton(
+                      //     onPressed: () {},
+                      //    icon: const Icon(Icons.compare_arrows_rounded))
                     ],
                   ),
                   const SizedBox(
@@ -91,6 +94,14 @@ class _FilterScreenState extends State<FilterScreen> {
                             widget.age),
                         builder: (context, snapshot) {
                           print('snapshot data is' + snapshot.data.toString());
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return const Center(
+                                child: SpinKitPumpingHeart(
+                              color: Color(0XFFE90691),
+                              size: 70.0,
+                            ));
+                          }
                           if (snapshot.hasError) {
                             // return Text("${snapshot.error}");
                             return const Center(
@@ -100,13 +111,8 @@ class _FilterScreenState extends State<FilterScreen> {
                             ));
                           }
 
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return const Center(
-                                child: SpinKitPumpingHeart(
-                              color: Color(0XFFE90691),
-                              size: 70.0,
-                            ));
+                          if (snapshot.data!.isEmpty) {
+                            return Center(child: const Text("No Users"));
                           }
 
                           if (snapshot.data != null) {

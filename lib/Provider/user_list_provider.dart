@@ -12,6 +12,7 @@ class UserListProvider with ChangeNotifier {
     );
     if (response.statusCode == 200) {
       final parsed = jsonDecode(response.body);
+      
       return parsed['data'];
     } else {
       throw Exception('Failed to load data');
@@ -38,6 +39,7 @@ class UserListProvider with ChangeNotifier {
     );
     if (response.statusCode == 200) {
       final parsed = jsonDecode(response.body);
+      print(response.body.toString());
       return parsed['data'];
     } else {
       throw Exception('Failed to load data');

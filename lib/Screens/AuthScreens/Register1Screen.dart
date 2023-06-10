@@ -138,7 +138,7 @@ class _Register1ScreenState extends State<Register1Screen> {
                         buttonController.reset();
                       },
                       child: TextWidget(
-                        title: "Contiuneu",
+                        title: "Continue",
                         size: 14,
                         color: Colors.white,
                       ),

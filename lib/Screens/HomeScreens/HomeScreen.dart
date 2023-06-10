@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -10,6 +12,7 @@ import '../../Provider/auth_provider.dart';
 import '../../Provider/block_user_provider.dart';
 import '../../Provider/chat_provider.dart';
 import '../../Provider/like_provider.dart';
+import '../../Provider/limituseraccess_provider.dart';
 import '../../Provider/profile_provider.dart';
 import '../../Provider/question_provider.dart';
 import '../../Provider/user_list_provider.dart';
@@ -171,7 +174,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                             ),
                             Slider(
-                              activeColor: Color(0xFFE00088),
+                              activeColor: const Color(0xFFE00088),
                               inactiveColor: Colors.red[300],
                               value: distence.toDouble(),
                               onChanged: (value) {
@@ -398,9 +401,9 @@ class _HomeCardState extends State<HomeCard> {
   @override
   Widget build(BuildContext context) {
     return Consumer6<AuthProvider, LikeProvider, QuestionProvider,
-            ProfileProvider, BlockUser, ChatProvider>(
+            ProfileProvider, LimitUserAccessProvider, ChatProvider>(
         builder: (context, authProvider, likeProvider, QuestionProvider,
-            profileProvider, blockUser, chatProvider, child) {
+            profileProvider, LimitUserAccessProvider, chatProvider, child) {
       return Stack(
         children: [
           // const Center(child: CircularProgressIndicator()),
@@ -420,11 +423,27 @@ class _HomeCardState extends State<HomeCard> {
                     itemCount: widget.snapshot.data!.length,
                     controller: _controller,
                     stackClipBehaviour: Clip.none,
-                    onSwipeCompleted: (index, direction) {
+                    onSwipeCompleted: (index, direction) async {
                       print('===========$index, $direction');
                       if (direction == SwipeDirection.right) {
                         // provider.addfriend(index, true, false);
-                        // provider.limituseraccess();
+                        final userPackage =
+                            LimitUserAccessProvider.checkFreePackage(
+                          context,
+                          authProvider.loginModel!.token,
+                          authProvider.loginModel!.userData[0].id,
+                        );
+                        final connections =
+                            await LimitUserAccessProvider.getconnectionscount(
+                                authProvider.loginModel!.token,
+                                authProvider.loginModel!.userData[0].id);
+                        print(connections.toString());
+                        if (connections == "5" && userPackage == 0) {
+                          SuccessFlushbar(
+                              context, "Limit Reached", "Upgrade Your plan");
+                          return;
+                        }
+                        print("not gonna call liked user provider");
                         likeProvider.LikeUser(
                             context,
                             authProvider.loginModel!.token,

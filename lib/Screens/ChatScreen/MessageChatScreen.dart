@@ -8,6 +8,7 @@ import '../../Provider/auth_provider.dart';
 import '../../Provider/chat_provider.dart';
 import '../../Widgets/ChatInputWidget.dart';
 import 'videoPlayer.dart';
+import 'package:voice_message_package/voice_message_package.dart';
 
 class MessageChatScreen extends StatefulWidget {
   final Map otherUserData;
@@ -25,9 +26,17 @@ class _MessageChatScreenState extends State<MessageChatScreen> {
   var otheruserid = ""; // Create a variable outside the ListView.builder scope
   late GlobalKey<RefreshIndicatorState> _refreshKey =
       GlobalKey<RefreshIndicatorState>();
+  ScrollController _scrollController = ScrollController();
+
   @override
   void initState() {
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
   }
 
   @override
@@ -106,6 +115,8 @@ class _MessageChatScreenState extends State<MessageChatScreen> {
                       padding: const EdgeInsets.only(bottom: 50.0),
                       child: ListView.builder(
                           shrinkWrap: true,
+                          //reverse: true, // Scroll to the bottom
+                          controller: _scrollController, // Add controller
                           itemCount: snapshot.data!.length,
                           physics: const NeverScrollableScrollPhysics(),
                           itemBuilder: (BuildContext ctx, index) {
@@ -132,14 +143,16 @@ class _MessageChatScreenState extends State<MessageChatScreen> {
                                         Colors.black,
                                         item["time"],
                                         item["image"],
-                                        item["video"])
+                                        item["video"],
+                                        item["audio"])
                                     : _RightChat(
                                         context,
                                         Colors.white,
                                         item["text"],
                                         item["time"],
                                         item["image"],
-                                        item["video"]);
+                                        item["video"],
+                                        item["audio"]);
                           }),
                     ),
                   );
@@ -190,7 +203,8 @@ class _MessageChatScreenState extends State<MessageChatScreen> {
   }
 }
 
-Widget _buildChatContent(BuildContext context, color, sms, image, video) {
+Widget _buildChatContent(
+    BuildContext context, color, sms, image, video, audio) {
   if (sms != null) {
     return TextWidget(
       title: sms,
@@ -201,6 +215,13 @@ Widget _buildChatContent(BuildContext context, color, sms, image, video) {
     );
   } else if (image != null) {
     return Image.network(image);
+  } else if (audio != null) {
+    return VoiceMessage(
+      audioSrc: audio,
+      played: false, // To show played badge or not.
+      me: true, // Set message side.
+      onPlay: () {}, // Do something when voice played.
+    );
   } else if (video != null) {
     return InkWell(
       onTap: () {
@@ -216,7 +237,7 @@ Widget _buildChatContent(BuildContext context, color, sms, image, video) {
   }
 }
 
-Widget _RightChat(context, sms, color, time, image, video) {
+Widget _RightChat(context, sms, color, time, image, video, audio) {
   return Padding(
     padding: const EdgeInsets.all(8.0),
     child: Align(
@@ -234,7 +255,7 @@ Widget _RightChat(context, sms, color, time, image, video) {
                   topRight: Radius.circular(10),
                   bottomLeft: Radius.circular(10),
                 )),
-            child: _buildChatContent(context, sms, color, image, video),
+            child: _buildChatContent(context, sms, color, image, video, audio),
           ),
           const SizedBox(
             height: 10,
@@ -250,7 +271,7 @@ Widget _RightChat(context, sms, color, time, image, video) {
   );
 }
 
-Widget _leftChat(context, sms, color, time, image, video) {
+Widget _leftChat(context, sms, color, time, image, video, audio) {
   return Padding(
     padding: const EdgeInsets.all(8.0),
     child: Align(
@@ -268,7 +289,7 @@ Widget _leftChat(context, sms, color, time, image, video) {
                   topRight: Radius.circular(10),
                   bottomRight: Radius.circular(10),
                 )),
-            child: _buildChatContent(context, color, sms, image, video),
+            child: _buildChatContent(context, color, sms, image, video, audio),
           ),
           SizedBox(
             height: 10,

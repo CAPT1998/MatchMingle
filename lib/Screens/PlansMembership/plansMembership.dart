@@ -1,7 +1,13 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:teen_jungle/Constant.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
+import 'package:dio/dio.dart';
 
 import '../../Widgets/TextWidget.dart';
+import '../Payment.dart/Payment.dart';
 
 class plansMembership extends StatefulWidget {
   const plansMembership({super.key});
@@ -11,6 +17,8 @@ class plansMembership extends StatefulWidget {
 }
 
 class _plansMembershipState extends State<plansMembership> {
+  Map<String, dynamic>? paymentIntent;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,7 +56,7 @@ class _plansMembershipState extends State<plansMembership> {
                 price: '0',
                 contact: '5',
                 videocall: '0',
-                photos: '5',
+                photos: '2',
                 bio: 'Short Bio',
                 verified: 'Basic Verified',
                 profile: 'Profile',
@@ -115,6 +123,144 @@ class expandCard extends StatefulWidget {
 
 class _expandCardState extends State<expandCard> {
   var show = false;
+  Map<String, dynamic>? paymentIntent;
+
+  @override
+  void initState() {
+    super.initState();
+    print(widget.price);
+  }
+
+  Future<void> makePayment() async {
+    //tring price = rate.replaceAll(RegExp(r'[^0-9]'), '');
+    String formattedPrice = widget.price.replaceAll(',', '.');
+    double priceValue = double.parse(formattedPrice);
+
+    try {
+      paymentIntent = await createPaymentIntent(priceValue.toString(), 'EUR');
+      log("paymentIntent:::::::::${paymentIntent}");
+      //STEP 2: Initialize Payment Sheet
+      await Stripe.instance
+          .initPaymentSheet(
+              paymentSheetParameters: SetupPaymentSheetParameters(
+            googlePay:
+                PaymentSheetGooglePay(merchantCountryCode: 'US', testEnv: true),
+            // customFlow: true,
+            //    applePay: PaymentSheetApplePay(
+            //        merchantCountryCode: 'US',
+            //   ),
+            merchantDisplayName: '19 Jungle user subscription',
+            // customerId: 'cus_NjsJj78KUlQoN6',
+            paymentIntentClientSecret: paymentIntent!['client_secret'],
+          ))
+          .then((value) {});
+
+      //STEP 3: Display Payment sheet
+      displayPaymentSheet();
+    } catch (err) {
+      throw Exception(err);
+    }
+  }
+
+  displayPaymentSheet() async {
+    try {
+      await Stripe.instance.presentPaymentSheet().then((value) {
+        showDialog(
+            context: context,
+            builder: (_) => const AlertDialog(
+                  content: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        Icons.check_circle,
+                        color: Colors.green,
+                        size: 100.0,
+                      ),
+                      SizedBox(height: 10.0),
+                      Text("Payment Successful!"),
+                    ],
+                  ),
+                ));
+        // updatePaymentAndExpiry(widget.userid, id);
+        Future.delayed(Duration(seconds: 2));
+        Navigator.of(context).pop();
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content:
+                Text('Enjoy unlimited Streaming and Downloading without ads'),
+            duration: Duration(seconds: 2),
+          ),
+        );
+        // paymentIntent = {};
+      }).onError((error, stackTrace) {
+        throw Exception(error);
+      });
+    } on StripeException catch (e) {
+      print('Error is:---> $e');
+      const AlertDialog(
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
+              children: const [
+                Icon(
+                  Icons.cancel,
+                  color: Colors.red,
+                ),
+                Text("Payment Failed"),
+              ],
+            ),
+          ],
+        ),
+      );
+    } catch (e) {
+      print('DErrrrrr$e');
+    }
+  }
+
+  int calculateAmount(String amount) {
+    final calculatedAmount = (double.parse(amount) * 100).toInt();
+    print("calculated amount is " + calculatedAmount.toString());
+    return calculatedAmount;
+  }
+
+  createPaymentIntent(String amount, String currency) async {
+    print("In Price");
+    final dio = Dio();
+
+    try {
+      print("In Try");
+
+      var response = await dio.post("https://api.stripe.com/v1/payment_intents",
+          // url("https://api.stripe.com/v1/prices"),
+          // queryParameters: {},
+          options: Options(headers: {
+            'Authorization':
+                'Bearer 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',
+            'Content-Type': 'application/x-www-form-urlencoded',
+          }),
+          queryParameters: {
+            'amount': calculateAmount(amount),
+            'currency': currency,
+            //'customer': 'cus_NjsJj78KUlQoN6',
+            'payment_method_types[]': 'card',
+          });
+
+      if (response.statusCode == 200) {
+        print(response.data);
+
+        print("Ram::::::::::::Success");
+      } else {
+        print(response.data);
+      }
+      return response.data;
+    } catch (e) {
+      print("In Try");
+
+      print(e);
+      print("Ram::::::::::::False");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -201,7 +347,9 @@ class _expandCardState extends State<expandCard> {
                                           MainAxisAlignment.center,
                                       children: [
                                         ElevatedButton(
-                                            onPressed: () {},
+                                            onPressed: () {
+                                              makePayment();
+                                            },
                                             child: const Padding(
                                               padding: EdgeInsets.only(
                                                   left: 38.0,

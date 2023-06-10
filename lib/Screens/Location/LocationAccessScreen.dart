@@ -5,6 +5,7 @@ import 'package:teen_jungle/Constant.dart';
 import 'package:teen_jungle/Widgets/TextWidget.dart';
 import '../../Provider/auth_provider.dart';
 import '../../Provider/get_location_provider.dart';
+import '../../Widgets/FlushbarWidget.dart';
 import '../AuthScreens/UploadPhotoScreen.dart';
 
 class LocationAccessScreen extends StatefulWidget {
@@ -34,8 +35,8 @@ class _LocationAccessScreenState extends State<LocationAccessScreen> {
           elevation: 0,
         ),
         body: SingleChildScrollView(
-          child: Consumer2<AuthProvider, GeoLocation>(
-              builder: (context, authProvider, geoLocation, child) {
+          child: Consumer2<AuthProvider, GeoLocation>(builder:
+              (BuildContext context, authProvider, geoLocation, child) {
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 14),
               child: Column(
@@ -81,17 +82,17 @@ class _LocationAccessScreenState extends State<LocationAccessScreen> {
                           authProvider.loginModel!.userData[0].latitude,
                           authProvider.loginModel!.userData[0].longitude,
                           context);
-
+                      // print("will push");
+                      //  Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //        builder: (context) => UploadPhotoScreen()));
                       print(
                         "Lat ${authProvider.loginModel!.userData[0].latitude}",
                       );
                       print(
                         authProvider.loginModel!.userData[0].location,
                       );
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => UploadPhotoScreen()));
 
                       buttonController.reset();
                     },

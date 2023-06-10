@@ -23,7 +23,7 @@ class AuthProvider with ChangeNotifier {
   LoginModel? loginModel;
   String? loginMessage;
   Map<String, dynamic> userData = {};
-  mLoginAuth({required String email, required String password}) async {
+  mLoginAuth(context, {required String email, required String password}) async {
     LoginModel? loginModel;
     String? loginMessage;
     try {
@@ -37,10 +37,21 @@ class AuthProvider with ChangeNotifier {
       print("${response.statusCode} + see");
       if (response.statusCode == 200) {
         loginModel = loginModelFromJson(value);
-        loginMessage = "success";
-
-        this.loginMessage = loginMessage;
         this.loginModel = loginModel;
+
+        if (loginModel!.userData[0].latitude == null &&
+            loginModel!.userData[0].longitude == null) {
+          loginMessage = "incomplete";
+        this.loginMessage = loginMessage;
+
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const RegisterGenderScreen()));
+                  return;
+        }
+        loginMessage = "success";
+        this.loginMessage = loginMessage;
         notifyListeners();
       } else {
         loginMessage = "unsuccess";

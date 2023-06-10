@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+import '../Screens/AuthScreens/UploadPhotoScreen.dart';
 import '../Widgets/FlushbarWidget.dart';
 import '../Widgets/api_urls.dart';
 
@@ -71,7 +72,7 @@ class GeoLocation with ChangeNotifier {
 //     }
 
   var location;
-  determinePosition(token, userId, context, latitude, longitude) async {
+  determinePosition(token, userId, latitude, longitude, context) async {
     bool serviceEnabled;
     LocationPermission permission = await Geolocator.checkPermission();
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
@@ -93,8 +94,10 @@ class GeoLocation with ChangeNotifier {
 
       if (permission == LocationPermission.denied ||
           permission == LocationPermission.deniedForever) {
-        // User declined to grant location permission
-        throw Exception('Location permissions are denied.');
+        return ErrorFlushbar(
+            context, "Attention!", "Location Access is Required");
+
+        //throw Exception('Location permissions are denied.');
       }
     }
 
@@ -120,6 +123,9 @@ class GeoLocation with ChangeNotifier {
         SuccessFlushbar(context, "Location", data["message"]);
         print(response.body);
         notifyListeners();
+        print("API call made");
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => UploadPhotoScreen()));
       } else {
         ErrorFlushbar(context, "Location", data["message"]);
         notifyListeners();

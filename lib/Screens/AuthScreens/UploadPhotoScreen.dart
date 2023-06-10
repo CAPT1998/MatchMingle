@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:teen_jungle/Constant.dart';
 
 import 'package:teen_jungle/Screens/BottomNavigationBar/PersistanceNavigationBar.dart';
@@ -116,7 +117,9 @@ class _UploadPhotoScreenState extends State<UploadPhotoScreen> {
                           builder: (context) => const BottomNavigationScreen(),
                         ),
                       );
-
+                      final SharedPreferences logininprefs =
+                          await SharedPreferences.getInstance();
+                      logininprefs.setString("isloggedin", "true");
                       buttonController.reset();
                     },
                     child: TextWidget(

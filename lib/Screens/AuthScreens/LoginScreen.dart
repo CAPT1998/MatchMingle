@@ -28,8 +28,10 @@ class _LoginScreenState extends State<LoginScreen> {
   // var _password = "";
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
+
   getauth() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
+
     setState(() {
       final String? newemail = prefs.getString('email');
       final String? newpassword = prefs.getString('password');
@@ -46,7 +48,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   bool visiblePassword = true;
-  bool rememberMe = false;
+  bool rememberMe = true;
   RoundedLoadingButtonController buttonController =
       RoundedLoadingButtonController();
 
@@ -157,7 +159,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       controller: buttonController,
                       onPressed: () async {
                         if (formkey.currentState!.validate()) {
-                          await value.mLoginAuth(
+                          await value.mLoginAuth(context,
                               email: email.text, password: password.text);
                           if (value.loginMessage == "success") {
                             buttonController.success();
@@ -177,10 +179,15 @@ class _LoginScreenState extends State<LoginScreen> {
                             Timer(const Duration(seconds: 1), () {
                               buttonController.reset();
                             });
+                            final SharedPreferences logininprefs =
+                                await SharedPreferences.getInstance();
+                            logininprefs.setString("isloggedin", "true");
+                          } else if (value.loginMessage == "incomplete") {
+                            ErrorFlushbar(context, "Attention!",
+                                "Provide required information");
                           } else {
                             buttonController.error();
-                            ErrorFlushbar(context, "Login",
-                                "Please check your credential and try again....");
+
                             Timer(Duration(seconds: 1), () {
                               buttonController.reset();
                             });
@@ -240,6 +247,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             await value.facebookLogin(context);
                             if (value.loginMessage == "success") {
                               buttonController.success();
+                              final SharedPreferences logininprefs =
+                                  await SharedPreferences.getInstance();
+                              logininprefs.setString("isloggedin", "true");
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -274,6 +284,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             if (value.loginMessage ==
                                 "User Login Successfully") {
                               buttonController.success();
+                              final SharedPreferences logininprefs =
+                                  await SharedPreferences.getInstance();
+                              logininprefs.setString("isloggedin", "true");
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(

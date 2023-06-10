@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:provider/provider.dart';
 import 'package:teen_jungle/Screens/SplashScreen/SplashScreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -9,12 +10,15 @@ import 'Provider/block_user_provider.dart';
 import 'Provider/chat_provider.dart';
 import 'Provider/get_location_provider.dart';
 import 'Provider/like_provider.dart';
+import 'Provider/limituseraccess_provider.dart';
 import 'Provider/profile_provider.dart';
 import 'Provider/question_provider.dart';
 import 'Provider/social_account_provider.dart';
 import 'Provider/user_list_provider.dart';
 
 void main(List<String> args) {
+  Stripe.publishableKey =
+      'pk_live_51MQV5NAoD9qHUIwmLgvDMLF5eBZ4PWTO8iaF4ijTo9hxHKpdzze7Xb3hXWMman4pgkQAaxaPsqJyEsqL85Fys2gY00Vi7HxqAk';
   runApp(MyApp());
 }
 
@@ -37,6 +41,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<UserListProvider>(
             create: (context) => UserListProvider()),
         ChangeNotifierProvider<GeoLocation>(create: (context) => GeoLocation()),
+        ChangeNotifierProvider<LimitUserAccessProvider>(
+            create: (context) => LimitUserAccessProvider()),
         ChangeNotifierProvider<LikeProvider>(
             create: (context) => LikeProvider()),
         ChangeNotifierProvider<SocialAccountProvider>(

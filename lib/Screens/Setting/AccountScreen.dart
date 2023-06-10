@@ -9,6 +9,7 @@ import 'package:teen_jungle/Widgets/TextWidget.dart';
 
 import '../../Provider/auth_provider.dart';
 import '../../Provider/profile_provider.dart';
+import '../AuthScreens/LoginScreen.dart';
 
 class AccountScreen extends StatefulWidget {
   const AccountScreen({super.key});
@@ -55,9 +56,8 @@ class _AccountScreenState extends State<AccountScreen> {
                     children: [
                       CircleAvatar(
                         radius: 80,
-                       backgroundImage: NetworkImage("${authProvider
-                          .loginModel!.userData[0].profilePic}"
-                         ),
+                        backgroundImage: NetworkImage(
+                            "${authProvider.loginModel!.userData[0].profilePic}"),
                       ),
                       Positioned(
                         bottom: 0,
@@ -135,7 +135,7 @@ class _AccountScreenState extends State<AccountScreen> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => BottomNavigationScreen()));
+                              builder: (context) => const LoginScreen()));
                       buttonController.reset();
                     },
                     child: TextWidget(

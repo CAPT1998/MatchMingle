@@ -288,7 +288,7 @@ class _ExampleCardState extends State<ExampleCard> {
             SliverList(
               delegate: SliverChildListDelegate([
                 Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 100),
+                  padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 30),
                   child: Container(
                     color: Colors.white,
                     //margin: EdgeInsets.all(16),
@@ -653,7 +653,7 @@ class _ExampleCardState extends State<ExampleCard> {
                             ),
                           ],
                         ),
-                        SizedBox(height: 90),
+                        SizedBox(height: 50),
                         Align(
                           alignment: Alignment.bottomCenter,
                           child: Container(

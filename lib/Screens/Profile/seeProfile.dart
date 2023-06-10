@@ -38,10 +38,10 @@ seeProfile(context, _userData) {
                                   ? const DecorationImage(
                                       image: AssetImage(
                                           "assets/img/profilerectangle.png"),
-                                      fit: BoxFit.cover)
+                                      fit: BoxFit.scaleDown)
                                   : DecorationImage(
                                       image: NetworkImage(_userData.profilePic),
-                                      fit: BoxFit.cover),
+                                      fit: BoxFit.scaleDown),
                             ),
                           ),
                           SizedBox(height: 5),
