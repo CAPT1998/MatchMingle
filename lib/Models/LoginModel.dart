@@ -43,6 +43,7 @@ class UserDatum {
     required this.id,
     required this.name,
     required this.email,
+    required this.planid,
     // this.emailVerifiedAt,
     // this.emailVerificationCode,
     this.gender,
@@ -68,6 +69,7 @@ class UserDatum {
   // dynamic emailVerificationCode;
   dynamic gender;
   dynamic dob;
+  dynamic planid;
   dynamic location;
   dynamic profilePic;
   dynamic latitude;
@@ -89,6 +91,7 @@ class UserDatum {
         // emailVerificationCode: json["email_verification_code"],
         gender: json["gender"],
         dob: json["dob"],
+        planid: json["plan_id"],
         location: json["location"],
         profilePic: json["profile_pic"],
         latitude: json["latitude"],
@@ -114,6 +117,7 @@ class UserDatum {
         "location": location,
         "profile_pic": profilePic,
         "latitude": latitude,
+        "plan_id": planid,
         "longitude": longitude,
         // "google_id": google_id,
         // "facebook_id": facebook_id,

@@ -33,6 +33,27 @@ class LimitUserAccessProvider with ChangeNotifier {
     // ...
   }
 
+  Future<String?> getUserPlan(context, token, userId) async {
+    final url = Uri.parse('${AppUrl.baseUrl}/users/detail?id=$userId');
+    final headers = {"Authorization": "Bearer $token"};
+
+    final response = await http.get(url, headers: headers);
+    final jsonData = json.decode(response.body);
+    print(response.statusCode);
+    print("code");
+    if (response.statusCode == 200) {
+      // print(response.body);
+      final userData = jsonData['data'];
+      if (userData.isNotEmpty) {
+        final user = userData[0];
+        final planId = user['plan_id'];
+        return planId.toString();
+      }
+    }
+
+    return null;
+  }
+
   Future<String> getconnectionscount(token, userId) async {
     final response = await http.get(
       Uri.parse('${AppUrl.baseUrl}/users/allLikedUsers?user_id=$userId'),

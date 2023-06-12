@@ -6,6 +6,7 @@ import 'package:teen_jungle/Constant.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:dio/dio.dart';
 
+import '../../Widgets/FlushbarWidget.dart';
 import '../../Widgets/TextWidget.dart';
 import '../Payment.dart/Payment.dart';
 
@@ -165,32 +166,13 @@ class _expandCardState extends State<expandCard> {
   displayPaymentSheet() async {
     try {
       await Stripe.instance.presentPaymentSheet().then((value) {
-        showDialog(
-            context: context,
-            builder: (_) => const AlertDialog(
-                  content: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(
-                        Icons.check_circle,
-                        color: Colors.green,
-                        size: 100.0,
-                      ),
-                      SizedBox(height: 10.0),
-                      Text("Payment Successful!"),
-                    ],
-                  ),
-                ));
+        SuccessFlushbar(context, "Success", "Payment Successfull");
+
         // updatePaymentAndExpiry(widget.userid, id);
-        Future.delayed(Duration(seconds: 2));
-        Navigator.of(context).pop();
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content:
-                Text('Enjoy unlimited Streaming and Downloading without ads'),
-            duration: Duration(seconds: 2),
-          ),
-        );
+       // Future.delayed(Duration(seconds: 2));
+
+      //  Navigator.pop(context);
+
         // paymentIntent = {};
       }).onError((error, stackTrace) {
         throw Exception(error);
@@ -236,7 +218,7 @@ class _expandCardState extends State<expandCard> {
           // queryParameters: {},
           options: Options(headers: {
             'Authorization':
-                'Bearer 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',
+                'Bearer sk_test_51Hww9ZDlvBXPosmOQFUmcRbu2SUxCKAN19wlKBFJkmgBXUTh1Proqv5wLKQ2kO8ts2yqzGESeefdb3IWxZ1gupJe00VGEEeA4Z',
             'Content-Type': 'application/x-www-form-urlencoded',
           }),
           queryParameters: {

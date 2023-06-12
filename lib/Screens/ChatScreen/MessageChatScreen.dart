@@ -168,17 +168,12 @@ class _MessageChatScreenState extends State<MessageChatScreen> {
           bottomSheet: ChatInputField(
             message: message,
             press: () async {
-              await chatProvider
-                  .sentSMS(
-                      context,
-                      authProvider.loginModel!.token,
-                      authProvider.loginModel!.userData[0].id,
-                      widget.otherUserData["user_id"],
-                      message.text)
-                  .then((_) {
-                _refreshKey.currentState?.setState(() {});
-              });
-              ;
+              await chatProvider.sentSMS(
+                  context,
+                  authProvider.loginModel!.token,
+                  authProvider.loginModel!.userData[0].id,
+                  widget.otherUserData["user_id"],
+                  message.text);
               setState(() {
                 _refreshKey = GlobalKey<RefreshIndicatorState>();
               });
@@ -193,8 +188,11 @@ class _MessageChatScreenState extends State<MessageChatScreen> {
                   context,
                   authProvider.loginModel!.token,
                   authProvider.loginModel!.userData[0].id,
-                  otheruserid,
+                  widget.otherUserData["user_id"],
                   x);
+              setState(() {
+                _refreshKey = GlobalKey<RefreshIndicatorState>();
+              });
             },
           ),
         );

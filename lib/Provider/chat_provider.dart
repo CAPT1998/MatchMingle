@@ -94,16 +94,18 @@ class ChatProvider with ChangeNotifier {
     print(uri.path);
     File file = File(uri.path);
     try {
-      var url = Uri.parse('${AppUrl.baseUrl}/chat/create/audio');
-      var response = await http.post(url, headers: {
-        'Authorization': 'Bearer $token',
-      }, body: {
-        'user_id': userId.toString(),
-        'other_user_id': reciverId.toString(),
-        'audio': uri.path
-      });
-      final Map<String, dynamic> data = json.decode(response.body);
-      print('data====>${data['message']}');
+      File file = File(path);
+      var request = http.MultipartRequest(
+          'POST', Uri.parse('${AppUrl.baseUrl}/chat/create/audio'));
+      request.headers['Authorization'] = 'Bearer $token';
+      request.fields['user_id'] = userId.toString();
+      request.fields['other_user_id'] = reciverId.toString();
+      request.files.add(await http.MultipartFile.fromPath('audio', file.path));
+      var response = await request.send();
+      var responseBody = await response.stream.bytesToString();
+      final Map<String, dynamic> data = json.decode(responseBody);
+      // print('data====>${data['message']}');
+      print(data);
     } catch (e) {
       print("error=====>$e");
       ErrorFlushbar(context, "Block User", e.toString());

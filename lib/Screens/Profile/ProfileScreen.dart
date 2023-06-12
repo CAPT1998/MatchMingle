@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:provider/provider.dart';
+import 'package:teen_jungle/Provider/question_provider.dart';
 import 'package:teen_jungle/Screens/Profile/EditProfileScreen.dart';
 import 'package:teen_jungle/Screens/Profile/seeProfile.dart';
 import 'package:teen_jungle/Screens/QuestionAnswer/DescribeYourSelf.dart';
@@ -22,6 +23,7 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   late Key avatarKey;
+  final QuestionProvider questionProvider = QuestionProvider();
 
   void initState() {
     // TODO: implement initState
@@ -39,8 +41,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
       child: Scaffold(
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Consumer2<AuthProvider, ProfileProvider>(
-              builder: (context, authProvider, profileProvider, child) {
+          child: Consumer3<AuthProvider, ProfileProvider, QuestionProvider>(
+              builder: (context, authProvider, profileProvider,
+                  QuestionProvider, child) {
+            bool allQuestionsAnswered = questionProvider.questionData.values
+                .every((answer) => answer != 'No answer');
+            String completionText = allQuestionsAnswered ? '100%' : '50%';
+
             return Column(
               children: [
                 const SizedBox(
@@ -178,7 +185,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ],
                       ),
                       child: TextWidget(
-                          title: "21%",
+                          title: completionText,
                           size: 20,
                           fontWeight: FontWeight.w400,
                           color: appColor),

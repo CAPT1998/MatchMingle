@@ -18,7 +18,7 @@ import 'Provider/user_list_provider.dart';
 
 void main(List<String> args) {
   Stripe.publishableKey =
-      'pk_live_51MQV5NAoD9qHUIwmLgvDMLF5eBZ4PWTO8iaF4ijTo9hxHKpdzze7Xb3hXWMman4pgkQAaxaPsqJyEsqL85Fys2gY00Vi7HxqAk';
+      'pk_test_51Hww9ZDlvBXPosmOAtgKkw253yc2nEakUoV4d8KqLlG98jVQ6vzIJ9yPzXHzjC75xAkWGysJaepiz77JL3q2sK2D006SjJAt58';
   runApp(MyApp());
 }
 

@@ -66,7 +66,7 @@ class _SexualityScreenState extends State<SexualityScreen> {
                       setState(() {
                         Liveare = value!;
                       });
-                      questionProvider.questionData["question_6"] = 'No answer';
+                      questionProvider.questionData["question_7"] = 'No answer';
                     },
                   ),
                 ),
@@ -86,7 +86,7 @@ class _SexualityScreenState extends State<SexualityScreen> {
                       setState(() {
                         Liveare = value!;
                       });
-                      questionProvider.questionData["question_6"] = 'Bisexual';
+                      questionProvider.questionData["question_7"] = 'Bisexual';
                     },
                   ),
                 ),
@@ -106,7 +106,7 @@ class _SexualityScreenState extends State<SexualityScreen> {
                       setState(() {
                         Liveare = value!;
                       });
-                      questionProvider.questionData["question_6"] = 'Gay';
+                      questionProvider.questionData["question_7"] = 'Gay';
                     },
                   ),
                 ),
@@ -126,7 +126,7 @@ class _SexualityScreenState extends State<SexualityScreen> {
                       setState(() {
                         Liveare = value!;
                       });
-                      questionProvider.questionData["question_6"] = 'Ask me';
+                      questionProvider.questionData["question_7"] = 'Ask me';
                     },
                   ),
                 ),
@@ -146,7 +146,7 @@ class _SexualityScreenState extends State<SexualityScreen> {
                       setState(() {
                         Liveare = value!;
                       });
-                      questionProvider.questionData["question_6"] = 'Straight';
+                      questionProvider.questionData["question_7"] = 'Straight';
                     },
                   ),
                 ),

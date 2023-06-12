@@ -145,7 +145,7 @@ Widget _Chats(data) {
       fontWeight: FontWeight.w400,
     ),
     subtitle: TextWidget(
-      title: "${data["sms"]["text"]}",
+      title: "${data["sms"]["text"] ?? "Media"}",
       size: 12,
       fontWeight: FontWeight.w400,
     ),

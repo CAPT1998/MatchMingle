@@ -43,12 +43,12 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     // TODO: implement initState
+    super.initState();
     Timer(Duration(seconds: 2), () {
       setState(() {
         show = false;
       });
     });
-    super.initState();
   }
 
   @override
@@ -351,6 +351,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       size: 70.0,
                     ));
                   }
+                  //   print("user plan is "+ authProvider.loginModel!.userData[0].planid);
+
                   return HomeCard(
                     snapshot: snapshot,
                   );
@@ -443,7 +445,6 @@ class _HomeCardState extends State<HomeCard> {
                               context, "Limit Reached", "Upgrade Your plan");
                           return;
                         }
-                        print("not gonna call liked user provider");
                         likeProvider.LikeUser(
                             context,
                             authProvider.loginModel!.token,
