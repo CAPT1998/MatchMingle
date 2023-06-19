@@ -16,6 +16,35 @@ class QuestionProvider with ChangeNotifier {
     "question_7": 'No answer',
   };
   var message = "";
+
+ 
+
+
+  Future<void> fetchUserQuestions(String userId, String token) async {
+    try {
+      var url = Uri.parse('${AppUrl.baseUrl}/auth/userQuestions?id=$userId');
+      var response = await http.get(
+        url,
+        headers: {
+          'Authorization': 'Bearer $token',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> data = json.decode(response.body);
+
+
+
+         questionData = Map<String, String>.from(data['data'][0]['userQuestion']);
+        notifyListeners();
+      } else {
+        // Handle the error case
+      }
+    } catch (e) {
+      // Handle the exception
+    }
+  }
+
   addQuestion(context, token, userId) async {
     try {
       questionData.addAll({

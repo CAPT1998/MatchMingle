@@ -19,6 +19,7 @@ class BottomNavigationScreen extends StatefulWidget {
 class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
   final PersistentTabController _controller =
       PersistentTabController(initialIndex: 0);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,14 +27,18 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
         context,
         controller: _controller,
         items: _navBarsItems(),
+        navBarHeight: 55.0,
         resizeToAvoidBottomInset: false,
         hideNavigationBarWhenKeyboardShows: true,
-        screens: const [
+        screens: [
           HomeScreen(),
           CardsScreen(),
           LikesScreen(),
           ChatScreen(),
-          ProfileScreen(),
+          RefreshableScreen(
+            key: UniqueKey(),
+            child: ProfileScreen(),
+          ),
         ],
         navBarStyle: NavBarStyle.style6,
       ),
@@ -44,16 +49,17 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
     return [
       PersistentBottomNavBarItem(
         icon: const Icon(Icons.dashboard_outlined),
-        title: ("Menu"),
+        title: ("Encounters"),
+        iconSize: 26.0,
         textStyle: TextStyle(fontSize: 11, fontWeight: FontWeight.w900),
         activeColorPrimary: appColor,
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),
       PersistentBottomNavBarItem(
         icon: const Icon(
-          Icons.card_membership_rounded,
+          Icons.person_pin_circle,
         ),
-        title: ("Cards"),
+        title: ("Nearby"),
         textStyle: TextStyle(fontSize: 11, fontWeight: FontWeight.w900),
         activeColorPrimary: appColor,
         inactiveColorPrimary: CupertinoColors.systemGrey,
@@ -88,5 +94,33 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),
     ];
+  }
+}
+
+class RefreshableScreen extends StatefulWidget {
+  final Widget child;
+
+  const RefreshableScreen({
+    required Key key,
+    required this.child,
+  }) : super(key: key);
+
+  @override
+  _RefreshableScreenState createState() => _RefreshableScreenState();
+}
+
+class _RefreshableScreenState extends State<RefreshableScreen> {
+  @override
+  void didUpdateWidget(covariant RefreshableScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.key != oldWidget.key) {
+      // Refresh the screen when the key changes
+      setState(() {});
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return widget.child;
   }
 }

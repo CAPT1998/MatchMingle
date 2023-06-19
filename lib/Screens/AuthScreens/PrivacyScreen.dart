@@ -44,7 +44,7 @@ class PrivacyScreen extends StatelessWidget {
             btn1(
               text: Text("I Accept"),
               textcolor: Colors.white,
-              color: Color(0xFF5309FC),
+              color: Color(0XFF24ABE3),
               ontap: () {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => QuizScreen()));
@@ -52,7 +52,7 @@ class PrivacyScreen extends StatelessWidget {
             ).pOnly(bottom: 20),
             btn1(
               text: Text("may be later"),
-              textcolor: Color(0xFF5309FC),
+              textcolor: Color(0XFF24ABE3),
               ontap: () {},
             )
           ]).px(20),

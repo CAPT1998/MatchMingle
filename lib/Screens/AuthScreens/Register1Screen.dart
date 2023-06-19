@@ -9,6 +9,7 @@ import 'package:teen_jungle/Constant.dart';
 import 'package:teen_jungle/Screens/AuthScreens/RegisterGenderScreen.dart';
 import 'package:teen_jungle/Widgets/TextFormWidget.dart';
 import 'package:teen_jungle/Widgets/TextWidget.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../Provider/auth_provider.dart';
 import '../../Widgets/FlushbarWidget.dart';
@@ -105,6 +106,10 @@ class _Register1ScreenState extends State<Register1Screen> {
                             password: password.text,
                             context: context,
                           );
+                           final SharedPreferences prefs =
+                                  await SharedPreferences.getInstance();
+                              await prefs.setString('email', email.text);
+                              await prefs.setString('password', password.text);
                           if (value.registerMessage == "success") {
                             buttonController.success();
                             Navigator.push(

@@ -61,8 +61,10 @@ dependencies:
   flutter_stripe: ^9.2.1
   dio: ^5.2.0+1
   voice_message_package: ^1.0.41
-
-
+  audioplayers: ^3.0.1
+  emoji_picker_flutter: ^1.6.1
+  icons_launcher: ^2.1.1
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -73,7 +75,7 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
-
+  
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
@@ -85,11 +87,13 @@ flutter:
   # the material Icons class.
   uses-material-design: true
 
+ 
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/img/
+    - assets/sounds/
   #   - images/a_dot_ham.jpeg
-
+ 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 
@@ -112,6 +116,12 @@ flutter:
   #       - asset: fonts/TrajanPro.ttf
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
-  #
+  fonts:
+    - family: NotoEmoji
+      fonts:
+        - asset: fonts/NotoColorEmoji-Regular.ttf
+          weight: 400
+
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+ 

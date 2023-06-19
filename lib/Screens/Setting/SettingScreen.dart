@@ -148,23 +148,23 @@ class _SettingScreenState extends State<SettingScreen> {
                 Icons.arrow_forward,
               ),
             ),
-            Divider(
-              color: Colors.black,
-            ),
-            ListTile(
-              onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => InboxScreen()));
-              },
-              title: TextWidget(
-                title: "Inbox",
-                size: 20,
-                fontWeight: FontWeight.w400,
-              ),
-              trailing: Icon(
-                Icons.arrow_forward,
-              ),
-            ),
+            ////   Divider(
+            //     color: Colors.black,
+            //   ),
+            ///  ListTile(
+            //    onTap: () {
+            //      Navigator.push(context,
+            //         MaterialPageRoute(builder: (context) => InboxScreen()));
+            //   },
+            //    title: TextWidget(
+            //      title: "Inbox",
+            //     size: 20,
+            //     fontWeight: FontWeight.w400,
+            //     ),
+            //  trailing: Icon(
+            //       Icons.arrow_forward,
+//),
+            //   ),
             SizedBox(
               height: 20,
             ),

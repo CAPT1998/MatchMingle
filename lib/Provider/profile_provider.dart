@@ -6,9 +6,11 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
+import 'package:teen_jungle/Provider/question_provider.dart';
 import '../Models/LoginModel.dart';
 import '../Screens/HomeScreens/HomeScreen.dart';
 import '../Screens/HomeScreens/ProfileDialog.dart';
+import '../Screens/HomeScreens/likeusersdialog.dart';
 import '../Widgets/FlushbarWidget.dart';
 import '../Widgets/api_urls.dart';
 
@@ -16,6 +18,7 @@ class ProfileProvider with ChangeNotifier {
   String? profile;
   LoginModel? loginModel;
   String? registerMessage;
+  QuestionProvider questionProvider = QuestionProvider();
 
   var userData = {};
   Future<void> profileUpdate(context, token, userId) async {
@@ -118,10 +121,51 @@ class ProfileProvider with ChangeNotifier {
       final Map<String, dynamic> data = await json.decode(response.body);
       userData = data;
       location = userData["data"][0]["location"];
-      print(response.statusCode);
 
+      print(response.statusCode);
+      print(response.body);
+      print(response.statusCode);
       if (response.statusCode == 200) {
         profileDialog(context, userData["data"][0],
+            double.parse(distance).round().toString());
+        this.loginModel = loginModel;
+        notifyListeners();
+      } else {
+        // ErrorFlushbar(context, "Block User", data["message"]);
+        notifyListeners();
+      }
+    } catch (e) {
+      print("===>$e");
+    }
+    return location;
+  }
+
+  likeduserDetail(
+      {required String id,
+      required String token,
+      required distance,
+      String? location,
+      required context}) async {
+    String? registerMessage;
+    LoginModel? loginModel;
+
+    try {
+      var url = Uri.parse('${AppUrl.baseUrl}/users/detail?id=$id');
+      var response = await http.get(
+        url,
+        headers: {
+          'Authorization': 'Bearer $token',
+        },
+      );
+      final Map<String, dynamic> data = await json.decode(response.body);
+      userData = data;
+      location = userData["data"][0]["location"];
+
+      print(response.statusCode);
+      print(response.body);
+      print(response.statusCode);
+      if (response.statusCode == 200) {
+        likeuserdialog(context, userData["data"][0],
             double.parse(distance).round().toString());
         this.loginModel = loginModel;
         notifyListeners();

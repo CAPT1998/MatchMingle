@@ -67,8 +67,10 @@ class _RegisterDatePickerScreenState extends State<RegisterDatePickerScreen> {
                           }).then((selectedDate) {
                         if (selectedDate != null) {
                           setState(() {
+                            final formattedDate =
+                                "${selectedDate.year}-${selectedDate.month.toString().padLeft(2, '0')}-${selectedDate.day.toString().padLeft(2, '0')}";
                             authProvider.loginModel!.userData[0].dob =
-                                "${selectedDate.year}-${selectedDate.month}-${selectedDate.day}";
+                                formattedDate;
                           });
                         }
                       });
@@ -108,8 +110,24 @@ class _RegisterDatePickerScreenState extends State<RegisterDatePickerScreen> {
                   RoundedLoadingButton(
                     controller: buttonController,
                     borderRadius: 10,
-                    onPressed: () {
-                      authProvider.BasicInfoUpdate(
+                    onPressed: () async {
+                      // Check if the selected date is at least 18 years old
+                      final selectedDate =
+                          authProvider.loginModel!.userData[0].dob;
+                      final currentDate = DateTime.now();
+                      final parsedSelectedDate = DateTime.parse(selectedDate!);
+                      var ageDifference =
+                          currentDate.year - parsedSelectedDate.year;
+
+                      if (currentDate.month < parsedSelectedDate.month ||
+                          (currentDate.month == parsedSelectedDate.month &&
+                              currentDate.day < parsedSelectedDate.day)) {
+                        ageDifference--;
+                      }
+
+                      if (ageDifference >= 18) {
+                        print(ageDifference.toString());
+                        await authProvider.BasicInfoUpdate(
                           profiledata.id,
                           profiledata.name,
                           profiledata.gender,
@@ -117,11 +135,34 @@ class _RegisterDatePickerScreenState extends State<RegisterDatePickerScreen> {
                           profiledata.location,
                           authProvider.loginModel!.token,
                           context,
-                          true);
-                      Navigator.push(
+                          true,
+                        );
+                        Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => PrivacyScreen()));
+                              builder: (context) => PrivacyScreen()),
+                        );
+                      } else {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text('Invalid Age'),
+                              content: Text(
+                                  'You must be at least 18 years old to use 19 Teen Jungle.'),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text('OK'),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      }
+
                       buttonController.reset();
                     },
                     child: TextWidget(

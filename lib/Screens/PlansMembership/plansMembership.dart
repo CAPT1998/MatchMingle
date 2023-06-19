@@ -1,14 +1,21 @@
 import 'dart:developer';
-
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:teen_jungle/Constant.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:dio/dio.dart';
+import 'package:provider/provider.dart';
+import 'package:teen_jungle/Provider/profile_provider.dart';
 
+import '../../Provider/auth_provider.dart';
 import '../../Widgets/FlushbarWidget.dart';
 import '../../Widgets/TextWidget.dart';
+import '../../Widgets/api_urls.dart';
+import '../BottomNavigationBar/PersistanceNavigationBar.dart';
 import '../Payment.dart/Payment.dart';
+import '../Profile/ProfileScreen.dart';
 
 class plansMembership extends StatefulWidget {
   const plansMembership({super.key});
@@ -22,75 +29,88 @@ class _plansMembershipState extends State<plansMembership> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.grey[50],
-          elevation: 0,
-          title: TextWidget(
-            title: "Plans Membership",
-            size: 24,
-            fontWeight: FontWeight.w600,
-          ),
-          leading: IconButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              icon: const Icon(
-                Icons.arrow_back,
-                color: Colors.black,
-              )),
-          // actions: [
-          //   IconButton(
-          //     onPressed: () {},
-          //     icon: Icon(
-          //       Icons.check,
-          //       color: Colors.black,
-          //     ),
-          //   ),
-          // ],
-        ),
-        body: SingleChildScrollView(
-          child: Column(
-            children: const [
-              expandCard(
-                title: 'FREE PLAN',
-                price: '0',
-                contact: '5',
-                videocall: '0',
-                photos: '2',
-                bio: 'Short Bio',
-                verified: 'Basic Verified',
-                profile: 'Profile',
-                limit: '1 Month',
-                color: Color(0xFF167AA4),
+    return Consumer2<AuthProvider, ProfileProvider>(
+      builder: (context, authdata, profiledata, child) {
+        return Scaffold(
+            appBar: AppBar(
+              backgroundColor: Colors.grey[50],
+              elevation: 0,
+              title: TextWidget(
+                title: "Plans Membership",
+                size: 24,
+                fontWeight: FontWeight.w600,
               ),
-              expandCard(
-                title: 'START PLAN',
-                price: '1,99',
-                contact: '10',
-                videocall: '3',
-                photos: '3',
-                bio: 'Short Bio',
-                verified: 'Basic Verified',
-                profile: 'MOBILE PHONE AND EMAIL',
-                limit: '1 Month',
-                color: Color(0xFFE00088),
+              leading: IconButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: const Icon(
+                    Icons.arrow_back,
+                    color: Colors.black,
+                  )),
+              // actions: [
+              //   IconButton(
+              //     onPressed: () {},
+              //     icon: Icon(
+              //       Icons.check,
+              //       color: Colors.black,
+              //     ),
+              //   ),
+              // ],
+            ),
+            body: SingleChildScrollView(
+              child: Column(
+                children: [
+                  expandCard(
+                    id: authdata.loginModel!.userData[0].id.toString(),
+                    token: authdata.loginModel!.token,
+                    title: 'FREE PLAN',
+                    price: '0',
+                    contact: '5',
+                    planid: '0',
+                    videocall: '0',
+                    photos: '2',
+                    bio: 'Short Bio',
+                    verified: 'Basic Verified',
+                    profile: 'Profile',
+                    limit: '1 Month',
+                    color: Color(0xFF167AA4),
+                  ),
+                  expandCard(
+                    id: authdata.loginModel!.userData[0].id.toString(),
+                    token: authdata.loginModel!.token,
+                    title: 'START PLAN',
+                    price: '1,99',
+                    planid: '1',
+                    contact: '10',
+                    videocall: '3',
+                    photos: '3',
+                    bio: 'Short Bio',
+                    verified: 'Basic Verified',
+                    profile: 'MOBILE PHONE AND EMAIL',
+                    limit: '1 Month',
+                    color: Color(0xFFE00088),
+                  ),
+                  expandCard(
+                    id: authdata.loginModel!.userData[0].id.toString(),
+                    token: authdata.loginModel!.token,
+                    title: 'POWER PLAN',
+                    price: '3,99',
+                    contact: '20',
+                    videocall: '3',
+                    photos: '5',
+                    bio: 'Long Bio',
+                    planid: '2',
+                    verified: 'Basic Verified',
+                    profile: 'MOBILE PHONE AND EMAIL',
+                    limit: '1 Month',
+                    color: Color(0xFFAC9100),
+                  ),
+                ],
               ),
-              expandCard(
-                title: 'POWER PLAN',
-                price: '3,99',
-                contact: '20',
-                videocall: '3',
-                photos: '5',
-                bio: 'Long Bio',
-                verified: 'Basic Verified',
-                profile: 'MOBILE PHONE AND EMAIL',
-                limit: '1 Month',
-                color: Color(0xFFAC9100),
-              ),
-            ],
-          ),
-        ));
+            ));
+      },
+    );
   }
 }
 
@@ -100,14 +120,21 @@ class expandCard extends StatefulWidget {
   final String contact;
   final String videocall;
   final String bio;
+  final String planid;
+
   final String verified;
+  final String id;
+  final dynamic token;
   final String profile;
   final String limit;
   final String photos;
   final Color color;
-  const expandCard(
+  expandCard(
       {super.key,
+      required this.id,
+      required this.token,
       required this.title,
+      required this.planid,
       required this.price,
       required this.contact,
       required this.videocall,
@@ -130,9 +157,10 @@ class _expandCardState extends State<expandCard> {
   void initState() {
     super.initState();
     print(widget.price);
+    print(widget.id + "id");
   }
 
-  Future<void> makePayment() async {
+  Future<void> makePayment(context) async {
     //tring price = rate.replaceAll(RegExp(r'[^0-9]'), '');
     String formattedPrice = widget.price.replaceAll(',', '.');
     double priceValue = double.parse(formattedPrice);
@@ -157,21 +185,19 @@ class _expandCardState extends State<expandCard> {
           .then((value) {});
 
       //STEP 3: Display Payment sheet
-      displayPaymentSheet();
+      displayPaymentSheet(context);
     } catch (err) {
       throw Exception(err);
     }
   }
 
-  displayPaymentSheet() async {
+  displayPaymentSheet(context) async {
+    AuthProvider authProvider = AuthProvider();
     try {
-      await Stripe.instance.presentPaymentSheet().then((value) {
-        SuccessFlushbar(context, "Success", "Payment Successfull");
+      await Stripe.instance.presentPaymentSheet().then((value) async {
+        await updateUserPlan(context, widget.id, widget.planid, widget.token);
 
-        // updatePaymentAndExpiry(widget.userid, id);
-       // Future.delayed(Duration(seconds: 2));
-
-      //  Navigator.pop(context);
+        print("Id is " + widget.id + authProvider.loginModel!.token);
 
         // paymentIntent = {};
       }).onError((error, stackTrace) {
@@ -218,7 +244,7 @@ class _expandCardState extends State<expandCard> {
           // queryParameters: {},
           options: Options(headers: {
             'Authorization':
-                'Bearer sk_test_51Hww9ZDlvBXPosmOQFUmcRbu2SUxCKAN19wlKBFJkmgBXUTh1Proqv5wLKQ2kO8ts2yqzGESeefdb3IWxZ1gupJe00VGEEeA4Z',
+                'Bearer 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',
             'Content-Type': 'application/x-www-form-urlencoded',
           }),
           queryParameters: {
@@ -241,6 +267,43 @@ class _expandCardState extends State<expandCard> {
 
       print(e);
       print("Ram::::::::::::False");
+    }
+  }
+
+  Future<void> updateUserPlan(
+    context,
+    String userId,
+    String planid,
+    token,
+  ) async {
+    // API endpoint URL
+    final String apiUrl = '${AppUrl.baseUrl}/users/plan/create';
+//Uri.parse('${AppUrl.baseUrl}/auth/updateLatitudeLongitude');
+    // Request body parameters
+
+    try {
+      final response = await http.post(Uri.parse(apiUrl), headers: {
+        'Authorization': 'Bearer $token',
+      }, body: {
+        'user_id': userId.toString(),
+        'plan_id': planid,
+      });
+      print(response.body);
+      PersistentNavBarNavigator.pushNewScreen(
+        context,
+        screen: const ProfileScreen(),
+        withNavBar: true,
+      );
+      SuccessFlushbar(context, "Success", "Payment Successfull");
+      if (response.statusCode == 200) {
+        final jsonResponse = jsonDecode(response.body);
+      } else {
+        // Error handling for unsuccessful request
+        print('Request failed with status: ${response.statusCode}');
+      }
+    } catch (e) {
+      // Exception handling
+      print('An error occurred: $e');
     }
   }
 
@@ -330,7 +393,12 @@ class _expandCardState extends State<expandCard> {
                                       children: [
                                         ElevatedButton(
                                             onPressed: () {
-                                              makePayment();
+                                              widget.planid == "0"
+                                                  ? SuccessFlushbar(
+                                                      context,
+                                                      "Success",
+                                                      "Plan Already Active")
+                                                  : makePayment(context);
                                             },
                                             child: const Padding(
                                               padding: EdgeInsets.only(

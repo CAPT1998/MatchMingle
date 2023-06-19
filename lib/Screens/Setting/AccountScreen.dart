@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 import 'package:teen_jungle/Constant.dart';
@@ -6,6 +7,7 @@ import 'package:teen_jungle/Screens/AuthScreens/Register1Screen.dart';
 import 'package:teen_jungle/Screens/BottomNavigationBar/PersistanceNavigationBar.dart';
 import 'package:teen_jungle/Widgets/TextFormWidget.dart';
 import 'package:teen_jungle/Widgets/TextWidget.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../Provider/auth_provider.dart';
 import '../../Provider/profile_provider.dart';
@@ -21,6 +23,14 @@ class AccountScreen extends StatefulWidget {
 class _AccountScreenState extends State<AccountScreen> {
   RoundedLoadingButtonController buttonController =
       RoundedLoadingButtonController();
+  final GoogleSignIn _googleSignIn = GoogleSignIn(
+    scopes: ['email'],
+  );
+  Future<void> clearSharedPreferences() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    await preferences.clear();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -47,6 +57,9 @@ class _AccountScreenState extends State<AccountScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 14),
             child: Consumer2<AuthProvider, ProfileProvider>(
                 builder: (context, authProvider, profileProvider, child) {
+              print(
+                  'hid value is {$authProvider.loginModel!.userData[0].hide}');
+
               return Column(
                 children: [
                   SizedBox(
@@ -97,33 +110,36 @@ class _AccountScreenState extends State<AccountScreen> {
                     height: 40,
                   ),
                   ListTile(
-                    title: TextWidget(
-                        title: "Hide account",
-                        size: 24,
+                      title: TextWidget(
+                          title: "Hide account",
+                          size: 24,
+                          maxline: 2,
+                          fontWeight: FontWeight.w400),
+                      subtitle: TextWidget(
+                        title:
+                            "Like you deleted it, but can back\nwhen you live",
+                        size: 16,
                         maxline: 2,
-                        fontWeight: FontWeight.w400),
-                    subtitle: TextWidget(
-                      title: "Like you deleted it, but can back\nwhen you live",
-                      size: 16,
-                      maxline: 2,
-                      fontWeight: FontWeight.w400,
-                      color: greyColor,
-                    ),
-                    trailing: Checkbox(
-                        value: authProvider.loginModel!.userData[0].hide == 0
-                            ? false
-                            : true,
+                        fontWeight: FontWeight.w400,
+                        color: greyColor,
+                      ),
+                      trailing: Checkbox(
+                        value: authProvider.loginModel!.userData[0].hide == 1,
                         onChanged: (value) {
-                          authProvider.loginModel!.userData[0].hide =
-                              value == false ? 0 : 1;
+                          setState(() {
+                            authProvider.loginModel!.userData[0].hide =
+                                value == false ? 0 : 1;
+                          });
                           authProvider.hideAccount(
-                              context,
-                              authProvider.loginModel!.token,
-                              authProvider.loginModel!.userData[0].id,
-                              authProvider.loginModel!.userData[0].hide);
-                          setState(() {});
-                        }),
-                  ),
+                            context,
+                            authProvider.loginModel!.token,
+                            authProvider.loginModel!.userData[0].id,
+                            value == false
+                                ? '1'
+                                : '0', // Send 1 if checked, 0 if unchecked
+                          );
+                        },
+                      )),
                   SizedBox(
                     height: height * 0.1,
                   ),
@@ -132,10 +148,14 @@ class _AccountScreenState extends State<AccountScreen> {
                     borderRadius: 10,
                     color: pinkColor,
                     onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const LoginScreen()));
+                      clearSharedPreferences();
+                      _googleSignIn.disconnect();
+                      Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(builder: (context) => LoginScreen()),
+                        (route) => false,
+                      );
+
                       buttonController.reset();
                     },
                     child: TextWidget(

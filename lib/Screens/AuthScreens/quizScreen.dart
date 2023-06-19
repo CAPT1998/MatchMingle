@@ -40,7 +40,7 @@ class QuizScreen extends StatelessWidget {
                 .pOnly(bottom: 70),
             btn1(
                 textcolor: Colors.white,
-                color: Color(0xFF5309FC),
+                color: Color(0XFF24ABE3),
                 text: Text("Start The Quiz"),
                 ontap: () {
                   Navigator.push(
@@ -49,7 +49,7 @@ class QuizScreen extends StatelessWidget {
                           builder: (context) => DescribeYourSelf()));
                 }).pOnly(bottom: 20),
             btn1(
-                textcolor: Color(0xFF5309FC),
+                textcolor: Color(0XFF24ABE3),
                 text: Text("Maybe Later"),
                 ontap: () {
                   Navigator.push(

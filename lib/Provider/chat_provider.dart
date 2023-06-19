@@ -122,12 +122,13 @@ class ChatProvider with ChangeNotifier {
     }, body: {
       'user_id': userId.toString(),
     });
+
     if (response.statusCode == 200) {
       final parsed = jsonDecode(response.body);
       print("=====>$parsed");
       return parsed['data'];
     } else {
-      throw Exception('Failed to load data');
+      throw Exception('Something went wrong!');
     }
   }
 

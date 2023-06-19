@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:provider/provider.dart';
 import 'package:teen_jungle/Constant.dart';
 import 'package:teen_jungle/Screens/Location/LocationAccessScreen.dart';
+import 'package:teen_jungle/Screens/Profile/ProfileScreen.dart';
 import 'package:teen_jungle/Widgets/TextFormWidget.dart';
 import 'package:teen_jungle/Widgets/TextWidget.dart';
 
@@ -20,6 +22,7 @@ enum Sexuality { N, B, G, A, S }
 
 class _SexualityScreenState extends State<SexualityScreen> {
   Sexuality Liveare = Sexuality.N;
+  bool isLoading = false;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -199,27 +202,63 @@ class _SexualityScreenState extends State<SexualityScreen> {
                             ),
                           ],
                         ),
-                        child: IconButton(
-                          onPressed: () async {
-                            authProvider.loginModel!.userData[0].userQuestion =
-                                [{}];
-                            authProvider
-                                    .loginModel!.userData[0].userQuestion[0] =
-                                questionProvider.questionData;
-                            print(
-                                "object${authProvider.loginModel!.userData[0].userQuestion.toString()}");
-                            await questionProvider.addQuestion(
-                                context,
-                                authProvider.loginModel!.token,
-                                authProvider.loginModel!.userData[0].id
-                                    .toString());
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        LocationAccessScreen()));
+                        child: AnimatedSwitcher(
+                          duration: Duration(
+                              milliseconds:
+                                  500), // Set the desired animation duration
+                          transitionBuilder:
+                              (Widget child, Animation<double> animation) {
+                            return ScaleTransition(
+                              scale: animation,
+                              child: child,
+                            );
                           },
-                          icon: const Icon(Icons.check),
+                          child: isLoading
+                              ? CircularProgressIndicator() // Show a loading indicator while the API call is in progress
+                              : IconButton(
+                                  onPressed: () async {
+                                    setState(() {
+                                      isLoading =
+                                          true; // Set isLoading to true to show the loading indicator
+                                    });
+
+                                    authProvider.loginModel!.userData[0]
+                                        .userQuestion = [{}];
+                                    authProvider.loginModel!.userData[0]
+                                            .userQuestion[0] =
+                                        questionProvider.questionData;
+                                    print(
+                                        "object${authProvider.loginModel!.userData[0].userQuestion.toString()}");
+                                    await questionProvider.addQuestion(
+                                        context,
+                                        authProvider.loginModel!.token,
+                                        authProvider.loginModel!.userData[0].id
+                                            .toString());
+                                    setState(() {
+                                      isLoading =
+                                          false; // Set isLoading to true to show the loading indicator
+                                    });
+
+                                   authProvider.loginModel?.userData[0].latitude ==
+                                      null &&
+                                  authProvider.loginModel?.userData[0].latitude ==
+                                      null
+                                        ? Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  LocationAccessScreen(),
+                                            ),
+                                          )
+                                        : PersistentNavBarNavigator
+                                            .pushNewScreen(
+                                            context,
+                                            screen: ProfileScreen(),
+                                            withNavBar: true,
+                                          );
+                                  },
+                                  icon: Icon(Icons.navigate_next),
+                                ),
                         ),
                       ),
                     ],

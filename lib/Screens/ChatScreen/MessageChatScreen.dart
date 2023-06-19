@@ -1,12 +1,16 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 import 'package:teen_jungle/Constant.dart';
+import 'package:teen_jungle/Provider/like_provider.dart';
 import 'package:teen_jungle/Widgets/TextWidget.dart';
 
 import '../../Provider/auth_provider.dart';
 import '../../Provider/chat_provider.dart';
 import '../../Widgets/ChatInputWidget.dart';
+import '../../Widgets/FlushbarWidget.dart';
 import 'videoPlayer.dart';
 import 'package:voice_message_package/voice_message_package.dart';
 
@@ -62,24 +66,39 @@ class _MessageChatScreenState extends State<MessageChatScreen> {
                       backgroundImage: AssetImage("assets/img/img8.png"),
                     ),
             ),
-            title: TextWidget(
-              title: widget.otherUserData["name"],
-              size: 20,
-              fontWeight: FontWeight.w400,
-              color: Colors.white,
+            title: Column(
+              children: [
+                TextWidget(
+                  title: widget.otherUserData["name"],
+                  size: 20,
+                  fontWeight: FontWeight.w400,
+                  color: Colors.white,
+                ),
+                TextWidget(
+                    title:
+                        widget.otherUserData["online"] ? "Online" : "Offline",
+                    size: 15,
+                    fontWeight: widget.otherUserData["online"]
+                        ? FontWeight.w500
+                        : FontWeight.w600,
+                    color: widget.otherUserData["online"]
+                        ? Color.fromARGB(255, 5, 230, 5)
+                        : Color.fromARGB(255, 226, 221, 221),
+                    textAlign: TextAlign.left),
+              ],
             ),
             actions: [
-              IconButton(
-                onPressed: () {},
-                icon: const Icon(Icons.call),
-              ),
-              IconButton(
-                onPressed: () {},
-                icon: Icon(Icons.videocam_outlined),
-              ),
+              //  IconButton(
+              //   onPressed: () {},
+              //  icon: const Icon(Icons.call),
+              // ),
+              //    IconButton(
+              //      onPressed: () {},
+              //      icon: Icon(Icons.videocam_outlined),
+              //    ),
               IconButton(
                 onPressed: () {
-                  _actionButton(context);
+                  _actionButton(context, widget.otherUserData);
                 },
                 icon: Icon(Icons.more_vert),
               ),
@@ -168,12 +187,22 @@ class _MessageChatScreenState extends State<MessageChatScreen> {
           bottomSheet: ChatInputField(
             message: message,
             press: () async {
+              String encodedText = message.text.replaceAllMapped(
+                RegExp(
+                  r'([\u{1F910}-\u{1F918}\u{1F980}-\u{1F984}\u{1F9C0}])',
+                  unicode: true,
+                ),
+                (Match match) => '@@@${match.group(0)}',
+              );
+              List<int> encodedBytes = utf8.encode(encodedText);
+              String encodedMessage = base64UrlEncode(encodedBytes);
               await chatProvider.sentSMS(
                   context,
                   authProvider.loginModel!.token,
                   authProvider.loginModel!.userData[0].id,
                   widget.otherUserData["user_id"],
-                  message.text);
+                  encodedMessage);
+              print("message is " + encodedMessage);
               setState(() {
                 _refreshKey = GlobalKey<RefreshIndicatorState>();
               });
@@ -204,8 +233,11 @@ class _MessageChatScreenState extends State<MessageChatScreen> {
 Widget _buildChatContent(
     BuildContext context, color, sms, image, video, audio) {
   if (sms != null) {
+    List<int> encodedBytes = base64Url.decode(sms);
+    String encodedText = utf8.decode(encodedBytes);
+    String decodedText = encodedText.replaceAll('@@@', '');
     return TextWidget(
-      title: sms,
+      title: decodedText,
       size: 12,
       maxline: 3,
       fontWeight: FontWeight.w400,
@@ -306,45 +338,55 @@ Widget _leftChat(context, sms, color, time, image, video, audio) {
   );
 }
 
-_actionButton(BuildContext context) {
-  showDialog(
+void _actionButton(BuildContext context, otherUserData) {
+  LikeProvider likeProvider = Provider.of<LikeProvider>(context, listen: false);
+  AuthProvider authProvider = Provider.of<AuthProvider>(context, listen: false);
+  showModalBottomSheet(
     context: context,
-    builder: (context) => AlertDialog(
-      content: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
+    ),
+    builder: (context) => Container(
+      padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 16.0),
+      child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          TextWidget(
-            title: "Select Option",
-            size: 30,
+          ListTile(
+            title: Text(
+              'Unmatch User',
+              style: TextStyle(fontSize: 20.0),
+            ),
+            onTap: () async {
+              await likeProvider.disLikeUser(
+                context,
+                authProvider.loginModel!.token,
+                authProvider.loginModel!.userData[0].id,
+                otherUserData["user_id"],
+              );
+              // Navigator.pop(context);
+              SuccessFlushbar(context, "Success", " Match removed");
+            },
           ),
-          const Divider(
-            color: Colors.black,
+          ListTile(
+            title: Text(
+              'No Message',
+              style: TextStyle(fontSize: 20.0),
+            ),
+            onTap: () {
+              Navigator.pop(context);
+              // Perform the desired action
+            },
           ),
-          const SizedBox(
-            height: 20,
+          ListTile(
+            title: Text(
+              'Cancel',
+              style: TextStyle(fontSize: 20.0),
+            ),
+            onTap: () {
+              // Handle 'Cancel' option tap
+              Navigator.pop(context);
+            },
           ),
-          TextWidget(
-            title: "Un Match User",
-            size: 25,
-            fontWeight: FontWeight.w400,
-          ),
-          const Divider(
-            color: Colors.black,
-          ),
-          TextWidget(
-            title: "No Message",
-            size: 25,
-            fontWeight: FontWeight.w400,
-          ),
-          const Divider(
-            color: Colors.black,
-          ),
-          TextWidget(
-            title: "Cancel",
-            size: 25,
-            fontWeight: FontWeight.w400,
-          )
         ],
       ),
     ),
@@ -352,90 +394,103 @@ _actionButton(BuildContext context) {
 }
 
 _fileButton(BuildContext context, authProvider, chatProvider, otherUserData) {
-  showDialog(
+  showModalBottomSheet(
     context: context,
-    builder: (context) => AlertDialog(
-      content: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(top: Radius.circular(16.0)),
+    ),
+    builder: (context) => Container(
+      padding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
+      child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          TextWidget(
-            title: "Select",
-            size: 30,
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          InkWell(
-            onTap: () {
-              chatProvider.sentImage(
-                  context,
-                  authProvider.loginModel!.token,
-                  authProvider.loginModel!.userData[0].id,
-                  otherUserData["user_id"],
-                  "Camera");
-            },
-            child: TextWidget(
-              title: "Take A picture",
-              size: 20,
-              fontWeight: FontWeight.w400,
+          ListTile(
+            title: Text(
+              "Select",
+              style: TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
-          const SizedBox(
-            height: 10,
-          ),
-          const Divider(
-            color: Colors.black,
-          ),
-          InkWell(
-            onTap: () {
-              // print(
-              //     '===>${authProvider.loginModel!.token}===>${authProvider.loginModel!.userData[0].id}===>${otherUserData["user_id"]}');
+          SizedBox(height: 16.0),
+          ListTile(
+            onTap: () async {
               chatProvider.sentImage(
-                  context,
-                  authProvider.loginModel!.token,
-                  authProvider.loginModel!.userData[0].id,
-                  otherUserData["user_id"],
-                  "Gallery");
+                context,
+                authProvider.loginModel!.token,
+                authProvider.loginModel!.userData[0].id,
+                otherUserData["user_id"],
+                "Camera",
+              );
+
+              Navigator.pop(context);
+              Navigator.pop(context);
+                            SuccessFlushbar(context, "Success", "Media Sent");
+
             },
-            child: TextWidget(
-              title: "Choose Photo From Gallery",
-              size: 20,
-              fontWeight: FontWeight.w400,
+            leading: Icon(Icons.camera_alt),
+            title: Text(
+              "Take A picture",
+              style: TextStyle(fontSize: 18.0),
             ),
           ),
-          const SizedBox(
-            height: 10,
-          ),
-          const Divider(
-            color: Colors.black,
-          ),
-          InkWell(
+          Divider(color: Colors.grey),
+          ListTile(
             onTap: () {
               chatProvider.sentImage(
-                  context,
-                  authProvider.loginModel!.token,
-                  authProvider.loginModel!.userData[0].id,
-                  otherUserData["user_id"],
-                  "Video");
+                context,
+                authProvider.loginModel!.token,
+                authProvider.loginModel!.userData[0].id,
+                otherUserData["user_id"],
+                "Gallery",
+              );
+
+
+              Navigator.pop(context);
+              Navigator.pop(context);
+                            SuccessFlushbar(context, "Success", "Media Sent");
+
             },
-            child: TextWidget(
-              title: "Select a Video",
-              size: 20,
-              fontWeight: FontWeight.w400,
+            leading: Icon(Icons.image),
+            title: Text(
+              "Choose From Gallery",
+              style: TextStyle(fontSize: 18.0),
             ),
           ),
-          const SizedBox(
-            height: 10,
+          Divider(color: Colors.grey),
+          ListTile(
+            onTap: () {
+              chatProvider.sentImage(
+                context,
+                authProvider.loginModel!.token,
+                authProvider.loginModel!.userData[0].id,
+                otherUserData["user_id"],
+                "Video",
+              );
+
+              Navigator.pop(context);
+              Navigator.pop(context);
+                            SuccessFlushbar(context, "Success", "Media Sent");
+
+            },
+            leading: Icon(Icons.video_library),
+            title: Text(
+              "Select a Video",
+              style: TextStyle(fontSize: 18.0),
+            ),
           ),
-          const Divider(
-            color: Colors.black,
+          Divider(color: Colors.grey),
+          ListTile(
+            onTap: () {
+              Navigator.pop(context);
+            },
+            leading: Icon(Icons.cancel),
+            title: Text(
+              "Cancel",
+              style: TextStyle(fontSize: 18.0),
+            ),
           ),
-          TextWidget(
-            title: "Cancel",
-            size: 20,
-            fontWeight: FontWeight.w400,
-          )
         ],
       ),
     ),

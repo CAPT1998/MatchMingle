@@ -42,13 +42,13 @@ class AuthProvider with ChangeNotifier {
         if (loginModel!.userData[0].latitude == null &&
             loginModel!.userData[0].longitude == null) {
           loginMessage = "incomplete";
-        this.loginMessage = loginMessage;
+          this.loginMessage = loginMessage;
 
           Navigator.push(
               context,
               MaterialPageRoute(
                   builder: (context) => const RegisterGenderScreen()));
-                  return;
+          return;
         }
         loginMessage = "success";
         this.loginMessage = loginMessage;
@@ -167,7 +167,8 @@ class AuthProvider with ChangeNotifier {
       final Map<String, dynamic> data = json.decode(response.body);
       if (response.statusCode == 200) {
         loginModel = LoginModel.fromJson(data);
-        SuccessFlushbar(context, "Login", data["message"]);
+        this.loginModel = loginModel;
+        //SuccessFlushbar(context, "Login", "Google Sign in");
         if (loginModel!.userData[0].latitude == null &&
             loginModel!.userData[0].longitude == null) {
           Navigator.push(
@@ -241,7 +242,7 @@ class AuthProvider with ChangeNotifier {
         notifyListeners();
       }
     } catch (error) {
-      SuccessFlushbar(context, "Login", "$error");
+      SuccessFlushbar(context, "Login", "");
     }
   }
 
@@ -294,6 +295,7 @@ class AuthProvider with ChangeNotifier {
       });
       final Map<String, dynamic> data = json.decode(response.body);
       if (response.statusCode == 200) {
+        print(response.body);
         SuccessFlushbar(context, "Account Delete", data["message"]);
         notifyListeners();
       } else {

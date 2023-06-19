@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
@@ -128,6 +130,9 @@ class _ChatScreenState extends State<ChatScreen> {
 }
 
 Widget _Chats(data) {
+  List<int> encodedBytes = base64Url.decode(data["sms"]["text"] ?? "TWVkaWE=");
+  String encodedText = utf8.decode(encodedBytes);
+  String decodedText = encodedText.replaceAll('@@@', '');
   return ListTile(
     leading: data["profile_pic"] !=
             "http://marriageapi.pakwexpo.com/public/images/profile_picture_folder"
@@ -145,7 +150,7 @@ Widget _Chats(data) {
       fontWeight: FontWeight.w400,
     ),
     subtitle: TextWidget(
-      title: "${data["sms"]["text"] ?? "Media"}",
+      title: decodedText,
       size: 12,
       fontWeight: FontWeight.w400,
     ),

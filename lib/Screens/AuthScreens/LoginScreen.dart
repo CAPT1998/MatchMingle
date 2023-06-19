@@ -15,6 +15,7 @@ import 'package:teen_jungle/Widgets/TextWidget.dart';
 
 import '../../Provider/auth_provider.dart';
 import '../BottomNavigationBar/PersistanceNavigationBar.dart';
+import 'RegisterGenderScreen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -181,7 +182,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             });
                             final SharedPreferences logininprefs =
                                 await SharedPreferences.getInstance();
-                            logininprefs.setString("isloggedin", "true");
+                            logininprefs.setString("islogedin", "true");
                           } else if (value.loginMessage == "incomplete") {
                             ErrorFlushbar(context, "Attention!",
                                 "Provide required information");
@@ -247,9 +248,10 @@ class _LoginScreenState extends State<LoginScreen> {
                             await value.facebookLogin(context);
                             if (value.loginMessage == "success") {
                               buttonController.success();
+
                               final SharedPreferences logininprefs =
                                   await SharedPreferences.getInstance();
-                              logininprefs.setString("isloggedin", "true");
+                              //  logininprefs.setBool("islogedin", true);
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -286,21 +288,37 @@ class _LoginScreenState extends State<LoginScreen> {
                               buttonController.success();
                               final SharedPreferences logininprefs =
                                   await SharedPreferences.getInstance();
-                              logininprefs.setString("isloggedin", "true");
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          BottomNavigationScreen()));
-                              SuccessFlushbar(context, "Login",
-                                  value.loginMessage.toString());
-                              Timer(Duration(seconds: 1), () {
-                                buttonController.reset();
-                              });
+                              // logininprefs.setString("isloggedin", "true");
+
+                              if (value.loginModel?.userData[0].latitude ==
+                                      null &&
+                                  value.loginModel?.userData[0].latitude ==
+                                      null) {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            RegisterGenderScreen()));
+                              } else {
+
+                                final SharedPreferences logininprefs =
+                          await SharedPreferences.getInstance();
+                                                 logininprefs.setString("isgooglelogin", "true");
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const BottomNavigationScreen()));
+                                SuccessFlushbar(context, "Login",
+                                    value.loginMessage.toString());
+                                Timer(Duration(seconds: 1), () {
+                                  buttonController.reset();
+                                });
+                              }
                             } else {
                               buttonController.error();
-                              SuccessFlushbar(context, "Login",
-                                  value.loginMessage.toString());
+                              //  SuccessFlushbar(context, "Login",
+                              //     value.loginMessage.toString());
                               Timer(Duration(seconds: 1), () {
                                 buttonController.reset();
                               });

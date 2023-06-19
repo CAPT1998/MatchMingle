@@ -5,6 +5,7 @@ Widget TextWidget({
   required double size,
   FontWeight? fontWeight,
   dynamic maxline,
+  dynamic fontFamily,
   dynamic color,
   dynamic textAlign,
   TextOverflow? overflow,

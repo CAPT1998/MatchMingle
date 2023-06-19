@@ -10,6 +10,7 @@ import 'package:teen_jungle/Widgets/TextWidget.dart';
 
 import '../../Provider/auth_provider.dart';
 import '../../Provider/profile_provider.dart';
+import '../../Widgets/FlushbarWidget.dart';
 
 class UploadPhotoScreen extends StatefulWidget {
   const UploadPhotoScreen({super.key});
@@ -21,6 +22,27 @@ class UploadPhotoScreen extends StatefulWidget {
 class _UploadPhotoScreenState extends State<UploadPhotoScreen> {
   RoundedLoadingButtonController buttonController =
       RoundedLoadingButtonController();
+  TextEditingController email = TextEditingController();
+  TextEditingController password = TextEditingController();
+
+  getauth() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    setState(() {
+      final String? newemail = prefs.getString('email');
+      final String? newpassword = prefs.getString('password');
+      email.text = newemail ?? "";
+      password.text = newpassword ?? "";
+    });
+  }
+
+  @override
+  void initState() {
+    getauth();
+    // TODO: implement initState
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -111,16 +133,39 @@ class _UploadPhotoScreenState extends State<UploadPhotoScreen> {
                     controller: buttonController,
                     borderRadius: 10,
                     onPressed: () async {
+                      if (email.text.isNotEmpty && password.text.isNotEmpty) {
+                        await authProvider.mLoginAuth(context,
+                            email: email.text, password: password.text);
+                        print("not called");
+                          final SharedPreferences logininprefs =
+                          await SharedPreferences.getInstance();
+                         logininprefs.setString("islogedin", "true");
+                         
+                        Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const BottomNavigationScreen(),
+                        ),
+                      );
+                      SuccessFlushbar(context, "Login", "Login Successfull");
+                    
+                      buttonController.reset();
+                      } else {
+                         final SharedPreferences logininprefs =
+                          await SharedPreferences.getInstance();
+                                                 logininprefs.setString("isgooglelogin", "true");
+
                       Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) => const BottomNavigationScreen(),
                         ),
                       );
-                      final SharedPreferences logininprefs =
-                          await SharedPreferences.getInstance();
-                      logininprefs.setString("isloggedin", "true");
+                      SuccessFlushbar(context, "Login", "Login Successfull");
+                      //final SharedPreferences logininprefs =
+                      //    await SharedPreferences.getInstance();
                       buttonController.reset();
+                      }
                     },
                     child: TextWidget(
                       title: "Upload Your Photo",

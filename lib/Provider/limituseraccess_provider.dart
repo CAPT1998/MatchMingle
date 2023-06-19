@@ -29,11 +29,13 @@ class LimitUserAccessProvider with ChangeNotifier {
   }
 
   int checkFreePackage(context, token, userId) {
+    //retturn 0;
+
     return 0;
-    // ...
+    //
   }
 
-  Future<String?> getUserPlan(context, token, userId) async {
+  getUserPlan(context, token, userId) async {
     final url = Uri.parse('${AppUrl.baseUrl}/users/detail?id=$userId');
     final headers = {"Authorization": "Bearer $token"};
 
@@ -41,13 +43,21 @@ class LimitUserAccessProvider with ChangeNotifier {
     final jsonData = json.decode(response.body);
     print(response.statusCode);
     print("code");
+
     if (response.statusCode == 200) {
       // print(response.body);
       final userData = jsonData['data'];
       if (userData.isNotEmpty) {
         final user = userData[0];
-        final planId = user['plan_id'];
-        return planId.toString();
+        var plan = user['plan'];
+
+        if (plan != null) {
+          final planId = user["plan"]['plan_id'];
+          return planId != null ? planId.toString() : '0';
+        } else {
+          final planId = user['plan_id'];
+          return planId != null ? planId.toString() : '0';
+        }
       }
     }
 

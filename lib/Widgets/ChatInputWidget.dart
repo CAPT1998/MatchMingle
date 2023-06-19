@@ -3,21 +3,42 @@ import 'package:flutter/material.dart';
 
 import '../Constant.dart';
 import 'Recordingbutton.dart';
+import 'package:flutter/foundation.dart' as foundation;
+import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 
-class ChatInputField extends StatelessWidget {
+class ChatInputField extends StatefulWidget {
   final dynamic message;
   final void Function() press;
-    final void Function(String) voicemessagecallback;
+  final void Function(String) voicemessagecallback;
+  final dynamic filePress;
 
-  dynamic filePress;
-  ChatInputField(
-      {Key? key,
-      required this.message,
-            required this.voicemessagecallback,
+  ChatInputField({
+    Key? key,
+    required this.message,
+    required this.voicemessagecallback,
+    required this.press,
+    required this.filePress,
+  }) : super(key: key);
 
-      required this.press,
-      required this.filePress})
-      : super(key: key);
+  @override
+  _ChatInputFieldState createState() => _ChatInputFieldState();
+}
+
+class _ChatInputFieldState extends State<ChatInputField> {
+  bool emojiShowing = false;
+  late TextEditingController controller;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,35 +80,89 @@ class ChatInputField extends StatelessWidget {
                       SizedBox(
                         width: 12,
                       ),
-                      Icon(
-                        Icons.sentiment_satisfied_alt_outlined,
-                        color: Theme.of(context)
-                            .textTheme
-                            .bodyText1!
-                            .color!
-                            .withOpacity(0.64),
+                      GestureDetector(
+                        onTap: () {
+                          showModalBottomSheet(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return BottomSheet(
+                                onClosing: () {},
+                                enableDrag: false,
+                                builder: ((context) {
+                                  return SizedBox(
+                                      height: 200,
+                                      child: EmojiPicker(
+                                        textEditingController: widget.message,
+                                        //onBackspacePressed: _onBackspacePressed,
+                                        config: Config(
+                                          columns: 7,
+                                          // Issue: https://github.com/flutter/flutter/issues/28894
+                                          emojiSizeMax: 32 *
+                                              (foundation.defaultTargetPlatform ==
+                                                      TargetPlatform.iOS
+                                                  ? 1.30
+                                                  : 1.0),
+                                          verticalSpacing: 0,
+                                          horizontalSpacing: 0,
+                                          gridPadding: EdgeInsets.zero,
+                                          initCategory: Category.RECENT,
+                                          bgColor: const Color(0xFFF2F2F2),
+                                          indicatorColor: Colors.blue,
+                                          iconColor: Colors.grey,
+                                          iconColorSelected: Colors.blue,
+                                          backspaceColor: Colors.blue,
+                                          skinToneDialogBgColor: Colors.white,
+                                          skinToneIndicatorColor: Colors.grey,
+                                          enableSkinTones: true,
+                                          recentTabBehavior:
+                                              RecentTabBehavior.RECENT,
+                                          recentsLimit: 28,
+                                          replaceEmojiOnLimitExceed: false,
+                                          noRecents: const Text(
+                                            'No Recents',
+                                            style: TextStyle(
+                                                fontSize: 20,
+                                                color: Colors.black26),
+                                            textAlign: TextAlign.center,
+                                          ),
+                                          loadingIndicator:
+                                              const SizedBox.shrink(),
+                                          tabIndicatorAnimDuration:
+                                              kTabScrollDuration,
+                                          categoryIcons: const CategoryIcons(),
+                                          buttonMode: ButtonMode.MATERIAL,
+                                          checkPlatformCompatibility: true,
+                                        ),
+                                      ));
+                                }),
+                              );
+                            },
+                          );
+                        },
+                        child: IconButton(
+                          icon: Icon(Icons.sentiment_satisfied_alt_outlined),
+                          onPressed: null,
+                          color: Theme.of(context)
+                              .textTheme
+                              .bodyText1!
+                              .color!
+                              .withOpacity(0.64),
+                        ),
                       ),
                       SizedBox(width: 20.0 / 4),
                       Expanded(
                         child: TextField(
-                          controller: message,
+                          controller: widget.message,
                           decoration: InputDecoration(
                             hintText: "Type message",
-                            hintStyle: TextStyle(fontSize: 14),
+                            hintStyle: TextStyle(
+                                fontSize: 14, fontFamily: 'NotoEmoji'),
                             border: InputBorder.none,
                           ),
                         ),
                       ),
-                      // SizedBox(
-                      //   width: 10,
-                      // ),
-                      // GestureDetector(
-                      //   onTap: () {
-
-                      //   },
-                      //   child:
                       IconButton(
-                        onPressed: filePress,
+                        onPressed: widget.filePress,
                         icon: Icon(
                           CupertinoIcons.folder,
                           color: Theme.of(context)
@@ -97,23 +172,10 @@ class ChatInputField extends StatelessWidget {
                               .withOpacity(0.64),
                         ),
                       ),
-                      // ),
-                      // SizedBox(width: 10),
-                      /*   IconButton(
-                        onPressed: () {
-                          
+                      RecordButton(
+                        recordingFinishedCallback: (String x) {
+                          widget.voicemessagecallback(x);
                         },
-                        icon: Icon(Icons.mic),
-                        color: Theme.of(context)
-                            .textTheme
-                            .bodyText1!
-                            .color!
-                            .withOpacity(0.64),
-                      ),
-                      */
-                      RecordButton(recordingFinishedCallback: (String x) { 
-                          voicemessagecallback(x);
-                       },
                       ),
                       SizedBox(width: 15),
                     ],
@@ -135,8 +197,9 @@ class ChatInputField extends StatelessWidget {
                   shape: BoxShape.circle,
                 ),
                 child: IconButton(
-                    onPressed: press,
-                    icon: Icon(Icons.send_sharp, color: appColor)),
+                  onPressed: widget.press,
+                  icon: Icon(Icons.send_sharp, color: appColor),
+                ),
               ),
             ),
           ],

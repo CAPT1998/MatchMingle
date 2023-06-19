@@ -17,7 +17,7 @@ class SocialAccountProvider with ChangeNotifier {
           body: socialAccountData);
       final Map<String, dynamic> data = json.decode(response.body);
       if (response.statusCode == 200) {
-        Navigator.pop(context);
+        //  Navigator.pop(context);
         print("======>${data["message"]}");
         SuccessFlushbar(context, "Social Account", data["message"]);
         notifyListeners();

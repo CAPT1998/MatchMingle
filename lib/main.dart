@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:teen_jungle/Screens/SplashScreen/SplashScreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -18,7 +19,7 @@ import 'Provider/user_list_provider.dart';
 
 void main(List<String> args) {
   Stripe.publishableKey =
-      'pk_test_51Hww9ZDlvBXPosmOAtgKkw253yc2nEakUoV4d8KqLlG98jVQ6vzIJ9yPzXHzjC75xAkWGysJaepiz77JL3q2sK2D006SjJAt58';
+      'pk_live_51MQV5NAoD9qHUIwmLgvDMLF5eBZ4PWTO8iaF4ijTo9hxHKpdzze7Xb3hXWMman4pgkQAaxaPsqJyEsqL85Fys2gY00Vi7HxqAk';
   runApp(MyApp());
 }
 
