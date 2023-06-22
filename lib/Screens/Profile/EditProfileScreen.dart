@@ -4,7 +4,15 @@ import 'package:teen_jungle/Constant.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../Provider/auth_provider.dart';
 import '../../Widgets/TextWidget.dart';
+import '../Setting/BasicInfo.dart';
 import 'addSocialAccount.dart';
+import 'editquizscreens/aboutyou.dart';
+import 'editquizscreens/childs.dart';
+import 'editquizscreens/drinking.dart';
+import 'editquizscreens/living.dart';
+import 'editquizscreens/relationship.dart';
+import 'editquizscreens/sexuality.dart';
+import 'editquizscreens/smoking.dart';
 
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({Key? key}) : super(key: key);
@@ -67,6 +75,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     ),
                     SizedBox(height: height * 0.02),
                     ListTile(
+                      onTap: () {
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => BasicInfoScreen()));
+                      },
                       title: TextWidget(
                         title: "Basic info",
                         size: 20,
@@ -84,6 +98,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     ),
                     const Divider(color: Colors.black),
                     ListTile(
+                      onTap: () {
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Aboutyou()));
+                      },
                       title: TextWidget(
                         title: "About you",
                         size: 20,
@@ -101,6 +121,34 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     ),
                     const Divider(color: Colors.black),
                     ListTile(
+                      onTap: () {
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Relationship()));
+                      },
+                      leading: Icon(Icons.favorite),
+                      title: TextWidget(
+                        title: "Relationship",
+                        size: 20,
+                        fontWeight: FontWeight.w400,
+                      ),
+                      subtitle: TextWidget(
+                        title: questionData.length != 0
+                            ? "${questionData[0]["question_2"]}"
+                            : "",
+                        size: 16,
+                        maxline: 2,
+                        fontWeight: FontWeight.w400,
+                        color: greyColor,
+                      ),
+                    ),
+                    //  const Divider(color: Colors.black),
+                    ListTile(
+                      onTap: () {
+                        Navigator.pushReplacement(context,
+                            MaterialPageRoute(builder: (context) => Living()));
+                      },
                       leading: Icon(Icons.home_outlined),
                       title: TextWidget(
                         title: "Living",
@@ -118,6 +166,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       ),
                     ),
                     ListTile(
+                      onTap: () {
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ChildScreen()));
+                      },
                       leading: Icon(Icons.child_care_sharp),
                       title: TextWidget(
                         title: "Children",
@@ -135,6 +189,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       ),
                     ),
                     ListTile(
+                      onTap: () {
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => SmokeScreen()));
+                      },
                       leading: Icon(Icons.smoking_rooms),
                       title: TextWidget(
                         title: "Smoking",
@@ -152,9 +212,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       ),
                     ),
                     ListTile(
-                      leading: Icon(Icons.favorite_border),
+                      onTap: () {
+                        Navigator.pushReplacement(context,
+                            MaterialPageRoute(builder: (context) => Drink()));
+                      },
+                      leading: Icon(Icons.local_drink),
                       title: TextWidget(
-                        title: "Relationship",
+                        maxline: 1,
+                        title: "Drinking",
                         size: 20,
                         fontWeight: FontWeight.w400,
                       ),
@@ -169,6 +234,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       ),
                     ),
                     ListTile(
+                      onTap: () {
+                        Navigator.pushReplacement(context,
+                            MaterialPageRoute(builder: (context) => Gender()));
+                      },
                       leading: Icon(Icons.child_care_sharp),
                       title: TextWidget(
                         title: "Sexuality",

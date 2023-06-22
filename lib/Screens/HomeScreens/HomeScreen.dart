@@ -34,9 +34,11 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   AuthProvider auth = AuthProvider();
-  RangeValues ageValue = RangeValues(28, 34);
+  RangeValues ageValue = RangeValues(16, 60);
   GlobalKey<State<StatefulWidget>> alertDialogKey = GlobalKey();
   bool isSending = false;
+  bool swipingleft = false;
+  bool swipingright = false;
 
   int distence = 10;
   TextEditingController locationCTRL = TextEditingController();
@@ -316,8 +318,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                           RangeSlider(
                                             activeColor: Color(0xFFE00088),
                                             inactiveColor: Colors.red[300],
-                                            min: 18,
-                                            max: 50,
+                                            min: 16,
+                                            max: 60,
                                             values: ageValue,
                                             onChanged: (values) {
                                               setState(() {
@@ -380,7 +382,7 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               FutureBuilder(
                 future: userListProvider.getNerebyUsersList(
-                  context,
+                    context,
                     authProvider.loginModel?.token,
                     authProvider.loginModel?.userData[0].id),
                 builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
@@ -521,16 +523,12 @@ class _HomeCardState extends State<HomeCard> {
                         );
                       }
                       if (direction == SwipeDirection.left) {
-                        // print(index);
-                        // provider.dislikefriend(
-                        //   index,
-                        // );
-                        // provider.limituseraccess();
-                        // blockUser.blockUser(
-                        //     context,
-                        //     authProvider.loginModel!.token,
-                        //     authProvider.loginModel!.userData[0].id,
-                        //     widget.snapshot.data![index]["id"]);
+
+                        likeProvider.disLikeUser(
+                            context,
+                            authProvider.loginModel!.token,
+                            authProvider.loginModel!.userData[0].id,
+                            widget.snapshot.data![index]["id"]);
                       }
                       if (direction == SwipeDirection.up) {
                         print("===>up");
