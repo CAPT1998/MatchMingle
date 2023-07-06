@@ -169,7 +169,7 @@ class _SettingScreenState extends State<SettingScreen> {
               height: 20,
             ),
             TextWidget(
-                title: "Version 1.0",
+                title: "Version 0.1",
                 size: 20,
                 fontWeight: FontWeight.w400,
                 color: greyColor),
