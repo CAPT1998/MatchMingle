@@ -60,7 +60,7 @@ android {
        release {
            keyAlias ('upload')
            keyPassword ('19jungle')
-           storeFile file('/home/savage/Desktop/upload-keystore.jks') 
+           storeFile file('C:/Users/SAVAGE/Desktop/upload-keystore.jks') 
            storePassword ('19jungle')
        }
    }
@@ -84,4 +84,8 @@ dependencies {
     implementation 'com.android.support:multidex:1.0.3'
     implementation 'com.google.android.material:material:1.0.0'
     implementation 'com.facebook.android:facebook-android-sdk:latest.release'
+}
+
+configurations.all { 
+    exclude group: 'com.google.android.gms', module: 'play-services-safetynet'
 }
