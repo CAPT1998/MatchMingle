@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -22,6 +23,8 @@ class UploadPhotoScreen extends StatefulWidget {
 class _UploadPhotoScreenState extends State<UploadPhotoScreen> {
   RoundedLoadingButtonController buttonController =
       RoundedLoadingButtonController();
+        bool fetching = false;
+
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
 
@@ -47,7 +50,12 @@ class _UploadPhotoScreenState extends State<UploadPhotoScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: SingleChildScrollView(
+        body: fetching
+          ? SpinKitWave(
+              color: Color.fromARGB(255, 88, 54, 236),
+              size: 50.0,
+            )
+          :SingleChildScrollView(
           child: Consumer2<AuthProvider, ProfileProvider>(
               builder: (context, authProvider, profileProvider, child) {
             return Padding(
@@ -106,12 +114,18 @@ class _UploadPhotoScreenState extends State<UploadPhotoScreen> {
                         right: 0,
                         child: InkWell(
                           onTap: () async {
+                              setState(() {
+    fetching = true; 
+  });
                             await profileProvider.profileUpdate(
                                 context,
                                 authProvider.loginModel!.token,
                                 authProvider.loginModel!.userData[0].id);
                             authProvider.loginModel!.userData[0].profilePic =
                                 profileProvider.profile;
+                                setState(() {
+                                  fetching =false;
+                                });
                           },
                           child: Container(
                             decoration: BoxDecoration(

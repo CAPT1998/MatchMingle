@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-<string name="app_name">"My App"</string>
-<string name="facebook_app_id">1177556082927456</string>
-<string name="fb_login_protocol_scheme">fb1177556082927456</string>
-<string name="facebook_client_token">9185e695b9e91b855f1743132bbc6ffb</string>
+<string name="app_name">"19 Teen jungle"</string>
+<string name="facebook_app_id">1273494236609491</string>
+<string name="fb_login_protocol_scheme">fb1273494236609491</string>
+<string name="facebook_client_token">0ce0192f5b66bb85f3e04f74edbd78f5</string>
 </resources>
 <!-- <?xml version="1.0" encoding="utf-8"?>
 <resources>

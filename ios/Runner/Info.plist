@@ -28,6 +28,23 @@
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
+	<key>FacebookAppID</key>
+<string>1273494236609491</string>
+<key>FacebookClientToken</key>
+<string>0ce0192f5b66bb85f3e04f74edbd78f5</string>
+<key>FacebookDisplayName</key>
+<string>19 Teen jungle</string>
+	<key>CFBundleURLTypes</key>
+<array>
+  <dict>
+    <key>CFBundleTypeRole</key>
+    <string>Editor</string>
+    <key>CFBundleURLSchemes</key>
+    <array>
+      <string>fb1273494236609491</string>
+    </array>
+  </dict>
+</array>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>

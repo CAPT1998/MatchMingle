@@ -230,9 +230,17 @@ class AuthProvider with ChangeNotifier {
         print(data);
         if (response.statusCode == 200) {
           loginModel = LoginModel.fromJson(data);
-          SuccessFlushbar(context, "Login", data["message"]);
+                  this.loginModel = loginModel;
+   if (loginModel!.userData[0].latitude == null &&
+            loginModel!.userData[0].longitude == null) {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const RegisterGenderScreen()));
+         // SuccessFlushbar(context, "Login", data["message"]);
           this.loginMessage = data["message"];
           notifyListeners();
+        }
         } else {
           this.loginMessage = data["message"];
           notifyListeners();
