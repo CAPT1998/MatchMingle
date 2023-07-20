@@ -281,7 +281,7 @@ class AuthProvider with ChangeNotifier {
         SuccessFlushbar(context, "Profile", data["message"]);
         notifyListeners();
       } else {
-        ErrorFlushbar(context, "Profile", data["message"]);
+        ErrorFlushbar(context, "Profile", "Error");
         notifyListeners();
       }
       print("======>$data");

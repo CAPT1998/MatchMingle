@@ -109,7 +109,7 @@ class _MessageChatScreenState extends State<MessageChatScreen> {
               future: chatProvider.getMessageData(
                   authProvider.loginModel!.token,
                   authProvider.loginModel!.userData[0].id,
-                  widget.otherUserData["thread_id"]),
+                  widget.otherUserData["thread_id"] ),
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
                   return Text("${snapshot.error}");

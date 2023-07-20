@@ -93,10 +93,8 @@ class _ChatInputFieldState extends State<ChatInputField> {
                                       height: 200,
                                       child: EmojiPicker(
                                         textEditingController: widget.message,
-                                        //onBackspacePressed: _onBackspacePressed,
                                         config: Config(
                                           columns: 7,
-                                          // Issue: https://github.com/flutter/flutter/issues/28894
                                           emojiSizeMax: 32 *
                                               (foundation.defaultTargetPlatform ==
                                                       TargetPlatform.iOS

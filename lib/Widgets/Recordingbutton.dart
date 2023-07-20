@@ -125,7 +125,7 @@ class _RecordButtonState extends State<RecordButton> {
     try {
       if (await _audioRecorder.hasPermission()) {
         await _audioRecorder.start(
-          path: '/data/user/0/com.example.teen_jungle/cache/temp.mp3',
+          path: '/data/user/0/com.teen.jungle/cache/temp.mp3',
           encoder: AudioEncoder.aacLc,
         );
 

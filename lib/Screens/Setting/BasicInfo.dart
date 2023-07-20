@@ -49,8 +49,8 @@ class _BasicInfoScreenState extends State<BasicInfoScreen> {
                 )),
             actions: [
               IconButton(
-                onPressed: () {
-                  authProvider.BasicInfoUpdate(
+                onPressed: () async {
+                  await authProvider.BasicInfoUpdate(
                       profiledata.id,
                       nameCtrl.text,
                       profiledata.gender,
@@ -59,6 +59,9 @@ class _BasicInfoScreenState extends State<BasicInfoScreen> {
                       authProvider.loginModel!.token,
                       context,
                       false);
+                  setState(() {
+                    profiledata.name = nameCtrl.text;
+                  });
                 },
                 icon: const Icon(
                   Icons.check,
@@ -131,7 +134,9 @@ class _BasicInfoScreenState extends State<BasicInfoScreen> {
                       ? "Male"
                       : profiledata.gender == "2"
                           ? "Female"
-                          : "Other",
+                          : profiledata.gender == "3"
+                              ? "Other"
+                              : "",
                   size: 15,
                   fontWeight: FontWeight.w500,
                 ),
@@ -181,7 +186,7 @@ class _BasicInfoScreenState extends State<BasicInfoScreen> {
                   InkWell(
                     onTap: () {
                       setState(() {
-                        profiledata.gender = null;
+                        profiledata.gender = "3";
                       });
                     },
                     child: Container(
