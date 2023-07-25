@@ -209,6 +209,27 @@ class _LoginScreenState extends State<LoginScreen> {
                     SizedBox(
                       height: 15,
                     ),
+                    RoundedLoadingButton(
+                      color: appColor,
+                      controller: buttonController,
+                      onPressed: () async {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => RegisterScreen()));
+                        Timer(Duration(seconds: 1), () {
+                          buttonController.reset();
+                        });
+                      },
+                      child: TextWidget(
+                        title: "Sign Up",
+                        size: 14,
+                        color: Colors.white,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
                     Row(
                       children: [
                         Expanded(
@@ -300,10 +321,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                         builder: (context) =>
                                             RegisterGenderScreen()));
                               } else {
-
                                 final SharedPreferences logininprefs =
-                          await SharedPreferences.getInstance();
-                                                 logininprefs.setString("isgooglelogin", "true");
+                                    await SharedPreferences.getInstance();
+                                logininprefs.setString("isgooglelogin", "true");
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
@@ -334,23 +354,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ),
                         ),
-                       
                       ],
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    InkWell(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => RegisterScreen()));
-                      },
-                      child: TextWidget(
-                        title: "Don't have an account? Sign Up",
-                        size: 16,
-                      ),
                     ),
                     SizedBox(
                       height: 20,
