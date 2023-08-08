@@ -202,7 +202,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       },
                       child: TextWidget(
                         title: "Login",
-                        size: 14,
+                        size: 18,
                         color: Colors.white,
                       ),
                     ),
@@ -210,7 +210,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       height: 15,
                     ),
                     RoundedLoadingButton(
-                      color: appColor,
+                      color: pinkColor,
                       controller: buttonController,
                       onPressed: () async {
                         Navigator.push(
@@ -223,7 +223,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       },
                       child: TextWidget(
                         title: "Sign Up",
-                        size: 14,
+                        size: 18,
                         color: Colors.white,
                       ),
                     ),

@@ -189,7 +189,7 @@ class _SettingScreenState extends State<SettingScreen> {
               color: pinkColor,
               onPressed: () async {
                 clearSharedPreferences();
-                await _googleSignIn.disconnect();
+                await _googleSignIn.signOut();
                 await FacebookAuth.instance.logOut();
 
                 Navigator.pushAndRemoveUntil(

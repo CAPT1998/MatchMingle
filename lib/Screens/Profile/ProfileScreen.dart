@@ -86,10 +86,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     if (planid != null) {
       print("User plan id is $planid");
-      // Rest of your logic here
     } else {
       print("Failed to get user plan");
-      // Handle the error case here
     }
   }
 
@@ -179,7 +177,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
             } else {
               completionText = '0%';
             }
-            //String completionText = allQuestionsAnswered ? '70%' : authProvider.loginModel!.userData[0].profilePic == 'https://19jungle.pakwexpo.com/images/profile_picture_folder'? '30' :'50%';
             String profilecomplete = allQuestionsAnswered
                 ? 'Edit Profile'
                 : 'Get More attention, Compelte your Profile';
@@ -342,7 +339,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => EditProfileScreen()));
+                                      builder: (context) =>
+                                          EditProfileScreen()));
                             }
                           },
                           leading: Container(

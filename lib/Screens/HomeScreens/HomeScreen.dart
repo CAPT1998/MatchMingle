@@ -34,7 +34,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   AuthProvider auth = AuthProvider();
-  RangeValues ageValue = RangeValues(16, 60);
+  RangeValues ageValue = RangeValues(14, 70);
   GlobalKey<State<StatefulWidget>> alertDialogKey = GlobalKey();
   bool isSending = false;
   bool swipingleft = false;
@@ -485,7 +485,6 @@ class _HomeCardState extends State<HomeCard> {
                     onSwipeCompleted: (index, direction) async {
                       print('===========$index, $direction');
                       if (direction == SwipeDirection.right) {
-                        // provider.addfriend(index, true, false);
                         final planid =
                             await LimitUserAccessProvider.getUserPlan(
                           context,
@@ -509,6 +508,7 @@ class _HomeCardState extends State<HomeCard> {
                             authProvider.loginModel!.userData[0].id,
                             widget.snapshot.data![index]["id"],
                           );
+                          return;
                         } else if (connections == "10" && planid == '1') {
                           ErrorFlushbar(
                               context, "Limit Reached", "Upgrade Your plan");
